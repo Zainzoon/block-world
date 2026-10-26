@@ -1,0 +1,1478 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="blockworld-build" content="FINAL-COMMUNITY">
+<title>BlockWorld Dimensions</title>
+<style>
+*{box-sizing:border-box;image-rendering:pixelated}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050505;font-family:monospace;touch-action:none;user-select:none}canvas{position:fixed;inset:0;display:block}.screen{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;color:#fff;background:linear-gradient(#0007,#000b),repeating-linear-gradient(45deg,#3f342a 0,#3f342a 16px,#45392e 16px,#45392e 32px)}.screen.active{display:flex}.panel{width:min(680px,94vw);max-height:92vh;overflow:auto;background:#111e;border:4px solid #777;box-shadow:inset 3px 3px #aaa,inset -3px -3px #333,0 10px 40px #000b;padding:18px}.logo{text-align:center;font-size:40px;letter-spacing:3px;text-shadow:3px 3px #111,-2px -2px #555}.subtitle{text-align:center;opacity:.7;margin-bottom:16px}.btn{width:100%;min-height:43px;margin:4px 0;color:#fff;font:bold 14px monospace;border:3px solid #777;background:#555;box-shadow:inset 2px 2px #aaa,inset -2px -2px #222}.btn:active{box-shadow:inset 2px 2px #222,inset -2px -2px #aaa}.green{background:#417b3c}.red{background:#843b3b}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}label{display:block;margin-top:9px;margin-bottom:4px}input,select,textarea{width:100%;padding:9px;background:#222;color:#fff;border:2px solid #777;font-family:monospace}.toggle{display:flex;justify-content:space-between;align-items:center;margin:5px 0;padding:8px;background:#222;border:1px solid #555}.toggle input{width:auto}.small{font-size:11px;opacity:.72}.worldCard,.modEntry{padding:10px;margin:6px 0;background:#242424;border:2px solid #666;cursor:pointer}.tabs{display:flex;gap:4px;margin-bottom:8px;overflow:auto}.tab{flex:1;padding:8px;background:#333;color:#fff;border:2px solid #666;font-family:monospace}.tab.on{background:#666}.tabPage{display:none}.tabPage.on{display:block}#hud{position:fixed;inset:0;z-index:30;pointer-events:none;display:none;color:#fff;text-shadow:2px 2px #000}#crosshair{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:25px}#debug{position:absolute;top:8px;left:8px;padding:6px;background:#0008;font-size:10px}#saveState{position:absolute;right:8px;top:8px;padding:6px;background:#0008;font-size:10px}#pauseButton{pointer-events:auto;position:absolute;right:8px;top:38px;width:72px;height:34px}#bars{position:absolute;left:50%;bottom:62px;transform:translateX(-50%);width:350px;max-width:70vw}#healthRow,#hungerRow{display:flex;justify-content:space-between;font-size:15px}#xp{height:6px;background:#222;border:1px solid #000}#xpFill{height:100%;width:35%;background:#62d455}#hotbar{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);display:flex;pointer-events:auto}.slot{width:46px;height:46px;margin:1px;background:#777b;border:3px solid #333;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:8px}.slot.selected{border-color:#fff;transform:translateY(-3px)}.blockIcon{width:25px;height:25px;border:1px solid #222;box-shadow:inset -4px -4px #0003}#inventoryScreen{z-index:120;background:#000a}.inventoryPanel{width:min(700px,94vw);background:#bbb;color:#111;border:4px solid #444;padding:12px}#inventoryGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(62px,1fr));gap:4px;max-height:52vh;overflow:auto}.invItem{height:62px;border:3px solid #555;background:#888;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px}#loadingBar{height:18px;background:#222;border:2px solid #777;margin-top:14px}#loadingFill{height:100%;width:0;background:#65b956}#mobile{display:none;position:fixed;inset:0;z-index:40;pointer-events:none}#joystick{position:absolute;left:18px;bottom:50px;width:105px;height:105px;border-radius:50%;background:#fff2;border:2px solid #fff5;pointer-events:auto}#stick{position:absolute;left:31px;top:31px;width:42px;height:42px;border-radius:50%;background:#fff7}.mobileButton{position:absolute;width:56px;height:56px;border-radius:50%;background:#0009;border:2px solid #fff8;color:#fff;font:bold 8px monospace;display:flex;align-items:center;justify-content:center;pointer-events:auto}#jumpMobile{right:18px;bottom:96px}#mineMobile{right:84px;bottom:28px}#placeMobile{right:16px;bottom:25px}#inventoryMobile{right:150px;bottom:25px}#flyMobile{right:84px;bottom:96px}#rotateScreen{z-index:999;background:#101010;flex-direction:column;text-align:center}#rotateScreen .btn{width:min(340px,80vw)}#networkStatus{margin:10px 0;padding:8px;background:#111;border:2px solid #555}.modContent{background:#333;border:1px solid #777;padding:7px;margin:4px 0}@media(pointer:coarse){#mobile{display:block}#hotbar{bottom:2px}.slot{width:38px;height:38px}.blockIcon{width:18px;height:18px}#bars{bottom:44px;width:260px}}
+</style>
+
+<style>
+#modExplorerList{display:grid;gap:10px;margin:12px 0;max-height:52vh;overflow:auto}
+.communityMod{background:#222;border:2px solid #666;padding:10px;border-radius:4px}
+.communityMod h3{margin:0 0 5px}
+.communityMod .meta{font-size:12px;opacity:.8}
+.communityMod .actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.communityMod button{padding:7px 10px}
+.roast{background:#181818;border:2px dashed #777;padding:10px;margin:8px 0;border-radius:5px}
+.good{color:#8fe388}.warn{color:#ffd166}
+</style>
+
+
+<style id="bwAccountSupportCSS">
+#accountSupportBtn{margin-top:4px}
+.bwAuthGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bwAuthCard{background:#202020;border:2px solid #555;padding:12px;margin:7px 0}
+.bwAuthCard h3{margin:0 0 8px}
+.bwBadge{display:inline-block;padding:3px 7px;border-radius:5px;background:#555;font-size:11px;margin-left:5px}
+.bwBadge.warn{background:#9a6b00}.bwBadge.ban{background:#a22}.bwBadge.ok{background:#287a42}
+.bwList{max-height:42vh;overflow:auto}
+.bwReport{border:2px solid #555;background:#1d1d1d;padding:10px;margin:7px 0}
+.bwReport small{opacity:.75}
+.bwDanger{background:#8b2c2c!important}
+.bwNotice{padding:9px;background:#222;border:2px solid #555;margin:7px 0}
+@media(max-width:700px){.bwAuthGrid{grid-template-columns:1fr}}
+</style>
+
+</head>
+<body>
+<div id="preflightScreen" class="screen active"><div class="panel"><div class="logo">BLOCKWORLD</div><div id="preflightTitle" style="text-align:center">SELF-TESTING...</div><div id="preflightBar" style="height:18px;background:#222;border:2px solid #777;margin-top:14px"><div id="preflightFill" style="height:100%;width:0;background:#65b956"></div></div><div id="preflightStatus" class="small" style="text-align:center;margin-top:10px">Checking game systems before launch.</div></div></div>
+<div id="titleScreen" class="screen"><div class="panel"><div class="logo">BLOCKWORLD</div><div class="subtitle">DIMENSIONS EDITION</div><button class="btn green" id="singleplayerBtn">SINGLEPLAYER</button><button class="btn" id="multiplayerBtn">MULTIPLAYER</button><button class="btn" id="addonsBtn">MODS / MOD MAKER</button>
+<button class="btn" id="modExplorerBtn">🧩 MOD EXPLORER</button>
+<button class="btn" id="explainBtn">💀 WHAT IS THIS?!</button><button class="btn" id="settingsBtn">SETTINGS</button><button class="btn" id="howBtn">HOW TO PLAY</button><button class="btn" id="landscapeTitleBtn">FULLSCREEN + LANDSCAPE</button><button class="btn" id="accountSupportBtn">👤 ACCOUNT / SUPPORT</button></div></div>
+
+<div id="modExplorerScreen" class="screen">
+  <div class="panel">
+    <h2>🧩 COMMUNITY MOD EXPLORER</h2>
+    <div class="small">Community catalog powered by Free to Borrow. Nothing is contacted until you use this screen.</div>
+    <div class="row">
+      <input id="modSearch" placeholder="Search mods..." style="flex:1">
+      <select id="modCategory"><option value="">All categories</option><option>Blocks</option><option>Items</option><option>Mobs</option><option>Worlds</option><option>UI</option><option>Other</option></select>
+    </div>
+    <div class="row">
+      <button class="btn green" id="modExploreSearchBtn">SEARCH</button>
+      <button class="btn" id="modExploreRefreshBtn">REFRESH</button>
+      <button class="btn" id="modExploreImportBtn">IMPORT JSON</button>
+    </div>
+    <div id="modExplorerStatus" class="small">Ready.</div>
+    <div id="modExplorerList"></div>
+    <button class="btn backTitle" id="modExplorerBackBtn">BACK</button>
+    <input id="communityModFile" type="file" accept=".json,.blockworld.json,application/json" hidden>
+  </div>
+</div>
+
+<div id="explainScreen" class="screen">
+  <div class="panel">
+    <h2>💀 WHAT IS THIS?!</h2>
+    <div id="explainBody"></div>
+    <button class="btn" id="roastEverythingBtn">🔥 ROAST EVERYTHING 🔥</button>
+    <button class="btn backTitle" id="explainBackBtn">BACK</button>
+  </div>
+</div>
+
+<div id="fileRepairScreen" class="screen">
+  <div class="panel">
+    <h2>🔧 OFFLINE REPAIR</h2>
+    <p class="small">The fixer can keep the clean recovery baseline inside this HTML. A browser can only write back to the original file after you explicitly grant file access.</p>
+    <button class="btn green" id="repairFileBtn">SELECT OFFLINE HTML FOR REPAIR</button>
+    <button class="btn" id="runFixerBtn">🛠️ RUN FIXER NOW</button>
+    <div id="repairStatus" class="small">No file selected. The fixer can also repair the current running game without file access.</div>
+  </div>
+</div>
+<div id="worldScreen" class="screen"><div class="panel"><h2>SELECT WORLD</h2><div id="worldLoadError" class="small" style="color:#ff9a9a"></div><div id="worldList"></div><button class="btn green" id="createWorldBtn">CREATE NEW WORLD</button><button class="btn backTitle">BACK</button></div></div>
+<div id="createScreen" class="screen"><div class="panel"><h2>CREATE WORLD</h2><div class="tabs"><button class="tab on" data-tab="gameTab">GAME</button><button class="tab" data-tab="worldTab">WORLD</button><button class="tab" data-tab="graphicsTab">VIDEO</button></div><div id="gameTab" class="tabPage on"><label>Name</label><input id="worldName" value="New World"><div class="row"><div><label>Mode</label><select id="gameMode"><option>Survival</option><option>Creative</option><option>Spectator</option></select></div><div><label>Difficulty</label><select id="difficulty"><option>Peaceful</option><option>Easy</option><option selected>Normal</option><option>Hard</option></select></div></div><div class="toggle">Coordinates<input id="coordinates" type="checkbox" checked></div></div><div id="worldTab" class="tabPage"><label>Seed</label><input id="seedInput"><label>World Type</label><select id="worldType"><option>Normal</option><option>Flat</option><option>Amplified</option><option>Islands</option></select><div class="toggle">Trees<input id="treesToggle" type="checkbox" checked></div><div class="toggle">Caves<input id="cavesToggle" type="checkbox" checked></div><div class="toggle">Ores<input id="oresToggle" type="checkbox" checked></div><div class="toggle">Mobs<input id="mobToggle" type="checkbox" checked></div><div class="toggle">Day/Night<input id="dayToggle" type="checkbox" checked></div><div class="toggle">Cheats<input id="cheatsToggle" type="checkbox"></div></div><div id="graphicsTab" class="tabPage"><label>Render Distance</label><select id="renderDistance"><option value="2">2 - Fastest</option><option value="3" selected>3 - Mobile</option><option value="4">4 - Balanced</option><option value="5">5 - High</option></select><label>Resolution</label><select id="resolutionScale"><option value=".55">55%</option><option value=".7" selected>70%</option><option value=".85">85%</option><option value="1">100%</option></select><label>FOV</label><input id="fovSetting" type="range" min="55" max="110" value="75"><div class="toggle">Clouds<input id="cloudToggle" type="checkbox" checked></div><div class="toggle">Auto Performance<input id="autoPerformanceSetting" type="checkbox" checked></div></div><button class="btn green" id="generateWorldBtn">CREATE WORLD</button><button class="btn" id="cancelCreateBtn">CANCEL</button></div></div>
+<div id="loadingScreen" class="screen"><div class="panel"><div class="logo">BLOCKWORLD</div><div id="loadingText" style="text-align:center">Generating terrain...</div><div id="loadingBar"><div id="loadingFill"></div></div></div></div>
+<div id="pauseScreen" class="screen"><div class="panel"><h2>GAME MENU</h2><button class="btn green" id="resumeBtn">RESUME</button><button class="btn" id="pauseInventoryBtn">INVENTORY</button><button class="btn" id="dimensionBtn">DIMENSIONS</button><button class="btn" id="saveBtn">SAVE WORLD</button><button class="btn red" id="saveQuitBtn">SAVE & QUIT</button></div></div>
+<div id="dimensionScreen" class="screen"><div class="panel"><h2>DIMENSIONS</h2><button class="btn green dimBtn" data-dim="overworld">OVERWORLD</button><button class="btn red dimBtn" data-dim="nether">INFERNO</button><button class="btn dimBtn" data-dim="end">VOIDLANDS</button><button class="btn" id="dimensionBackBtn">BACK</button></div></div>
+<div id="inventoryScreen" class="screen"><div class="inventoryPanel"><button class="btn" id="closeInventoryBtn">CLOSE</button><h2>INVENTORY</h2><div id="inventoryGrid"></div></div></div>
+<div id="globalSettingsScreen" class="screen"><div class="panel"><h2>SETTINGS</h2><label>Sensitivity</label><input id="sensitivitySlider" type="range" min="20" max="200" value="100"><label>Volume</label><input id="volumeSlider" type="range" min="0" max="100" value="70"><div class="toggle">Autosave<input id="autosaveToggle" type="checkbox" checked></div><button class="btn" id="settingsBackBtn">BACK</button></div></div>
+<div id="multiplayerScreen" class="screen"><div class="panel"><h2>PLAYER-HOSTED MULTIPLAYER</h2><div class="small">Direct WebRTC P2P • host + one guest • manual connection codes</div><button class="btn green" id="hostGameBtn">HOST</button><button class="btn" id="joinGameBtn">JOIN</button><div id="hostPanel" style="display:none"><button class="btn green" id="createOfferBtn">CREATE HOST CODE</button><textarea id="offerOutput" rows="5"></textarea><label>Friend Answer</label><textarea id="answerInput" rows="5"></textarea><button class="btn green" id="acceptAnswerBtn">CONNECT</button></div><div id="joinPanel" style="display:none"><label>Host Code</label><textarea id="offerInput" rows="5"></textarea><button class="btn green" id="makeAnswerBtn">CREATE ANSWER</button><textarea id="answerOutput" rows="5"></textarea></div><div id="networkStatus">Offline</div><button class="btn" id="multiplayerBackBtn">BACK</button></div></div>
+<div id="modScreen" class="screen"><div class="panel"><h2>MODS</h2><button class="btn green" id="newModBtn">CREATE MOD</button><button class="btn" id="importModBtn">IMPORT JSON MOD</button><input id="modFileInput" type="file" accept=".json,application/json" hidden><div id="modList"></div><button class="btn" id="modBackBtn">BACK</button></div></div>
+<div id="modMakerScreen" class="screen"><div class="panel"><h2>MOD MAKER</h2><label>Mod Name</label><input id="modName" value="My Mod"><label>Block Name</label><input id="modBlockName" value="Ruby Block"><label>Block ID</label><input id="modBlockId" value="ruby_block"><label>Color</label><input id="modBlockColor" type="color" value="#d6264f"><div class="toggle">Solid<input id="modBlockSolid" type="checkbox" checked></div><div class="toggle">Transparent<input id="modBlockTransparent" type="checkbox"></div><button class="btn green" id="addModBlockBtn">ADD BLOCK</button><div id="modBlockList"></div><hr><h3>🧍 ENTITY BODY SHAPE</h3>
+<div class="row">
+  <div><label>Shape</label><select id="entityBodyShape"><option value="humanoid">Humanoid</option><option value="animal">Animal</option><option value="flying">Flying</option></select></div>
+  <div><label>Scale</label><input id="entityBodyScale" type="range" min="50" max="200" value="100"></div>
+</div>
+<div class="small">Entities now use separate head, torso, arms and legs. Flying models also get animated wings.</div>
+<button class="btn" id="previewEntityShapeBtn">👁️ PREVIEW BODY SHAPE</button>
+<button class="btn green" id="saveModBtn">SAVE MOD</button><button class="btn" id="exportModBtn">EXPORT JSON</button><button class="btn" id="cancelModBtn">BACK</button></div></div>
+<div id="rotateScreen" class="screen"><div class="panel"><h2>📱 LANDSCAPE MODE</h2><p style="text-align:center">Rotate your device sideways for the best BlockWorld experience.</p><button class="btn green" id="landscapeBtn">↔️ ENTER LANDSCAPE</button><button class="btn" id="landscapeContinueBtn">CONTINUE ANYWAY</button></div></div>
+
+<!-- BlockWorld Account + Support System -->
+<div id="accountScreen" class="screen">
+  <div class="panel">
+    <h2>👤 ACCOUNT</h2>
+    <div id="accountStatus" class="bwNotice">Not signed in.</div>
+    <div class="bwAuthGrid">
+      <div class="bwAuthCard">
+        <h3>Log in</h3>
+        <label>Email</label><input id="bwLoginEmail" type="email" autocomplete="username">
+        <label>Password</label><input id="bwLoginPassword" type="password" autocomplete="current-password">
+        <button class="btn green" id="bwLoginBtn">LOG IN</button>
+      </div>
+      <div class="bwAuthCard">
+        <h3>Create account</h3>
+        <label>Username</label><input id="bwSignupUser" maxlength="24">
+        <label>Email</label><input id="bwSignupEmail" type="email" autocomplete="email">
+        <label>Password</label><input id="bwSignupPassword" type="password" autocomplete="new-password">
+        <button class="btn green" id="bwSignupBtn">CREATE ACCOUNT</button>
+      </div>
+    </div>
+    <div id="bwAccountActions"></div>
+    <div id="bwAuthMsg" class="small"></div>
+    <button class="btn" id="bwSupportBtn">🛡️ SUPPORT / REPORTS</button>
+    <button class="btn backTitle" id="bwAccountBackBtn">BACK</button>
+  </div>
+</div>
+
+<div id="supportScreen" class="screen">
+  <div class="panel">
+    <h2>🛡️ BLOCKWORLD SUPPORT</h2>
+    <div id="bwSupportStatus" class="bwNotice">Sign in to report a player.</div>
+    <div id="bwReportForm" class="bwAuthCard">
+      <h3>🚩 Report a player</h3>
+      <label>Player username</label><input id="bwReportTarget" maxlength="24" placeholder="username">
+      <label>Reason</label>
+      <select id="bwReportReason">
+        <option>Cheating</option><option>Harassment</option><option>Inappropriate content</option>
+        <option>Scamming</option><option>Exploiting</option><option>Other</option>
+      </select>
+      <label>Details</label><textarea id="bwReportDetails" maxlength="1000" rows="4" placeholder="What happened?"></textarea>
+      <button class="btn red" id="bwSubmitReportBtn">SUBMIT REPORT</button>
+    </div>
+    <div id="bwMyReports" class="bwList"></div>
+    <div id="bwSupportPanel" class="bwAuthCard" style="display:none">
+      <h3>👮 Support team queue</h3>
+      <div class="small">Local support simulation. Actions apply to this BlockWorld installation.</div>
+      <div id="bwSupportQueue" class="bwList"></div>
+    </div>
+    <button class="btn" id="bwSupportBackBtn">BACK TO ACCOUNT</button>
+  </div>
+</div>
+
+<div id="hud"><div id="crosshair">+</div><div id="debug"></div><div id="saveState"></div><button class="btn" id="pauseButton">MENU</button><div id="bars"><div id="healthRow"><span>♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥</span></div><div id="hungerRow"><span>▰ ▰ ▰ ▰ ▰ ▰ ▰ ▰ ▰ ▰</span></div><div id="xp"><div id="xpFill"></div></div></div><div id="hotbar"></div></div>
+<div id="mobile"><div id="joystick"><div id="stick"></div></div><div id="jumpMobile" class="mobileButton">JUMP</div><div id="mineMobile" class="mobileButton">HIT / BREAK</div><div id="placeMobile" class="mobileButton">PLACE</div><div id="inventoryMobile" class="mobileButton">INV</div><div id="flyMobile" class="mobileButton">FLY</div></div>
+
+<script id="cleanBaseline" type="application/octet-stream">PCFkb2N0eXBlIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9InV0Zi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCxpbml0aWFsLXNjYWxlPTEsbWF4aW11bS1zY2FsZT0xLHVzZXItc2NhbGFibGU9bm8sdmlld3BvcnQtZml0PWNvdmVyIj4KPHRpdGxlPkJsb2NrV29ybGQgRGltZW5zaW9uczwvdGl0bGU+CjxzdHlsZT4KKntib3gtc2l6aW5nOmJvcmRlci1ib3g7aW1hZ2UtcmVuZGVyaW5nOnBpeGVsYXRlZH1odG1sLGJvZHl7bWFyZ2luOjA7d2lkdGg6MTAwJTtoZWlnaHQ6MTAwJTtvdmVyZmxvdzpoaWRkZW47YmFja2dyb3VuZDojMDUwNTA1O2ZvbnQtZmFtaWx5Om1vbm9zcGFjZTt0b3VjaC1hY3Rpb246bm9uZTt1c2VyLXNlbGVjdDpub25lfWNhbnZhc3twb3NpdGlvbjpmaXhlZDtpbnNldDowO2Rpc3BsYXk6YmxvY2t9LnNjcmVlbntwb3NpdGlvbjpmaXhlZDtpbnNldDowO3otaW5kZXg6MTAwO2Rpc3BsYXk6bm9uZTthbGlnbi1pdGVtczpjZW50ZXI7anVzdGlmeS1jb250ZW50OmNlbnRlcjtjb2xvcjojZmZmO2JhY2tncm91bmQ6bGluZWFyLWdyYWRpZW50KCMwMDA3LCMwMDBiKSxyZXBlYXRpbmctbGluZWFyLWdyYWRpZW50KDQ1ZGVnLCMzZjM0MmEgMCwjM2YzNDJhIDE2cHgsIzQ1MzkyZSAxNnB4LCM0NTM5MmUgMzJweCl9LnNjcmVlbi5hY3RpdmV7ZGlzcGxheTpmbGV4fS5wYW5lbHt3aWR0aDptaW4oNjgwcHgsOTR2dyk7bWF4LWhlaWdodDo5MnZoO292ZXJmbG93OmF1dG87YmFja2dyb3VuZDojMTExZTtib3JkZXI6NHB4IHNvbGlkICM3Nzc7Ym94LXNoYWRvdzppbnNldCAzcHggM3B4ICNhYWEsaW5zZXQgLTNweCAtM3B4ICMzMzMsMCAxMHB4IDQwcHggIzAwMGI7cGFkZGluZzoxOHB4fS5sb2dve3RleHQtYWxpZ246Y2VudGVyO2ZvbnQtc2l6ZTo0MHB4O2xldHRlci1zcGFjaW5nOjNweDt0ZXh0LXNoYWRvdzozcHggM3B4ICMxMTEsLTJweCAtMnB4ICM1NTV9LnN1YnRpdGxle3RleHQtYWxpZ246Y2VudGVyO29wYWNpdHk6Ljc7bWFyZ2luLWJvdHRvbToxNnB4fS5idG57d2lkdGg6MTAwJTttaW4taGVpZ2h0OjQzcHg7bWFyZ2luOjRweCAwO2NvbG9yOiNmZmY7Zm9udDpib2xkIDE0cHggbW9ub3NwYWNlO2JvcmRlcjozcHggc29saWQgIzc3NztiYWNrZ3JvdW5kOiM1NTU7Ym94LXNoYWRvdzppbnNldCAycHggMnB4ICNhYWEsaW5zZXQgLTJweCAtMnB4ICMyMjJ9LmJ0bjphY3RpdmV7Ym94LXNoYWRvdzppbnNldCAycHggMnB4ICMyMjIsaW5zZXQgLTJweCAtMnB4ICNhYWF9LmdyZWVue2JhY2tncm91bmQ6IzQxN2IzY30ucmVke2JhY2tncm91bmQ6Izg0M2IzYn0ucm93e2Rpc3BsYXk6Z3JpZDtncmlkLXRlbXBsYXRlLWNvbHVtbnM6MWZyIDFmcjtnYXA6OHB4fWxhYmVse2Rpc3BsYXk6YmxvY2s7bWFyZ2luLXRvcDo5cHg7bWFyZ2luLWJvdHRvbTo0cHh9aW5wdXQsc2VsZWN0LHRleHRhcmVhe3dpZHRoOjEwMCU7cGFkZGluZzo5cHg7YmFja2dyb3VuZDojMjIyO2NvbG9yOiNmZmY7Ym9yZGVyOjJweCBzb2xpZCAjNzc3O2ZvbnQtZmFtaWx5Om1vbm9zcGFjZX0udG9nZ2xle2Rpc3BsYXk6ZmxleDtqdXN0aWZ5LWNvbnRlbnQ6c3BhY2UtYmV0d2VlbjthbGlnbi1pdGVtczpjZW50ZXI7bWFyZ2luOjVweCAwO3BhZGRpbmc6OHB4O2JhY2tncm91bmQ6IzIyMjtib3JkZXI6MXB4IHNvbGlkICM1NTV9LnRvZ2dsZSBpbnB1dHt3aWR0aDphdXRvfS5zbWFsbHtmb250LXNpemU6MTFweDtvcGFjaXR5Oi43Mn0ud29ybGRDYXJkLC5tb2RFbnRyeXtwYWRkaW5nOjEwcHg7bWFyZ2luOjZweCAwO2JhY2tncm91bmQ6IzI0MjQyNDtib3JkZXI6MnB4IHNvbGlkICM2NjY7Y3Vyc29yOnBvaW50ZXJ9LnRhYnN7ZGlzcGxheTpmbGV4O2dhcDo0cHg7bWFyZ2luLWJvdHRvbTo4cHg7b3ZlcmZsb3c6YXV0b30udGFie2ZsZXg6MTtwYWRkaW5nOjhweDtiYWNrZ3JvdW5kOiMzMzM7Y29sb3I6I2ZmZjtib3JkZXI6MnB4IHNvbGlkICM2NjY7Zm9udC1mYW1pbHk6bW9ub3NwYWNlfS50YWIub257YmFja2dyb3VuZDojNjY2fS50YWJQYWdle2Rpc3BsYXk6bm9uZX0udGFiUGFnZS5vbntkaXNwbGF5OmJsb2NrfSNodWR7cG9zaXRpb246Zml4ZWQ7aW5zZXQ6MDt6LWluZGV4OjMwO3BvaW50ZXItZXZlbnRzOm5vbmU7ZGlzcGxheTpub25lO2NvbG9yOiNmZmY7dGV4dC1zaGFkb3c6MnB4IDJweCAjMDAwfSNjcm9zc2hhaXJ7cG9zaXRpb246YWJzb2x1dGU7bGVmdDo1MCU7dG9wOjUwJTt0cmFuc2Zvcm06dHJhbnNsYXRlKC01MCUsLTUwJSk7Zm9udC1zaXplOjI1cHh9I2RlYnVne3Bvc2l0aW9uOmFic29sdXRlO3RvcDo4cHg7bGVmdDo4cHg7cGFkZGluZzo2cHg7YmFja2dyb3VuZDojMDAwODtmb250LXNpemU6MTBweH0jc2F2ZVN0YXRle3Bvc2l0aW9uOmFic29sdXRlO3JpZ2h0OjhweDt0b3A6OHB4O3BhZGRpbmc6NnB4O2JhY2tncm91bmQ6IzAwMDg7Zm9udC1zaXplOjEwcHh9I3BhdXNlQnV0dG9ue3BvaW50ZXItZXZlbnRzOmF1dG87cG9zaXRpb246YWJzb2x1dGU7cmlnaHQ6OHB4O3RvcDozOHB4O3dpZHRoOjcycHg7aGVpZ2h0OjM0cHh9I2JhcnN7cG9zaXRpb246YWJzb2x1dGU7bGVmdDo1MCU7Ym90dG9tOjYycHg7dHJhbnNmb3JtOnRyYW5zbGF0ZVgoLTUwJSk7d2lkdGg6MzUwcHg7bWF4LXdpZHRoOjcwdnd9I2hlYWx0aFJvdywjaHVuZ2VyUm93e2Rpc3BsYXk6ZmxleDtqdXN0aWZ5LWNvbnRlbnQ6c3BhY2UtYmV0d2Vlbjtmb250LXNpemU6MTVweH0jeHB7aGVpZ2h0OjZweDtiYWNrZ3JvdW5kOiMyMjI7Ym9yZGVyOjFweCBzb2xpZCAjMDAwfSN4cEZpbGx7aGVpZ2h0OjEwMCU7d2lkdGg6MzUlO2JhY2tncm91bmQ6IzYyZDQ1NX0jaG90YmFye3Bvc2l0aW9uOmFic29sdXRlO2xlZnQ6NTAlO2JvdHRvbTo4cHg7dHJhbnNmb3JtOnRyYW5zbGF0ZVgoLTUwJSk7ZGlzcGxheTpmbGV4O3BvaW50ZXItZXZlbnRzOmF1dG99LnNsb3R7d2lkdGg6NDZweDtoZWlnaHQ6NDZweDttYXJnaW46MXB4O2JhY2tncm91bmQ6Izc3N2I7Ym9yZGVyOjNweCBzb2xpZCAjMzMzO2Rpc3BsYXk6ZmxleDthbGlnbi1pdGVtczpjZW50ZXI7anVzdGlmeS1jb250ZW50OmNlbnRlcjtmbGV4LWRpcmVjdGlvbjpjb2x1bW47Zm9udC1zaXplOjhweH0uc2xvdC5zZWxlY3RlZHtib3JkZXItY29sb3I6I2ZmZjt0cmFuc2Zvcm06dHJhbnNsYXRlWSgtM3B4KX0uYmxvY2tJY29ue3dpZHRoOjI1cHg7aGVpZ2h0OjI1cHg7Ym9yZGVyOjFweCBzb2xpZCAjMjIyO2JveC1zaGFkb3c6aW5zZXQgLTRweCAtNHB4ICMwMDAzfSNpbnZlbnRvcnlTY3JlZW57ei1pbmRleDoxMjA7YmFja2dyb3VuZDojMDAwYX0uaW52ZW50b3J5UGFuZWx7d2lkdGg6bWluKDcwMHB4LDk0dncpO2JhY2tncm91bmQ6I2JiYjtjb2xvcjojMTExO2JvcmRlcjo0cHggc29saWQgIzQ0NDtwYWRkaW5nOjEycHh9I2ludmVudG9yeUdyaWR7ZGlzcGxheTpncmlkO2dyaWQtdGVtcGxhdGUtY29sdW1uczpyZXBlYXQoYXV0by1maWxsLG1pbm1heCg2MnB4LDFmcikpO2dhcDo0cHg7bWF4LWhlaWdodDo1MnZoO292ZXJmbG93OmF1dG99Lmludkl0ZW17aGVpZ2h0OjYycHg7Ym9yZGVyOjNweCBzb2xpZCAjNTU1O2JhY2tncm91bmQ6Izg4ODtkaXNwbGF5OmZsZXg7ZmxleC1kaXJlY3Rpb246Y29sdW1uO2FsaWduLWl0ZW1zOmNlbnRlcjtqdXN0aWZ5LWNvbnRlbnQ6Y2VudGVyO2ZvbnQtc2l6ZTo5cHh9I2xvYWRpbmdCYXJ7aGVpZ2h0OjE4cHg7YmFja2dyb3VuZDojMjIyO2JvcmRlcjoycHggc29saWQgIzc3NzttYXJnaW4tdG9wOjE0cHh9I2xvYWRpbmdGaWxse2hlaWdodDoxMDAlO3dpZHRoOjA7YmFja2dyb3VuZDojNjViOTU2fSNtb2JpbGV7ZGlzcGxheTpub25lO3Bvc2l0aW9uOmZpeGVkO2luc2V0OjA7ei1pbmRleDo0MDtwb2ludGVyLWV2ZW50czpub25lfSNqb3lzdGlja3twb3NpdGlvbjphYnNvbHV0ZTtsZWZ0OjE4cHg7Ym90dG9tOjUwcHg7d2lkdGg6MTA1cHg7aGVpZ2h0OjEwNXB4O2JvcmRlci1yYWRpdXM6NTAlO2JhY2tncm91bmQ6I2ZmZjI7Ym9yZGVyOjJweCBzb2xpZCAjZmZmNTtwb2ludGVyLWV2ZW50czphdXRvfSNzdGlja3twb3NpdGlvbjphYnNvbHV0ZTtsZWZ0OjMxcHg7dG9wOjMxcHg7d2lkdGg6NDJweDtoZWlnaHQ6NDJweDtib3JkZXItcmFkaXVzOjUwJTtiYWNrZ3JvdW5kOiNmZmY3fS5tb2JpbGVCdXR0b257cG9zaXRpb246YWJzb2x1dGU7d2lkdGg6NTZweDtoZWlnaHQ6NTZweDtib3JkZXItcmFkaXVzOjUwJTtiYWNrZ3JvdW5kOiMwMDA5O2JvcmRlcjoycHggc29saWQgI2ZmZjg7Y29sb3I6I2ZmZjtmb250OmJvbGQgOHB4IG1vbm9zcGFjZTtkaXNwbGF5OmZsZXg7YWxpZ24taXRlbXM6Y2VudGVyO2p1c3RpZnktY29udGVudDpjZW50ZXI7cG9pbnRlci1ldmVudHM6YXV0b30janVtcE1vYmlsZXtyaWdodDoxOHB4O2JvdHRvbTo5NnB4fSNtaW5lTW9iaWxle3JpZ2h0Ojg0cHg7Ym90dG9tOjI4cHh9I3BsYWNlTW9iaWxle3JpZ2h0OjE2cHg7Ym90dG9tOjI1cHh9I2ludmVudG9yeU1vYmlsZXtyaWdodDoxNTBweDtib3R0b206MjVweH0jZmx5TW9iaWxle3JpZ2h0Ojg0cHg7Ym90dG9tOjk2cHh9I3JvdGF0ZVNjcmVlbnt6LWluZGV4Ojk5OTtiYWNrZ3JvdW5kOiMxMDEwMTA7ZmxleC1kaXJlY3Rpb246Y29sdW1uO3RleHQtYWxpZ246Y2VudGVyfSNyb3RhdGVTY3JlZW4gLmJ0bnt3aWR0aDptaW4oMzQwcHgsODB2dyl9I25ldHdvcmtTdGF0dXN7bWFyZ2luOjEwcHggMDtwYWRkaW5nOjhweDtiYWNrZ3JvdW5kOiMxMTE7Ym9yZGVyOjJweCBzb2xpZCAjNTU1fS5tb2RDb250ZW50e2JhY2tncm91bmQ6IzMzMztib3JkZXI6MXB4IHNvbGlkICM3Nzc7cGFkZGluZzo3cHg7bWFyZ2luOjRweCAwfUBtZWRpYShwb2ludGVyOmNvYXJzZSl7I21vYmlsZXtkaXNwbGF5OmJsb2NrfSNob3RiYXJ7Ym90dG9tOjJweH0uc2xvdHt3aWR0aDozOHB4O2hlaWdodDozOHB4fS5ibG9ja0ljb257d2lkdGg6MThweDtoZWlnaHQ6MThweH0jYmFyc3tib3R0b206NDRweDt3aWR0aDoyNjBweH19Cjwvc3R5bGU+CjwvaGVhZD4KPGJvZHk+CjxkaXYgaWQ9InRpdGxlU2NyZWVuIiBjbGFzcz0ic2NyZWVuIGFjdGl2ZSI+PGRpdiBjbGFzcz0icGFuZWwiPjxkaXYgY2xhc3M9ImxvZ28iPkJMT0NLV09STEQ8L2Rpdj48ZGl2IGNsYXNzPSJzdWJ0aXRsZSI+RElNRU5TSU9OUyBFRElUSU9OPC9kaXY+PGJ1dHRvbiBjbGFzcz0iYnRuIGdyZWVuIiBpZD0ic2luZ2xlcGxheWVyQnRuIj5TSU5HTEVQTEFZRVI8L2J1dHRvbj48YnV0dG9uIGNsYXNzPSJidG4iIGlkPSJtdWx0aXBsYXllckJ0biI+TVVMVElQTEFZRVI8L2J1dHRvbj48YnV0dG9uIGNsYXNzPSJidG4iIGlkPSJhZGRvbnNCdG4iPk1PRFMgLyBNT0QgTUFLRVI8L2J1dHRvbj48YnV0dG9uIGNsYXNzPSJidG4iIGlkPSJzZXR0aW5nc0J0biI+U0VUVElOR1M8L2J1dHRvbj48YnV0dG9uIGNsYXNzPSJidG4iIGlkPSJob3dCdG4iPkhPVyBUTyBQTEFZPC9idXR0b24+PGJ1dHRvbiBjbGFzcz0iYnRuIiBpZD0ibGFuZHNjYXBlVGl0bGVCdG4iPkZVTExTQ1JFRU4gKyBMQU5EU0NBUEU8L2J1dHRvbj48L2Rpdj48L2Rpdj4KPGRpdiBpZD0id29ybGRTY3JlZW4iIGNsYXNzPSJzY3JlZW4iPjxkaXYgY2xhc3M9InBhbmVsIj48aDI+U0VMRUNUIFdPUkxEPC9oMj48ZGl2IGlkPSJ3b3JsZExpc3QiPjwvZGl2PjxidXR0b24gY2xhc3M9ImJ0biBncmVlbiIgaWQ9ImNyZWF0ZVdvcmxkQnRuIj5DUkVBVEUgTkVXIFdPUkxEPC9idXR0b24+PGJ1dHRvbiBjbGFzcz0iYnRuIGJhY2tUaXRsZSI+QkFDSzwvYnV0dG9uPjwvZGl2PjwvZGl2Pgo8ZGl2IGlkPSJjcmVhdGVTY3JlZW4iIGNsYXNzPSJzY3JlZW4iPjxkaXYgY2xhc3M9InBhbmVsIj48aDI+Q1JFQVRFIFdPUkxEPC9oMj48ZGl2IGNsYXNzPSJ0YWJzIj48YnV0dG9uIGNsYXNzPSJ0YWIgb24iIGRhdGEtdGFiPSJnYW1lVGFiIj5HQU1FPC9idXR0b24+PGJ1dHRvbiBjbGFzcz0idGFiIiBkYXRhLXRhYj0id29ybGRUYWIiPldPUkxEPC9idXR0b24+PGJ1dHRvbiBjbGFzcz0idGFiIiBkYXRhLXRhYj0iZ3JhcGhpY3NUYWIiPlZJREVPPC9idXR0b24+PC9kaXY+PGRpdiBpZD0iZ2FtZVRhYiIgY2xhc3M9InRhYlBhZ2Ugb24iPjxsYWJlbD5OYW1lPC9sYWJlbD48aW5wdXQgaWQ9IndvcmxkTmFtZSIgdmFsdWU9Ik5ldyBXb3JsZCI+PGRpdiBjbGFzcz0icm93Ij48ZGl2PjxsYWJlbD5Nb2RlPC9sYWJlbD48c2VsZWN0IGlkPSJnYW1lTW9kZSI+PG9wdGlvbj5TdXJ2aXZhbDwvb3B0aW9uPjxvcHRpb24+Q3JlYXRpdmU8L29wdGlvbj48b3B0aW9uPlNwZWN0YXRvcjwvb3B0aW9uPjwvc2VsZWN0PjwvZGl2PjxkaXY+PGxhYmVsPkRpZmZpY3VsdHk8L2xhYmVsPjxzZWxlY3QgaWQ9ImRpZmZpY3VsdHkiPjxvcHRpb24+UGVhY2VmdWw8L29wdGlvbj48b3B0aW9uPkVhc3k8L29wdGlvbj48b3B0aW9uIHNlbGVjdGVkPk5vcm1hbDwvb3B0aW9uPjxvcHRpb24+SGFyZDwvb3B0aW9uPjwvc2VsZWN0PjwvZGl2PjwvZGl2PjxkaXYgY2xhc3M9InRvZ2dsZSI+Q29vcmRpbmF0ZXM8aW5wdXQgaWQ9ImNvb3JkaW5hdGVzIiB0eXBlPSJjaGVja2JveCIgY2hlY2tlZD48L2Rpdj48L2Rpdj48ZGl2IGlkPSJ3b3JsZFRhYiIgY2xhc3M9InRhYlBhZ2UiPjxsYWJlbD5TZWVkPC9sYWJlbD48aW5wdXQgaWQ9InNlZWRJbnB1dCI+PGxhYmVsPldvcmxkIFR5cGU8L2xhYmVsPjxzZWxlY3QgaWQ9IndvcmxkVHlwZSI+PG9wdGlvbj5Ob3JtYWw8L29wdGlvbj48b3B0aW9uPkZsYXQ8L29wdGlvbj48b3B0aW9uPkFtcGxpZmllZDwvb3B0aW9uPjxvcHRpb24+SXNsYW5kczwvb3B0aW9uPjwvc2VsZWN0PjxkaXYgY2xhc3M9InRvZ2dsZSI+VHJlZXM8aW5wdXQgaWQ9InRyZWVzVG9nZ2xlIiB0eXBlPSJjaGVja2JveCIgY2hlY2tlZD48L2Rpdj48ZGl2IGNsYXNzPSJ0b2dnbGUiPkNhdmVzPGlucHV0IGlkPSJjYXZlc1RvZ2dsZSIgdHlwZT0iY2hlY2tib3giIGNoZWNrZWQ+PC9kaXY+PGRpdiBjbGFzcz0idG9nZ2xlIj5PcmVzPGlucHV0IGlkPSJvcmVzVG9nZ2xlIiB0eXBlPSJjaGVja2JveCIgY2hlY2tlZD48L2Rpdj48ZGl2IGNsYXNzPSJ0b2dnbGUiPk1vYnM8aW5wdXQgaWQ9Im1vYlRvZ2dsZSIgdHlwZT0iY2hlY2tib3giIGNoZWNrZWQ+PC9kaXY+PGRpdiBjbGFzcz0idG9nZ2xlIj5EYXkvTmlnaHQ8aW5wdXQgaWQ9ImRheVRvZ2dsZSIgdHlwZT0iY2hlY2tib3giIGNoZWNrZWQ+PC9kaXY+PGRpdiBjbGFzcz0idG9nZ2xlIj5DaGVhdHM8aW5wdXQgaWQ9ImNoZWF0c1RvZ2dsZSIgdHlwZT0iY2hlY2tib3giPjwvZGl2PjwvZGl2PjxkaXYgaWQ9ImdyYXBoaWNzVGFiIiBjbGFzcz0idGFiUGFnZSI+PGxhYmVsPlJlbmRlciBEaXN0YW5jZTwvbGFiZWw+PHNlbGVjdCBpZD0icmVuZGVyRGlzdGFuY2UiPjxvcHRpb24gdmFsdWU9IjIiPjIgLSBGYXN0ZXN0PC9vcHRpb24+PG9wdGlvbiB2YWx1ZT0iMyIgc2VsZWN0ZWQ+MyAtIE1vYmlsZTwvb3B0aW9uPjxvcHRpb24gdmFsdWU9IjQiPjQgLSBCYWxhbmNlZDwvb3B0aW9uPjxvcHRpb24gdmFsdWU9IjUiPjUgLSBIaWdoPC9vcHRpb24+PC9zZWxlY3Q+PGxhYmVsPlJlc29sdXRpb248L2xhYmVsPjxzZWxlY3QgaWQ9InJlc29sdXRpb25TY2FsZSI+PG9wdGlvbiB2YWx1ZT0iLjU1Ij41NSU8L29wdGlvbj48b3B0aW9uIHZhbHVlPSIuNyIgc2VsZWN0ZWQ+NzAlPC9vcHRpb24+PG9wdGlvbiB2YWx1ZT0iLjg1Ij44NSU8L29wdGlvbj48b3B0aW9uIHZhbHVlPSIxIj4xMDAlPC9vcHRpb24+PC9zZWxlY3Q+PGxhYmVsPkZPVjwvbGFiZWw+PGlucHV0IGlkPSJmb3ZTZXR0aW5nIiB0eXBlPSJyYW5nZSIgbWluPSI1NSIgbWF4PSIxMTAiIHZhbHVlPSI3NSI+PGRpdiBjbGFzcz0idG9nZ2xlIj5DbG91ZHM8aW5wdXQgaWQ9ImNsb3VkVG9nZ2xlIiB0eXBlPSJjaGVja2JveCIgY2hlY2tlZD48L2Rpdj48ZGl2IGNsYXNzPSJ0b2dnbGUiPkF1dG8gUGVyZm9ybWFuY2U8aW5wdXQgaWQ9ImF1dG9QZXJmb3JtYW5jZVNldHRpbmciIHR5cGU9ImNoZWNrYm94IiBjaGVja2VkPjwvZGl2PjwvZGl2PjxidXR0b24gY2xhc3M9ImJ0biBncmVlbiIgaWQ9ImdlbmVyYXRlV29ybGRCdG4iPkNSRUFURSBXT1JMRDwvYnV0dG9uPjxidXR0b24gY2xhc3M9ImJ0biIgaWQ9ImNhbmNlbENyZWF0ZUJ0biI+Q0FOQ0VMPC9idXR0b24+PC9kaXY+PC9kaXY+CjxkaXYgaWQ9ImxvYWRpbmdTY3JlZW4iIGNsYXNzPSJzY3JlZW4iPjxkaXYgY2xhc3M9InBhbmVsIj48ZGl2IGNsYXNzPSJsb2dvIj5CTE9DS1dPUkxEPC9kaXY+PGRpdiBpZD0ibG9hZGluZ1RleHQiIHN0eWxlPSJ0ZXh0LWFsaWduOmNlbnRlciI+R2VuZXJhdGluZyB0ZXJyYWluLi4uPC9kaXY+PGRpdiBpZD0ibG9hZGluZ0JhciI+PGRpdiBpZD0ibG9hZGluZ0ZpbGwiPjwvZGl2PjwvZGl2PjwvZGl2PjwvZGl2Pgo8ZGl2IGlkPSJwYXVzZVNjcmVlbiIgY2xhc3M9InNjcmVlbiI+PGRpdiBjbGFzcz0icGFuZWwiPjxoMj5HQU1FIE1FTlU8L2gyPjxidXR0b24gY2xhc3M9ImJ0biBncmVlbiIgaWQ9InJlc3VtZUJ0biI+UkVTVU1FPC9idXR0b24+PGJ1dHRvbiBjbGFzcz0iYnRuIiBpZD0icGF1c2VJbnZlbnRvcnlCdG4iPklOVkVOVE9SWTwvYnV0dG9uPjxidXR0b24gY2xhc3M9ImJ0biIgaWQ9ImRpbWVuc2lvbkJ0biI+RElNRU5TSU9OUzwvYnV0dG9uPjxidXR0b24gY2xhc3M9ImJ0biIgaWQ9InNhdmVCdG4iPlNBVkUgV09STEQ8L2J1dHRvbj48YnV0dG9uIGNsYXNzPSJidG4gcmVkIiBpZD0ic2F2ZVF1aXRCdG4iPlNBVkUgJiBRVUlUPC9idXR0b24+PC9kaXY+PC9kaXY+CjxkaXYgaWQ9ImRpbWVuc2lvblNjcmVlbiIgY2xhc3M9InNjcmVlbiI+PGRpdiBjbGFzcz0icGFuZWwiPjxoMj5ESU1FTlNJT05TPC9oMj48YnV0dG9uIGNsYXNzPSJidG4gZ3JlZW4gZGltQnRuIiBkYXRhLWRpbT0ib3ZlcndvcmxkIj5PVkVSV09STEQ8L2J1dHRvbj48YnV0dG9uIGNsYXNzPSJidG4gcmVkIGRpbUJ0biIgZGF0YS1kaW09Im5ldGhlciI+SU5GRVJOTzwvYnV0dG9uPjxidXR0b24gY2xhc3M9ImJ0biBkaW1CdG4iIGRhdGEtZGltPSJlbmQiPlZPSURMQU5EUzwvYnV0dG9uPjxidXR0b24gY2xhc3M9ImJ0biIgaWQ9ImRpbWVuc2lvbkJhY2tCdG4iPkJBQ0s8L2J1dHRvbj48L2Rpdj48L2Rpdj4KPGRpdiBpZD0iaW52ZW50b3J5U2NyZWVuIiBjbGFzcz0ic2NyZWVuIj48ZGl2IGNsYXNzPSJpbnZlbnRvcnlQYW5lbCI+PGJ1dHRvbiBjbGFzcz0iYnRuIiBpZD0iY2xvc2VJbnZlbnRvcnlCdG4iPkNMT1NFPC9idXR0b24+PGgyPklOVkVOVE9SWTwvaDI+PGRpdiBpZD0iaW52ZW50b3J5R3JpZCI+PC9kaXY+PC9kaXY+PC9kaXY+CjxkaXYgaWQ9Imdsb2JhbFNldHRpbmdzU2NyZWVuIiBjbGFzcz0ic2NyZWVuIj48ZGl2IGNsYXNzPSJwYW5lbCI+PGgyPlNFVFRJTkdTPC9oMj48bGFiZWw+U2Vuc2l0aXZpdHk8L2xhYmVsPjxpbnB1dCBpZD0ic2Vuc2l0aXZpdHlTbGlkZXIiIHR5cGU9InJhbmdlIiBtaW49IjIwIiBtYXg9IjIwMCIgdmFsdWU9IjEwMCI+PGxhYmVsPlZvbHVtZTwvbGFiZWw+PGlucHV0IGlkPSJ2b2x1bWVTbGlkZXIiIHR5cGU9InJhbmdlIiBtaW49IjAiIG1heD0iMTAwIiB2YWx1ZT0iNzAiPjxkaXYgY2xhc3M9InRvZ2dsZSI+QXV0b3NhdmU8aW5wdXQgaWQ9ImF1dG9zYXZlVG9nZ2xlIiB0eXBlPSJjaGVja2JveCIgY2hlY2tlZD48L2Rpdj48YnV0dG9uIGNsYXNzPSJidG4iIGlkPSJzZXR0aW5nc0JhY2tCdG4iPkJBQ0s8L2J1dHRvbj48L2Rpdj48L2Rpdj4KPGRpdiBpZD0ibXVsdGlwbGF5ZXJTY3JlZW4iIGNsYXNzPSJzY3JlZW4iPjxkaXYgY2xhc3M9InBhbmVsIj48aDI+UExBWUVSLUhPU1RFRCBNVUxUSVBMQVlFUjwvaDI+PGRpdiBjbGFzcz0ic21hbGwiPkRpcmVjdCBXZWJSVEMgUDJQIOKAoiBob3N0ICsgb25lIGd1ZXN0IOKAoiBtYW51YWwgY29ubmVjdGlvbiBjb2RlczwvZGl2PjxidXR0b24gY2xhc3M9ImJ0biBncmVlbiIgaWQ9Imhvc3RHYW1lQnRuIj5IT1NUPC9idXR0b24+PGJ1dHRvbiBjbGFzcz0iYnRuIiBpZD0iam9pbkdhbWVCdG4iPkpPSU48L2J1dHRvbj48ZGl2IGlkPSJob3N0UGFuZWwiIHN0eWxlPSJkaXNwbGF5Om5vbmUiPjxidXR0b24gY2xhc3M9ImJ0biBncmVlbiIgaWQ9ImNyZWF0ZU9mZmVyQnRuIj5DUkVBVEUgSE9TVCBDT0RFPC9idXR0b24+PHRleHRhcmVhIGlkPSJvZmZlck91dHB1dCIgcm93cz0iNSI+PC90ZXh0YXJlYT48bGFiZWw+RnJpZW5kIEFuc3dlcjwvbGFiZWw+PHRleHRhcmVhIGlkPSJhbnN3ZXJJbnB1dCIgcm93cz0iNSI+PC90ZXh0YXJlYT48YnV0dG9uIGNsYXNzPSJidG4gZ3JlZW4iIGlkPSJhY2NlcHRBbnN3ZXJCdG4iPkNPTk5FQ1Q8L2J1dHRvbj48L2Rpdj48ZGl2IGlkPSJqb2luUGFuZWwiIHN0eWxlPSJkaXNwbGF5Om5vbmUiPjxsYWJlbD5Ib3N0IENvZGU8L2xhYmVsPjx0ZXh0YXJlYSBpZD0ib2ZmZXJJbnB1dCIgcm93cz0iNSI+PC90ZXh0YXJlYT48YnV0dG9uIGNsYXNzPSJidG4gZ3JlZW4iIGlkPSJtYWtlQW5zd2VyQnRuIj5DUkVBVEUgQU5TV0VSPC9idXR0b24+PHRleHRhcmVhIGlkPSJhbnN3ZXJPdXRwdXQiIHJvd3M9IjUiPjwvdGV4dGFyZWE+PC9kaXY+PGRpdiBpZD0ibmV0d29ya1N0YXR1cyI+T2ZmbGluZTwvZGl2PjxidXR0b24gY2xhc3M9ImJ0biIgaWQ9Im11bHRpcGxheWVyQmFja0J0biI+QkFDSzwvYnV0dG9uPjwvZGl2PjwvZGl2Pgo8ZGl2IGlkPSJtb2RTY3JlZW4iIGNsYXNzPSJzY3JlZW4iPjxkaXYgY2xhc3M9InBhbmVsIj48aDI+TU9EUzwvaDI+PGJ1dHRvbiBjbGFzcz0iYnRuIGdyZWVuIiBpZD0ibmV3TW9kQnRuIj5DUkVBVEUgTU9EPC9idXR0b24+PGJ1dHRvbiBjbGFzcz0iYnRuIiBpZD0iaW1wb3J0TW9kQnRuIj5JTVBPUlQgSlNPTiBNT0Q8L2J1dHRvbj48aW5wdXQgaWQ9Im1vZEZpbGVJbnB1dCIgdHlwZT0iZmlsZSIgYWNjZXB0PSIuanNvbixhcHBsaWNhdGlvbi9qc29uIiBoaWRkZW4+PGRpdiBpZD0ibW9kTGlzdCI+PC9kaXY+PGJ1dHRvbiBjbGFzcz0iYnRuIiBpZD0ibW9kQmFja0J0biI+QkFDSzwvYnV0dG9uPjwvZGl2PjwvZGl2Pgo8ZGl2IGlkPSJtb2RNYWtlclNjcmVlbiIgY2xhc3M9InNjcmVlbiI+PGRpdiBjbGFzcz0icGFuZWwiPjxoMj5NT0QgTUFLRVI8L2gyPjxsYWJlbD5Nb2QgTmFtZTwvbGFiZWw+PGlucHV0IGlkPSJtb2ROYW1lIiB2YWx1ZT0iTXkgTW9kIj48bGFiZWw+QmxvY2sgTmFtZTwvbGFiZWw+PGlucHV0IGlkPSJtb2RCbG9ja05hbWUiIHZhbHVlPSJSdWJ5IEJsb2NrIj48bGFiZWw+QmxvY2sgSUQ8L2xhYmVsPjxpbnB1dCBpZD0ibW9kQmxvY2tJZCIgdmFsdWU9InJ1YnlfYmxvY2siPjxsYWJlbD5Db2xvcjwvbGFiZWw+PGlucHV0IGlkPSJtb2RCbG9ja0NvbG9yIiB0eXBlPSJjb2xvciIgdmFsdWU9IiNkNjI2NGYiPjxkaXYgY2xhc3M9InRvZ2dsZSI+U29saWQ8aW5wdXQgaWQ9Im1vZEJsb2NrU29saWQiIHR5cGU9ImNoZWNrYm94IiBjaGVja2VkPjwvZGl2PjxkaXYgY2xhc3M9InRvZ2dsZSI+VHJhbnNwYXJlbnQ8aW5wdXQgaWQ9Im1vZEJsb2NrVHJhbnNwYXJlbnQiIHR5cGU9ImNoZWNrYm94Ij48L2Rpdj48YnV0dG9uIGNsYXNzPSJidG4gZ3JlZW4iIGlkPSJhZGRNb2RCbG9ja0J0biI+QUREIEJMT0NLPC9idXR0b24+PGRpdiBpZD0ibW9kQmxvY2tMaXN0Ij48L2Rpdj48YnV0dG9uIGNsYXNzPSJidG4gZ3JlZW4iIGlkPSJzYXZlTW9kQnRuIj5TQVZFIE1PRDwvYnV0dG9uPjxidXR0b24gY2xhc3M9ImJ0biIgaWQ9ImV4cG9ydE1vZEJ0biI+RVhQT1JUIEpTT048L2J1dHRvbj48YnV0dG9uIGNsYXNzPSJidG4iIGlkPSJjYW5jZWxNb2RCdG4iPkJBQ0s8L2J1dHRvbj48L2Rpdj48L2Rpdj4KPGRpdiBpZD0icm90YXRlU2NyZWVuIiBjbGFzcz0ic2NyZWVuIj48aDI+TEFORFNDQVBFIE1PREU8L2gyPjxidXR0b24gY2xhc3M9ImJ0biBncmVlbiIgaWQ9ImxhbmRzY2FwZUJ0biI+RlVMTFNDUkVFTiArIExBTkRTQ0FQRTwvYnV0dG9uPjwvZGl2Pgo8ZGl2IGlkPSJodWQiPjxkaXYgaWQ9ImNyb3NzaGFpciI+KzwvZGl2PjxkaXYgaWQ9ImRlYnVnIj48L2Rpdj48ZGl2IGlkPSJzYXZlU3RhdGUiPjwvZGl2PjxidXR0b24gY2xhc3M9ImJ0biIgaWQ9InBhdXNlQnV0dG9uIj5NRU5VPC9idXR0b24+PGRpdiBpZD0iYmFycyI+PGRpdiBpZD0iaGVhbHRoUm93Ij48c3Bhbj7imaUg4pmlIOKZpSDimaUg4pmlIOKZpSDimaUg4pmlIOKZpSDimaU8L3NwYW4+PC9kaXY+PGRpdiBpZD0iaHVuZ2VyUm93Ij48c3Bhbj7ilrAg4pawIOKWsCDilrAg4pawIOKWsCDilrAg4pawIOKWsCDilrA8L3NwYW4+PC9kaXY+PGRpdiBpZD0ieHAiPjxkaXYgaWQ9InhwRmlsbCI+PC9kaXY+PC9kaXY+PC9kaXY+PGRpdiBpZD0iaG90YmFyIj48L2Rpdj48L2Rpdj4KPGRpdiBpZD0ibW9iaWxlIj48ZGl2IGlkPSJqb3lzdGljayI+PGRpdiBpZD0ic3RpY2siPjwvZGl2PjwvZGl2PjxkaXYgaWQ9Imp1bXBNb2JpbGUiIGNsYXNzPSJtb2JpbGVCdXR0b24iPkpVTVA8L2Rpdj48ZGl2IGlkPSJtaW5lTW9iaWxlIiBjbGFzcz0ibW9iaWxlQnV0dG9uIj5NSU5FPC9kaXY+PGRpdiBpZD0icGxhY2VNb2JpbGUiIGNsYXNzPSJtb2JpbGVCdXR0b24iPlBMQUNFPC9kaXY+PGRpdiBpZD0iaW52ZW50b3J5TW9iaWxlIiBjbGFzcz0ibW9iaWxlQnV0dG9uIj5JTlY8L2Rpdj48ZGl2IGlkPSJmbHlNb2JpbGUiIGNsYXNzPSJtb2JpbGVCdXR0b24iPkZMWTwvZGl2PjwvZGl2PgoKPHNjcmlwdCB0eXBlPSJtb2R1bGUiPgppbXBvcnQgKiBhcyBUSFJFRSBmcm9tICJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvbnBtL3RocmVlQDAuMTgwLjAvYnVpbGQvdGhyZWUubW9kdWxlLmpzIjsKY29uc3QgJD1zPT5kb2N1bWVudC5xdWVyeVNlbGVjdG9yKHMpLCBDSFVOSz0xNixIPTQwOwpmdW5jdGlvbiBzaG93U2NyZWVuKGlkKXtkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCIuc2NyZWVuIikuZm9yRWFjaCh4PT54LmNsYXNzTGlzdC5yZW1vdmUoImFjdGl2ZSIpKTtpZihpZCkkKGlkKS5jbGFzc0xpc3QuYWRkKCJhY3RpdmUiKX0KZnVuY3Rpb24gaGFzaFN0cmluZyhzKXtsZXQgaD0yMTY2MTM2MjYxO2ZvcihsZXQgYyBvZiBzKXtoXj1jLmNoYXJDb2RlQXQoMCk7aD1NYXRoLmltdWwoaCwxNjc3NzYxOSl9cmV0dXJuIGg+Pj4wfQpmdW5jdGlvbiBzZXRDb29raWUobix2KXtkb2N1bWVudC5jb29raWU9ZW5jb2RlVVJJQ29tcG9uZW50KG4pKyI9IitlbmNvZGVVUklDb21wb25lbnQodikrIjsgbWF4LWFnZT0zMTUzNjAwMDsgcGF0aD0vOyBTYW1lU2l0ZT1MYXgifQpmdW5jdGlvbiBnZXRDb29raWUobil7bGV0IGs9ZW5jb2RlVVJJQ29tcG9uZW50KG4pKyI9Ijtmb3IobGV0IHAgb2YgZG9jdW1lbnQuY29va2llLnNwbGl0KCI7ICIpKWlmKHAuc3RhcnRzV2l0aChrKSlyZXR1cm4gZGVjb2RlVVJJQ29tcG9uZW50KHAuc2xpY2Uoay5sZW5ndGgpKTtyZXR1cm4gbnVsbH0KCmxldCBkYj1udWxsO3RyeXthd2FpdCBuZXcgUHJvbWlzZSgob2ssbm8pPT57bGV0IHI9aW5kZXhlZERCLm9wZW4oIkJsb2NrV29ybGREQiIsMSk7ci5vbnVwZ3JhZGVuZWVkZWQ9ZT0+e2xldCBkPWUudGFyZ2V0LnJlc3VsdDtpZighZC5vYmplY3RTdG9yZU5hbWVzLmNvbnRhaW5zKCJ3b3JsZHMiKSlkLmNyZWF0ZU9iamVjdFN0b3JlKCJ3b3JsZHMiLHtrZXlQYXRoOiJpZCJ9KTtpZighZC5vYmplY3RTdG9yZU5hbWVzLmNvbnRhaW5zKCJzdGF0ZXMiKSlkLmNyZWF0ZU9iamVjdFN0b3JlKCJzdGF0ZXMiLHtrZXlQYXRoOiJpZCJ9KX07ci5vbnN1Y2Nlc3M9KCk9PntkYj1yLnJlc3VsdDtvaygpfTtyLm9uZXJyb3I9KCk9Pm5vKHIuZXJyb3IpfSl9Y2F0Y2goZSl7Y29uc29sZS53YXJuKCJJbmRleGVkREIgdW5hdmFpbGFibGUsIHVzaW5nIGxvY2FsU3RvcmFnZSBmYWxsYmFjayIsZSl9CmNvbnN0IGRiUHV0PWFzeW5jKHMsdik9PntpZighZGIpe2xldCBhPUpTT04ucGFyc2UobG9jYWxTdG9yYWdlLmdldEl0ZW0oIkJXXyIrcyl8fCJbXSIpLGk9YS5maW5kSW5kZXgoeD0+eC5pZD09PXYuaWQpO2lmKGk+PTApYVtpXT12O2Vsc2UgYS5wdXNoKHYpO2xvY2FsU3RvcmFnZS5zZXRJdGVtKCJCV18iK3MsSlNPTi5zdHJpbmdpZnkoYSkpO3JldHVybn1yZXR1cm4gbmV3IFByb21pc2UoKG9rLG5vKT0+e2xldCB0PWRiLnRyYW5zYWN0aW9uKHMsInJlYWR3cml0ZSIpO3Qub2JqZWN0U3RvcmUocykucHV0KHYpO3Qub25jb21wbGV0ZT1vazt0Lm9uZXJyb3I9KCk9Pm5vKHQuZXJyb3IpfSl9Owpjb25zdCBkYkdldD1hc3luYyhzLGlkKT0+e2lmKCFkYilyZXR1cm4gSlNPTi5wYXJzZShsb2NhbFN0b3JhZ2UuZ2V0SXRlbSgiQldfIitzKXx8IltdIikuZmluZCh4PT54LmlkPT09aWQpO3JldHVybiBuZXcgUHJvbWlzZSgob2ssbm8pPT57bGV0IHI9ZGIudHJhbnNhY3Rpb24ocykub2JqZWN0U3RvcmUocykuZ2V0KGlkKTtyLm9uc3VjY2Vzcz0oKT0+b2soci5yZXN1bHQpO3Iub25lcnJvcj0oKT0+bm8oci5lcnJvcil9KX07CmNvbnN0IGRiQWxsPWFzeW5jIHM9PntpZighZGIpcmV0dXJuIEpTT04ucGFyc2UobG9jYWxTdG9yYWdlLmdldEl0ZW0oIkJXXyIrcyl8fCJbXSIpO3JldHVybiBuZXcgUHJvbWlzZSgob2ssbm8pPT57bGV0IHI9ZGIudHJhbnNhY3Rpb24ocykub2JqZWN0U3RvcmUocykuZ2V0QWxsKCk7ci5vbnN1Y2Nlc3M9KCk9Pm9rKHIucmVzdWx0KTtyLm9uZXJyb3I9KCk9Pm5vKHIuZXJyb3IpfSl9OwoKY29uc3QgQkxPQ0tTPXthaXI6e3NvbGlkOmZhbHNlLHRyYW5zcGFyZW50OnRydWV9LGdyYXNzOntjb2xvcjoweDU0YTY0NSxzb2xpZDp0cnVlfSxkaXJ0Ontjb2xvcjoweDgwNWEzZCxzb2xpZDp0cnVlfSxzdG9uZTp7Y29sb3I6MHg3Nzc3Nzcsc29saWQ6dHJ1ZX0sc2FuZDp7Y29sb3I6MHhkN2M0ODQsc29saWQ6dHJ1ZX0sd29vZDp7Y29sb3I6MHg3NjUwMmMsc29saWQ6dHJ1ZX0sbGVhdmVzOntjb2xvcjoweDNlODk0Myxzb2xpZDp0cnVlLHRyYW5zcGFyZW50OnRydWV9LHBsYW5rczp7Y29sb3I6MHhiODg3NTAsc29saWQ6dHJ1ZX0sYnJpY2tzOntjb2xvcjoweGEzNGQzZixzb2xpZDp0cnVlfSxnbGFzczp7Y29sb3I6MHhjOWVkZjAsc29saWQ6dHJ1ZSx0cmFuc3BhcmVudDp0cnVlfSx3YXRlcjp7Y29sb3I6MHgzNDc2ZDksc29saWQ6ZmFsc2UsdHJhbnNwYXJlbnQ6dHJ1ZX0sY29hbDp7Y29sb3I6MHgzODM4Mzgsc29saWQ6dHJ1ZX0saXJvbjp7Y29sb3I6MHhiMmEyOGYsc29saWQ6dHJ1ZX0sZ29sZDp7Y29sb3I6MHhkOWI4M2Msc29saWQ6dHJ1ZX0scmVkc3RvbmU6e2NvbG9yOjB4OTkxYjFiLHNvbGlkOnRydWV9LGRpYW1vbmQ6e2NvbG9yOjB4M2NkNWQ4LHNvbGlkOnRydWV9LG9ic2lkaWFuOntjb2xvcjoweDIxMTcyZixzb2xpZDp0cnVlfSxiZWRyb2NrOntjb2xvcjoweDIwMjAyMCxzb2xpZDp0cnVlfSxuZXRoZXJyYWNrOntjb2xvcjoweDdjMjkyNyxzb2xpZDp0cnVlfSxnbG93c3RvbmU6e2NvbG9yOjB4ZTNiOTVkLHNvbGlkOnRydWUsZW1pc3NpdmU6dHJ1ZX0sZW5kc3RvbmU6e2NvbG9yOjB4ZDZkNTlhLHNvbGlkOnRydWV9LHZvaWRyb2NrOntjb2xvcjoweDM5MzA0Nyxzb2xpZDp0cnVlfX07CmNvbnN0IGJsb2NrTmFtZXM9T2JqZWN0LmtleXMoQkxPQ0tTKS5maWx0ZXIoeD0+eCE9PSJhaXIiKSxibG9ja0lkcz17YWlyOjB9LGlkQmxvY2tzPVsiYWlyIl07YmxvY2tOYW1lcy5mb3JFYWNoKChuLGkpPT57YmxvY2tJZHNbbl09aSsxO2lkQmxvY2tzW2krMV09bn0pOwpjb25zdCBob3RiYXI9WyJncmFzcyIsImRpcnQiLCJzdG9uZSIsIndvb2QiLCJwbGFua3MiLCJicmlja3MiLCJnbGFzcyIsIm9ic2lkaWFuIiwiZGlhbW9uZCJdO2xldCBzZWxlY3RlZFNsb3Q9MDsKbGV0IGFjdGl2ZVdvcmxkPW51bGwsYWN0aXZlRGltZW5zaW9uPSJvdmVyd29ybGQiLHdvcmxkU3RhdGU9bnVsbCxkaW1lbnNpb25TZWVkPTAscmVuZGVyRGlzdGFuY2U9MyxwbGF5aW5nPWZhbHNlLHBhdXNlZD1mYWxzZTsKY29uc3QgY2h1bmtEYXRhPW5ldyBNYXAoKSxjaHVua01lc2hlcz1uZXcgTWFwKCksd29ybGRDaGFuZ2VzPW5ldyBNYXAoKTsKY29uc3Qgc2NlbmU9bmV3IFRIUkVFLlNjZW5lKCksY2FtZXJhPW5ldyBUSFJFRS5QZXJzcGVjdGl2ZUNhbWVyYSg3NSxpbm5lcldpZHRoL2lubmVySGVpZ2h0LC4xLDI0MCk7Y2FtZXJhLnJvdGF0aW9uLm9yZGVyPSJZWFoiOwpjb25zdCByZW5kZXJlcj1uZXcgVEhSRUUuV2ViR0xSZW5kZXJlcih7YW50aWFsaWFzOmZhbHNlLHBvd2VyUHJlZmVyZW5jZToiaGlnaC1wZXJmb3JtYW5jZSJ9KTtyZW5kZXJlci5zZXRTaXplKGlubmVyV2lkdGgsaW5uZXJIZWlnaHQpO3JlbmRlcmVyLnNldFBpeGVsUmF0aW8oLjcpO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQocmVuZGVyZXIuZG9tRWxlbWVudCk7CmNvbnN0IGhlbWk9bmV3IFRIUkVFLkhlbWlzcGhlcmVMaWdodCgweGM2ZTlmZiwweDUxNDUzNiwxLjM1KSxzdW49bmV3IFRIUkVFLkRpcmVjdGlvbmFsTGlnaHQoMHhmZmYwZDEsMS40KTtzdW4ucG9zaXRpb24uc2V0KDQwLDYwLDMwKTtzY2VuZS5hZGQoaGVtaSxzdW4pOwpjb25zdCBzZWxlY3Rpb25Cb3g9bmV3IFRIUkVFLkxpbmVTZWdtZW50cyhuZXcgVEhSRUUuRWRnZXNHZW9tZXRyeShuZXcgVEhSRUUuQm94R2VvbWV0cnkoMS4wMSwxLjAxLDEuMDEpKSxuZXcgVEhSRUUuTGluZUJhc2ljTWF0ZXJpYWwoe2NvbG9yOjB4ZmZmZmZmfSkpO3NlbGVjdGlvbkJveC52aXNpYmxlPWZhbHNlO3NjZW5lLmFkZChzZWxlY3Rpb25Cb3gpOwpjb25zdCBtYXRzPXt9O2Z1bmN0aW9uIG1hdEZvcih0KXtpZihtYXRzW3RdKXJldHVybiBtYXRzW3RdO2xldCBiPUJMT0NLU1t0XSxtPW5ldyBUSFJFRS5NZXNoTGFtYmVydE1hdGVyaWFsKHtjb2xvcjpiLmNvbG9yLHNpZGU6VEhSRUUuRnJvbnRTaWRlLHRyYW5zcGFyZW50OiEhYi50cmFuc3BhcmVudCxvcGFjaXR5OnQ9PT0id2F0ZXIiPy42Mjp0PT09ImdsYXNzIj8uMzg6dD09PSJsZWF2ZXMiPy45OjEsZGVwdGhXcml0ZTp0IT09IndhdGVyIn0pO2lmKGIuZW1pc3NpdmUpe20uZW1pc3NpdmU9bmV3IFRIUkVFLkNvbG9yKGIuY29sb3IpO20uZW1pc3NpdmVJbnRlbnNpdHk9LjZ9cmV0dXJuIG1hdHNbdF09bX0KY29uc3Qga2V5PShjeCxjeik9PmN4KyIsIitjeixpZHg9KHgseSx6KT0+eCt6KkNIVU5LK3kqQ0hVTksqQ0hVTkssbGM9dj0+KCh2JUNIVU5LKStDSFVOSyklQ0hVTks7CmZ1bmN0aW9uIHJuZCh4LHope2xldCBuPU1hdGguaW11bCh4LDM3NDc2MTM5MykrTWF0aC5pbXVsKHosNjY4MjY1MjYzKStkaW1lbnNpb25TZWVkO249TWF0aC5pbXVsKG5eKG4+Pj4xMyksMTI3NDEyNjE3Nyk7cmV0dXJuKChuXihuPj4+MTYpKT4+PjApLzQyOTQ5NjcyOTV9CmZ1bmN0aW9uIGhlaWdodCh4LHope2lmKGFjdGl2ZURpbWVuc2lvbj09PSJuZXRoZXIiKXJldHVybiBNYXRoLmZsb29yKDE3K01hdGguc2luKHgqLjA3KSozK01hdGguY29zKHoqLjA2KSo0KTtpZihhY3RpdmVEaW1lbnNpb249PT0iZW5kIil7bGV0IGQ9TWF0aC5oeXBvdCh4LHopLHY9TWF0aC5zaW4oeCouMDQ1KSpNYXRoLmNvcyh6Ki4wNDgpO2lmKGQ+MjgmJnY8LS4yNSlyZXR1cm4tMTtyZXR1cm4gTWF0aC5mbG9vcigxMit2KjMpfWlmKGFjdGl2ZVdvcmxkPy50eXBlPT09IkZsYXQiKXJldHVybiA3O2xldCBoPTE0K01hdGguc2luKCh4K2RpbWVuc2lvblNlZWQqLjAwMSkqLjA0NSkqNStNYXRoLmNvcygoei1kaW1lbnNpb25TZWVkKi4wMDEpKi4wNCkqNStNYXRoLnNpbigoeCt6KSouMTIpKjI7aWYoYWN0aXZlV29ybGQ/LnR5cGU9PT0iQW1wbGlmaWVkIiloPTEzKyhoLTEzKSoyLjE7aWYoYWN0aXZlV29ybGQ/LnR5cGU9PT0iSXNsYW5kcyIpaCs9TWF0aC5zaW4oeCouMDM1KSpNYXRoLmNvcyh6Ki4wMzUpKjgtMztyZXR1cm4gTWF0aC5tYXgoNCxNYXRoLm1pbihILTgsTWF0aC5mbG9vcihoKSkpfQpmdW5jdGlvbiBjYXZlKHgseSx6LGgpe3JldHVybiBhY3RpdmVXb3JsZD8uY2F2ZXMmJnk+MiYmeTxoLTImJihNYXRoLnNpbih4Ki4yNyt5Ki4zMSt6Ki4xOStkaW1lbnNpb25TZWVkKi4wMDEpK01hdGguY29zKHgqLjE1LXkqLjI0K3oqLjIzKT4xLjY1KX0KZnVuY3Rpb24gZ2VuZXJhdGVDaHVuayhjeCxjeil7bGV0IGs9a2V5KGN4LGN6KTtpZihjaHVua0RhdGEuaGFzKGspKXJldHVybiBjaHVua0RhdGEuZ2V0KGspO2xldCBkPW5ldyBVaW50OEFycmF5KENIVU5LKkNIVU5LKkgpLGJ4PWN4KkNIVU5LLGJ6PWN6KkNIVU5LO2ZvcihsZXQgbHg9MDtseDxDSFVOSztseCsrKWZvcihsZXQgbHo9MDtsejxDSFVOSztseisrKXtsZXQgeD1ieCtseCx6PWJ6K2x6LGg9aGVpZ2h0KHgseik7aWYoaDwwKWNvbnRpbnVlO2lmKGFjdGl2ZURpbWVuc2lvbj09PSJuZXRoZXIiKXtmb3IobGV0IHk9MDt5PEg7eSsrKXtsZXQgdD15PT09MD8iYmVkcm9jayI6eTw9aD8ibmV0aGVycmFjayI6ImFpciI7aWYodCE9PSJhaXIiJiZjYXZlKHgseSx6LGgpKXQ9ImFpciI7aWYodD09PSJuZXRoZXJyYWNrIiYmcm5kKHgqMTkreSo1LHoqMjkteSo3KT4uOTg1KXQ9Imdsb3dzdG9uZSI7ZFtpZHgobHgseSxseildPWJsb2NrSWRzW3RdfWNvbnRpbnVlfWlmKGFjdGl2ZURpbWVuc2lvbj09PSJlbmQiKXtmb3IobGV0IHk9MDt5PD1oO3krKylkW2lkeChseCx5LGx6KV09YmxvY2tJZHNbeT09PTA/InZvaWRyb2NrIjoiZW5kc3RvbmUiXTtjb250aW51ZX1sZXQgc2VhPTEwO2ZvcihsZXQgeT0wO3k8PWg7eSsrKXtsZXQgdD15PT09MD8iYmVkcm9jayI6eT09PWg/KGg8PXNlYSsxPyJzYW5kIjoiZ3Jhc3MiKTp5Pj1oLTM/KGg8PXNlYSsxPyJzYW5kIjoiZGlydCIpOiJzdG9uZSI7aWYodD09PSJzdG9uZSImJmFjdGl2ZVdvcmxkLm9yZXMpe2xldCByPXJuZCh4KjMxK3kqMTEseioyMy15KjEzKTtpZih5PDgmJnI+Ljk5Nil0PSJkaWFtb25kIjtlbHNlIGlmKHk8MTAmJnI+Ljk5MSl0PSJnb2xkIjtlbHNlIGlmKHk8MTcmJnI+Ljk2KXQ9Imlyb24iO2Vsc2UgaWYocj4uOTMpdD0iY29hbCJ9aWYodCE9PSJiZWRyb2NrIiYmY2F2ZSh4LHkseixoKSl0PSJhaXIiO2RbaWR4KGx4LHksbHopXT1ibG9ja0lkc1t0XX1mb3IobGV0IHk9aCsxO3k8PXNlYTt5KyspZFtpZHgobHgseSxseildPWJsb2NrSWRzLndhdGVyfQpmb3IoY29uc3QgW2NrLHRdIG9mIHdvcmxkQ2hhbmdlcyl7bGV0IFtkaW0sc3gsc3ksc3pdPWNrLnNwbGl0KCJ8Iik7aWYoZGltIT09YWN0aXZlRGltZW5zaW9uKWNvbnRpbnVlO2xldCB4PStzeCx5PStzeSx6PStzejtpZihNYXRoLmZsb29yKHgvQ0hVTkspPT09Y3gmJk1hdGguZmxvb3Ioei9DSFVOSyk9PT1jeiYmeT49MCYmeTxIKWRbaWR4KGxjKHgpLHksbGMoeikpXT1ibG9ja0lkc1t0XXx8MH0KY2h1bmtEYXRhLnNldChrLGQpO3JldHVybiBkfQpmdW5jdGlvbiBnZXRCbG9jayh4LHkseil7aWYoeTwwfHx5Pj1IKXJldHVybiJhaXIiO2xldCBkPWNodW5rRGF0YS5nZXQoa2V5KE1hdGguZmxvb3IoeC9DSFVOSyksTWF0aC5mbG9vcih6L0NIVU5LKSkpO2lmKCFkKXJldHVybiJhaXIiO3JldHVybiBpZEJsb2Nrc1tkW2lkeChsYyh4KSx5LGxjKHopKV1dfHwiYWlyIn0KZnVuY3Rpb24gc2V0QmxvY2soeCx5LHosdCl7aWYoeTwwfHx5Pj1IKXJldHVybjt3b3JsZENoYW5nZXMuc2V0KGAke2FjdGl2ZURpbWVuc2lvbn18JHt4fXwke3l9fCR7en1gLHQpO2xldCBjeD1NYXRoLmZsb29yKHgvQ0hVTkspLGN6PU1hdGguZmxvb3Ioei9DSFVOSyksZD1nZW5lcmF0ZUNodW5rKGN4LGN6KTtkW2lkeChsYyh4KSx5LGxjKHopKV09YmxvY2tJZHNbdF18fDA7YnVpbGRDaHVuayhjeCxjeik7aWYobGMoeCk9PT0wKWJ1aWxkQ2h1bmsoY3gtMSxjeik7aWYobGMoeCk9PT0xNSlidWlsZENodW5rKGN4KzEsY3opO2lmKGxjKHopPT09MClidWlsZENodW5rKGN4LGN6LTEpO2lmKGxjKHopPT09MTUpYnVpbGRDaHVuayhjeCxjeisxKX0KY29uc3QgZmFjZXM9W1tbMSwwLDBdLFtbMSwwLDBdLFsxLDEsMF0sWzEsMSwxXSxbMSwwLDFdXV0sW1stMSwwLDBdLFtbMCwwLDFdLFswLDEsMV0sWzAsMSwwXSxbMCwwLDBdXV0sW1swLDEsMF0sW1swLDEsMV0sWzEsMSwxXSxbMSwxLDBdLFswLDEsMF1dXSxbWzAsLTEsMF0sW1swLDAsMF0sWzEsMCwwXSxbMSwwLDFdLFswLDAsMV1dXSxbWzAsMCwxXSxbWzEsMCwxXSxbMSwxLDFdLFswLDEsMV0sWzAsMCwxXV1dLFtbMCwwLC0xXSxbWzAsMCwwXSxbMCwxLDBdLFsxLDEsMF0sWzEsMCwwXV1dXTsKZnVuY3Rpb24gZmFjZVZpc2libGUodCxuKXtpZihuPT09ImFpciIpcmV0dXJuIHRydWU7aWYoQkxPQ0tTW3RdLnRyYW5zcGFyZW50JiZuPT09dClyZXR1cm4gZmFsc2U7cmV0dXJuICEhQkxPQ0tTW25dPy50cmFuc3BhcmVudCYmbiE9PXR9CmZ1bmN0aW9uIGJ1aWxkQ2h1bmsoY3gsY3ope2dlbmVyYXRlQ2h1bmsoY3gsY3opO2dlbmVyYXRlQ2h1bmsoY3gtMSxjeik7Z2VuZXJhdGVDaHVuayhjeCsxLGN6KTtnZW5lcmF0ZUNodW5rKGN4LGN6LTEpO2dlbmVyYXRlQ2h1bmsoY3gsY3orMSk7bGV0IGs9a2V5KGN4LGN6KSxvbGQ9Y2h1bmtNZXNoZXMuZ2V0KGspO2lmKG9sZCl7c2NlbmUucmVtb3ZlKG9sZCk7b2xkLnRyYXZlcnNlKG89Pm8uZ2VvbWV0cnk/LmRpc3Bvc2UoKSl9bGV0IGdyb3Vwcz17fSx4MD1jeCpDSFVOSyx6MD1jeipDSFVOSztmb3IobGV0IGx4PTA7bHg8Q0hVTks7bHgrKylmb3IobGV0IGx6PTA7bHo8Q0hVTks7bHorKylmb3IobGV0IHk9MDt5PEg7eSsrKXtsZXQgeD14MCtseCx6PXowK2x6LHQ9Z2V0QmxvY2soeCx5LHopO2lmKHQ9PT0iYWlyIiljb250aW51ZTtsZXQgZz1ncm91cHNbdF0/Pz0oIHtwOltdLGk6W119ICk7Zm9yKGxldCBbZGQsY10gb2YgZmFjZXMpe2xldCBuPWdldEJsb2NrKHgrZGRbMF0seStkZFsxXSx6K2RkWzJdKTtpZighZmFjZVZpc2libGUodCxuKSljb250aW51ZTtsZXQgYj1nLnAubGVuZ3RoLzM7Zm9yKGxldCBxIG9mIGMpZy5wLnB1c2gobHgrcVswXSx5K3FbMV0sbHorcVsyXSk7Zy5pLnB1c2goYixiKzEsYisyLGIsYisyLGIrMyl9fWxldCBncm91cD1uZXcgVEhSRUUuR3JvdXAoKTtncm91cC5wb3NpdGlvbi5zZXQoeDAsMCx6MCk7Zm9yKGxldCBbdCxnXSBvZiBPYmplY3QuZW50cmllcyhncm91cHMpKXtpZighZy5wLmxlbmd0aCljb250aW51ZTtsZXQgZ2VvPW5ldyBUSFJFRS5CdWZmZXJHZW9tZXRyeSgpO2dlby5zZXRBdHRyaWJ1dGUoInBvc2l0aW9uIixuZXcgVEhSRUUuRmxvYXQzMkJ1ZmZlckF0dHJpYnV0ZShnLnAsMykpO2dlby5zZXRJbmRleChnLmkpO2dlby5jb21wdXRlVmVydGV4Tm9ybWFscygpO2dlby5jb21wdXRlQm91bmRpbmdTcGhlcmUoKTtsZXQgbT1uZXcgVEhSRUUuTWVzaChnZW8sbWF0Rm9yKHQpKTttLmZydXN0dW1DdWxsZWQ9dHJ1ZTtncm91cC5hZGQobSl9Y2h1bmtNZXNoZXMuc2V0KGssZ3JvdXApO3NjZW5lLmFkZChncm91cCl9CmxldCBxdWV1ZT1bXSxsYXN0UEM9IiI7ZnVuY3Rpb24gcXVldWVDaHVua3MoKXtsZXQgY3g9TWF0aC5mbG9vcihjYW1lcmEucG9zaXRpb24ueC9DSFVOSyksY3o9TWF0aC5mbG9vcihjYW1lcmEucG9zaXRpb24uei9DSFVOSyksbm93PWtleShjeCxjeik7aWYobm93PT09bGFzdFBDKXJldHVybjtsYXN0UEM9bm93O2xldCB3PVtdO2ZvcihsZXQgZHg9LXJlbmRlckRpc3RhbmNlO2R4PD1yZW5kZXJEaXN0YW5jZTtkeCsrKWZvcihsZXQgZHo9LXJlbmRlckRpc3RhbmNlO2R6PD1yZW5kZXJEaXN0YW5jZTtkeisrKWlmKGR4KmR4K2R6KmR6PD1yZW5kZXJEaXN0YW5jZSpyZW5kZXJEaXN0YW5jZSsxKXcucHVzaChbY3grZHgsY3orZHosZHgqZHgrZHoqZHpdKTt3LnNvcnQoKGEsYik9PmFbMl0tYlsyXSk7cXVldWU9dy5maWx0ZXIoYz0+IWNodW5rTWVzaGVzLmhhcyhrZXkoY1swXSxjWzFdKSkpO2ZvcihsZXQgW2ssbV0gb2YgY2h1bmtNZXNoZXMpe2xldCBbeCx6XT1rLnNwbGl0KCIsIikubWFwKE51bWJlcik7aWYoKHgtY3gpKioyKyh6LWN6KSoqMj4ocmVuZGVyRGlzdGFuY2UrMikqKjIpe3NjZW5lLnJlbW92ZShtKTttLnRyYXZlcnNlKG89Pm8uZ2VvbWV0cnk/LmRpc3Bvc2UoKSk7Y2h1bmtNZXNoZXMuZGVsZXRlKGspfX19CmZ1bmN0aW9uIHByb2Nlc3NRdWV1ZSgpe2xldCBzdD1wZXJmb3JtYW5jZS5ub3coKSxidWRnZXQ9bWF0Y2hNZWRpYSgiKHBvaW50ZXI6Y29hcnNlKSIpLm1hdGNoZXM/Mi41OjU7d2hpbGUocXVldWUubGVuZ3RoJiZwZXJmb3JtYW5jZS5ub3coKS1zdDxidWRnZXQpe2xldFtjeCxjel09cXVldWUuc2hpZnQoKTtidWlsZENodW5rKGN4LGN6KX19Cgpjb25zdCBQTEFZRVI9e2hlYWx0aDoyMCxodW5nZXI6MjAsZmFsbDowLGRhbWFnZUNEOjB9O2xldCB5YXc9MCxwaXRjaD0wLHZ5PTAsZ3JvdW5kZWQ9ZmFsc2UsZmx5aW5nPWZhbHNlLGtleXM9e30sam95PXt4OjAseTowfSxJTlBVVD17Y29udHJvbGxlclNwcmludDpmYWxzZSxjb250cm9sbGVyU25lYWs6ZmFsc2V9OwpmdW5jdGlvbiBzb2xpZEF0KHgseSx6KXtyZXR1cm4gISFCTE9DS1NbZ2V0QmxvY2soTWF0aC5mbG9vcih4KSxNYXRoLmZsb29yKHkpLE1hdGguZmxvb3IoeikpXT8uc29saWR9CmZ1bmN0aW9uIGNvbGxpZGUoeCx5LHope2ZvcihsZXQgZHggb2ZbLS4yOCwuMjhdKWZvcihsZXQgZHogb2ZbLS4yOCwuMjhdKWZvcihsZXQgeXkgb2ZbeS0xLjYyLHktLjg1LHkrLjA1XSlpZihzb2xpZEF0KHgrZHgseXkseitkeikpcmV0dXJuIHRydWU7cmV0dXJuIGZhbHNlfQpmdW5jdGlvbiBtb3ZlKGR4LGR5LGR6KXtsZXQgcD1jYW1lcmEucG9zaXRpb247aWYoYWN0aXZlV29ybGQubW9kZT09PSJTcGVjdGF0b3IifHxmbHlpbmcpe3AuYWRkKG5ldyBUSFJFRS5WZWN0b3IzKGR4LGR5LGR6KSk7cmV0dXJufWlmKCFjb2xsaWRlKHAueCtkeCxwLnkscC56KSlwLngrPWR4O2lmKCFjb2xsaWRlKHAueCxwLnkscC56K2R6KSlwLnorPWR6O2lmKCFjb2xsaWRlKHAueCxwLnkrZHkscC56KSl7cC55Kz1keTtncm91bmRlZD1mYWxzZX1lbHNle2lmKGR5PDApZ3JvdW5kZWQ9dHJ1ZTt2eT0wfX0KZnVuY3Rpb24gZGFtYWdlKG4pe2lmKGFjdGl2ZVdvcmxkLm1vZGUhPT0iU3Vydml2YWwifHxQTEFZRVIuZGFtYWdlQ0Q+MClyZXR1cm47UExBWUVSLmhlYWx0aC09bjtQTEFZRVIuZGFtYWdlQ0Q9LjY7aWYoUExBWUVSLmhlYWx0aDw9MCl7UExBWUVSLmhlYWx0aD0yMDtQTEFZRVIuaHVuZ2VyPTIwO2NhbWVyYS5wb3NpdGlvbi5zZXQoLjUsTWF0aC5tYXgoMTUsaGVpZ2h0KDAsMCkrNSksLjUpfWh1ZFBsYXllcigpfQpmdW5jdGlvbiBodWRQbGF5ZXIoKXskKCIjaGVhbHRoUm93IHNwYW4iKS50ZXh0Q29udGVudD0i4pmlICIucmVwZWF0KE1hdGguY2VpbChQTEFZRVIuaGVhbHRoLzIpKSsi4pmhICIucmVwZWF0KDEwLU1hdGguY2VpbChQTEFZRVIuaGVhbHRoLzIpKTskKCIjaHVuZ2VyUm93IHNwYW4iKS50ZXh0Q29udGVudD0i4pawICIucmVwZWF0KE1hdGguY2VpbChQTEFZRVIuaHVuZ2VyLzIpKSsi4paxICIucmVwZWF0KDEwLU1hdGguY2VpbChQTEFZRVIuaHVuZ2VyLzIpKX0KZnVuY3Rpb24gcmF5Vm94ZWwoKXtsZXQgbz1jYW1lcmEucG9zaXRpb24uY2xvbmUoKSxkPW5ldyBUSFJFRS5WZWN0b3IzKCk7Y2FtZXJhLmdldFdvcmxkRGlyZWN0aW9uKGQpO2xldCBwcmV2PW51bGw7Zm9yKGxldCBxPTA7cTw9NjtxKz0uMDgpe2xldCBwPW8uY2xvbmUoKS5hZGRTY2FsZWRWZWN0b3IoZCxxKSx4PU1hdGguZmxvb3IocC54KSx5PU1hdGguZmxvb3IocC55KSx6PU1hdGguZmxvb3IocC56KSx0PWdldEJsb2NrKHgseSx6KTtpZih0IT09ImFpciImJnQhPT0id2F0ZXIiKXJldHVybnt4LHkseix0eXBlOnQscHJldmlvdXM6cHJldn07cHJldj17eCx5LHp9fXJldHVybiBudWxsfQoKY29uc3QgZW50aXRpZXM9W10sRU5USVRZX0xJTUlUPTIwLGVudGl0eUdlbz1uZXcgVEhSRUUuQm94R2VvbWV0cnkoLjY1LDEuMzUsLjY1KSxlbnRpdHlNYXRzPXtwaWc6bmV3IFRIUkVFLk1lc2hMYW1iZXJ0TWF0ZXJpYWwoe2NvbG9yOjB4ZTlhMmEyfSksc2hlZXA6bmV3IFRIUkVFLk1lc2hMYW1iZXJ0TWF0ZXJpYWwoe2NvbG9yOjB4ZWVlZWVlfSksY3Jhd2xlcjpuZXcgVEhSRUUuTWVzaExhbWJlcnRNYXRlcmlhbCh7Y29sb3I6MHg0NzdkM2R9KSxpbmZlcm5vOm5ldyBUSFJFRS5NZXNoTGFtYmVydE1hdGVyaWFsKHtjb2xvcjoweDhmMzEyN30pLHZvaWRlcjpuZXcgVEhSRUUuTWVzaExhbWJlcnRNYXRlcmlhbCh7Y29sb3I6MHg1NzQ1ODJ9KX07CmZ1bmN0aW9uIGNyZWF0ZUVudGl0eSh0LHgseSx6KXtpZihlbnRpdGllcy5sZW5ndGg+PUVOVElUWV9MSU1JVClyZXR1cm47bGV0IGhvc3RpbGU9WyJjcmF3bGVyIiwiaW5mZXJubyIsInZvaWRlciJdLmluY2x1ZGVzKHQpLG1lc2g9bmV3IFRIUkVFLk1lc2goZW50aXR5R2VvLGVudGl0eU1hdHNbdF18fGVudGl0eU1hdHMucGlnKTttZXNoLnBvc2l0aW9uLnNldCh4Ky41LHkrLjY4LHorLjUpO3NjZW5lLmFkZChtZXNoKTtlbnRpdGllcy5wdXNoKHt0eXBlOnQsaG9zdGlsZSxtZXNoLGhlYWx0aDpob3N0aWxlPzEwOjYsZGFtYWdlOmhvc3RpbGU/MjowLHNwZWVkOmhvc3RpbGU/LjAyODouMDEyLGFpOjAsd3g6MCx3ejowLGF0dGFjazowfSl9CmZ1bmN0aW9uIHJlbW92ZUVudGl0eShlKXtzY2VuZS5yZW1vdmUoZS5tZXNoKTtsZXQgaT1lbnRpdGllcy5pbmRleE9mKGUpO2lmKGk+PTApZW50aXRpZXMuc3BsaWNlKGksMSl9CmZ1bmN0aW9uIHNwYXduUG9zKCl7Zm9yKGxldCBuPTA7bjwxMDtuKyspe2xldCBhPU1hdGgucmFuZG9tKCkqTWF0aC5QSSoyLGQ9MTQrTWF0aC5yYW5kb20oKSoyNCx4PU1hdGguZmxvb3IoY2FtZXJhLnBvc2l0aW9uLngrTWF0aC5jb3MoYSkqZCksej1NYXRoLmZsb29yKGNhbWVyYS5wb3NpdGlvbi56K01hdGguc2luKGEpKmQpO2ZvcihsZXQgeT1ILTI7eT49Mjt5LS0paWYoQkxPQ0tTW2dldEJsb2NrKHgseS0xLHopXT8uc29saWQmJmdldEJsb2NrKHgseSx6KT09PSJhaXIiJiZnZXRCbG9jayh4LHkrMSx6KT09PSJhaXIiKXJldHVybnt4LHksen19fQpsZXQgc3Bhd25DbG9jaz0wO2Z1bmN0aW9uIHVwZGF0ZVNwYXducyhkdCl7aWYoIWFjdGl2ZVdvcmxkLm1vYnN8fGVudGl0aWVzLmxlbmd0aD49RU5USVRZX0xJTUlUKXJldHVybjtzcGF3bkNsb2NrKz1kdDtpZihzcGF3bkNsb2NrPDMpcmV0dXJuO3NwYXduQ2xvY2s9MDtsZXQgcD1zcGF3blBvcygpO2lmKCFwKXJldHVybjtsZXQgdD1hY3RpdmVEaW1lbnNpb249PT0ibmV0aGVyIj8iaW5mZXJubyI6YWN0aXZlRGltZW5zaW9uPT09ImVuZCI/InZvaWRlciI6c3VuLmludGVuc2l0eT4uNj8oTWF0aC5yYW5kb20oKTwuNT8icGlnIjoic2hlZXAiKToiY3Jhd2xlciI7Y3JlYXRlRW50aXR5KHQscC54LHAueSxwLnopfQpmdW5jdGlvbiB1cGRhdGVFbnRpdGllcyhkdCl7Zm9yKGxldCBpPWVudGl0aWVzLmxlbmd0aC0xO2k+PTA7aS0tKXtsZXQgZT1lbnRpdGllc1tpXSxkeD1jYW1lcmEucG9zaXRpb24ueC1lLm1lc2gucG9zaXRpb24ueCxkej1jYW1lcmEucG9zaXRpb24uei1lLm1lc2gucG9zaXRpb24ueixkaXN0PU1hdGguaHlwb3QoZHgsZHopO2lmKGRpc3Q+NTUpe3JlbW92ZUVudGl0eShlKTtjb250aW51ZX1pZihkaXN0PjMyKWNvbnRpbnVlO2UuYWktPWR0O2UuYXR0YWNrLT1kdDtsZXQgdng9MCx2ej0wO2lmKGUuaG9zdGlsZSYmZGlzdDwxNil7dng9ZHgvTWF0aC5tYXgoZGlzdCwuMDEpO3Z6PWR6L01hdGgubWF4KGRpc3QsLjAxKTtpZihkaXN0PDEuNCYmZS5hdHRhY2s8PTApe2UuYXR0YWNrPTE7ZGFtYWdlKGUuZGFtYWdlKX19ZWxzZSBpZihlLmFpPD0wKXtlLmFpPTEuNStNYXRoLnJhbmRvbSgpKjM7bGV0IGE9TWF0aC5yYW5kb20oKSpNYXRoLlBJKjI7ZS53eD1NYXRoLmNvcyhhKTtlLnd6PU1hdGguc2luKGEpO3Z4PWUud3g7dno9ZS53en1lbHNle3Z4PWUud3g7dno9ZS53en1sZXQgbng9ZS5tZXNoLnBvc2l0aW9uLngrdngqZS5zcGVlZCpkdCo2MCxuej1lLm1lc2gucG9zaXRpb24ueit2eiplLnNwZWVkKmR0KjYwLGd5PU1hdGguZmxvb3IoZS5tZXNoLnBvc2l0aW9uLnktLjc1KTtpZihCTE9DS1NbZ2V0QmxvY2soTWF0aC5mbG9vcihueCksZ3ksTWF0aC5mbG9vcihueikpXT8uc29saWQmJiFCTE9DS1NbZ2V0QmxvY2soTWF0aC5mbG9vcihueCksZ3krMSxNYXRoLmZsb29yKG56KSldPy5zb2xpZCl7ZS5tZXNoLnBvc2l0aW9uLng9bng7ZS5tZXNoLnBvc2l0aW9uLno9bnp9fX0KZnVuY3Rpb24gYXR0YWNrRW50aXR5KCl7bGV0IHI9bmV3IFRIUkVFLlJheWNhc3RlcigpLGQ9bmV3IFRIUkVFLlZlY3RvcjMoKTtjYW1lcmEuZ2V0V29ybGREaXJlY3Rpb24oZCk7ci5zZXQoY2FtZXJhLnBvc2l0aW9uLGQpO3IuZmFyPTQ7bGV0IGg9ci5pbnRlcnNlY3RPYmplY3RzKGVudGl0aWVzLm1hcChlPT5lLm1lc2gpKTtpZighaC5sZW5ndGgpcmV0dXJuIGZhbHNlO2xldCBlPWVudGl0aWVzLmZpbmQoeD0+eC5tZXNoPT09aFswXS5vYmplY3QpO2lmKCFlKXJldHVybiBmYWxzZTtlLmhlYWx0aC09YWN0aXZlV29ybGQubW9kZT09PSJDcmVhdGl2ZSI/MTAwOjQ7aWYoZS5oZWFsdGg8PTApcmVtb3ZlRW50aXR5KGUpO3JldHVybiB0cnVlfQpmdW5jdGlvbiBtaW5lKCl7bGV0IGg9cmF5Vm94ZWwoKTtpZighaClyZXR1cm47aWYobmV0d29ya0Nvbm5lY3RlZCYmbmV0d29ya1JvbGU9PT0iZ3Vlc3QiKXtzZW5kTmV0d29yayh7dHlwZToibWluZSIseDpoLngseTpoLnksejpoLnp9KTtyZXR1cm59aWYoaC50eXBlPT09ImJlZHJvY2siJiZhY3RpdmVXb3JsZC5tb2RlIT09IkNyZWF0aXZlIilyZXR1cm47c2V0QmxvY2soaC54LGgueSxoLnosImFpciIpO2lmKG5ldHdvcmtDb25uZWN0ZWQmJm5ldHdvcmtSb2xlPT09Imhvc3QiKXNlbmROZXR3b3JrKHt0eXBlOiJibG9jayIseDpoLngseTpoLnksejpoLnosYmxvY2s6ImFpciJ9KX0KZnVuY3Rpb24gcGxhY2UoKXtsZXQgaD1yYXlWb3hlbCgpO2lmKCFoPy5wcmV2aW91cylyZXR1cm47bGV0IHA9aC5wcmV2aW91cyxiPWhvdGJhcltzZWxlY3RlZFNsb3RdO2lmKG5ldHdvcmtDb25uZWN0ZWQmJm5ldHdvcmtSb2xlPT09Imd1ZXN0Iil7c2VuZE5ldHdvcmsoe3R5cGU6InBsYWNlIix4OnAueCx5OnAueSx6OnAueixibG9jazpifSk7cmV0dXJufXNldEJsb2NrKHAueCxwLnkscC56LGIpO2lmKG5ldHdvcmtDb25uZWN0ZWQmJm5ldHdvcmtSb2xlPT09Imhvc3QiKXNlbmROZXR3b3JrKHt0eXBlOiJibG9jayIseDpwLngseTpwLnksejpwLnosYmxvY2s6Yn0pfQoKZnVuY3Rpb24gZHJhd0hvdGJhcigpe2xldCBiPSQoIiNob3RiYXIiKTtiLmlubmVySFRNTD0iIjtob3RiYXIuZm9yRWFjaCgobixpKT0+e2xldCBzPWRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoImRpdiIpO3MuY2xhc3NOYW1lPSJzbG90IisoaT09PXNlbGVjdGVkU2xvdD8iIHNlbGVjdGVkIjoiIik7bGV0IGM9QkxPQ0tTW25dPy5jb2xvcnx8MHhmZmZmZmY7cy5pbm5lckhUTUw9YDxkaXYgY2xhc3M9ImJsb2NrSWNvbiIgc3R5bGU9ImJhY2tncm91bmQ6IyR7Yy50b1N0cmluZygxNikucGFkU3RhcnQoNiwiMCIpfSI+PC9kaXY+JHtpKzF9YDtzLm9uY2xpY2s9KCk9PntzZWxlY3RlZFNsb3Q9aTtkcmF3SG90YmFyKCl9O2IuYXBwZW5kQ2hpbGQocyl9KX0KZnVuY3Rpb24gZHJhd0ludmVudG9yeSgpe2xldCBnPSQoIiNpbnZlbnRvcnlHcmlkIik7Zy5pbm5lckhUTUw9IiI7YmxvY2tOYW1lcy5mb3JFYWNoKG49PntsZXQgZT1kb2N1bWVudC5jcmVhdGVFbGVtZW50KCJkaXYiKSxjPUJMT0NLU1tuXS5jb2xvcnx8MHhmZmZmZmY7ZS5jbGFzc05hbWU9Imludkl0ZW0iO2UuaW5uZXJIVE1MPWA8ZGl2IGNsYXNzPSJibG9ja0ljb24iIHN0eWxlPSJiYWNrZ3JvdW5kOiMke2MudG9TdHJpbmcoMTYpLnBhZFN0YXJ0KDYsIjAiKX0iPjwvZGl2PiR7bn1gO2Uub25jbGljaz0oKT0+e2hvdGJhcltzZWxlY3RlZFNsb3RdPW47ZHJhd0hvdGJhcigpfTtnLmFwcGVuZENoaWxkKGUpfSl9ZHJhd0hvdGJhcigpO2RyYXdJbnZlbnRvcnkoKTsKCmFzeW5jIGZ1bmN0aW9uIGNsZWFyV29ybGQoKXtmb3IobGV0IG0gb2YgY2h1bmtNZXNoZXMudmFsdWVzKCkpe3NjZW5lLnJlbW92ZShtKTttLnRyYXZlcnNlKG89Pm8uZ2VvbWV0cnk/LmRpc3Bvc2UoKSl9Y2h1bmtNZXNoZXMuY2xlYXIoKTtjaHVua0RhdGEuY2xlYXIoKTtxdWV1ZT1bXTtsYXN0UEM9IiI7ZW50aXRpZXMuc3BsaWNlKDApLmZvckVhY2goZT0+c2NlbmUucmVtb3ZlKGUubWVzaCkpfQphc3luYyBmdW5jdGlvbiBnZW5lcmF0ZVNwYXduKCl7bGV0IGE9W107Zm9yKGxldCB4PS1yZW5kZXJEaXN0YW5jZTt4PD1yZW5kZXJEaXN0YW5jZTt4KyspZm9yKGxldCB6PS1yZW5kZXJEaXN0YW5jZTt6PD1yZW5kZXJEaXN0YW5jZTt6KyspaWYoeCp4K3oqejw9cmVuZGVyRGlzdGFuY2UqcmVuZGVyRGlzdGFuY2UrMSlhLnB1c2goW3gseix4Kngreip6XSk7YS5zb3J0KChhLGIpPT5hWzJdLWJbMl0pO2ZvcihsZXQgaT0wO2k8YS5sZW5ndGg7aSsrKXtidWlsZENodW5rKGFbaV1bMF0sYVtpXVsxXSk7JCgiI2xvYWRpbmdGaWxsIikuc3R5bGUud2lkdGg9KChpKzEpL2EubGVuZ3RoKjEwMCkrIiUiO2lmKGklMj09PTApYXdhaXQgbmV3IFByb21pc2Uocj0+c2V0VGltZW91dChyLDApKX19CmFzeW5jIGZ1bmN0aW9uIGxvYWRXb3JsZCh3KXthY3RpdmVXb3JsZD13O2FjdGl2ZURpbWVuc2lvbj0ib3ZlcndvcmxkIjtkaW1lbnNpb25TZWVkPXcuc2VlZDtyZW5kZXJEaXN0YW5jZT13LnJlbmRlckRpc3RhbmNlfHwzO3JlbmRlcmVyLnNldFBpeGVsUmF0aW8ody5yZXNvbHV0aW9uU2NhbGV8fC43KTtjYW1lcmEuZm92PXcuZm92fHw3NTtjYW1lcmEudXBkYXRlUHJvamVjdGlvbk1hdHJpeCgpO3NjZW5lLmZvZz1uZXcgVEhSRUUuRm9nKDB4OGZjZGYyLENIVU5LKjEuMyxDSFVOSyoocmVuZGVyRGlzdGFuY2UrLjgpKTtzaG93U2NyZWVuKCIjbG9hZGluZ1NjcmVlbiIpO2F3YWl0IGNsZWFyV29ybGQoKTt3b3JsZFN0YXRlPWF3YWl0IGRiR2V0KCJzdGF0ZXMiLHcuaWQpfHx7aWQ6dy5pZCxwb3NpdGlvbnM6e319O3dvcmxkQ2hhbmdlcy5jbGVhcigpO2ZvcihsZXQgW2ssdl0gb2Ygd29ybGRTdGF0ZS5jaGFuZ2VzfHxbXSl3b3JsZENoYW5nZXMuc2V0KGssdik7YWN0aXZlRGltZW5zaW9uPXdvcmxkU3RhdGUuZGltZW5zaW9ufHwib3ZlcndvcmxkIjtkaW1lbnNpb25TZWVkPXcuc2VlZCsoYWN0aXZlRGltZW5zaW9uPT09Im5ldGhlciI/NTAwMDAwOmFjdGl2ZURpbWVuc2lvbj09PSJlbmQiPzkwMDAwMDowKTthd2FpdCBnZW5lcmF0ZVNwYXduKCk7bGV0IHA9d29ybGRTdGF0ZS5wb3NpdGlvbnM/LlthY3RpdmVEaW1lbnNpb25dO2lmKHApY2FtZXJhLnBvc2l0aW9uLmZyb21BcnJheShwKTtlbHNlIGNhbWVyYS5wb3NpdGlvbi5zZXQoLjUsTWF0aC5tYXgoMTUsaGVpZ2h0KDAsMCkrNSksLjUpO3BsYXlpbmc9dHJ1ZTtwYXVzZWQ9ZmFsc2U7JCgiI2h1ZCIpLnN0eWxlLmRpc3BsYXk9ImJsb2NrIjtzaG93U2NyZWVuKG51bGwpO3VwZGF0ZUVudigpO3NldENvb2tpZSgiQldfbGFzdFdvcmxkIix3LmlkKX0KYXN5bmMgZnVuY3Rpb24gc2F2ZUdhbWUoKXtpZighYWN0aXZlV29ybGQpcmV0dXJuOyQoIiNzYXZlU3RhdGUiKS50ZXh0Q29udGVudD0iU2F2aW5nLi4uIjt3b3JsZFN0YXRlPz89e2lkOmFjdGl2ZVdvcmxkLmlkLHBvc2l0aW9uczp7fX07d29ybGRTdGF0ZS5wb3NpdGlvbnM/Pz17fTt3b3JsZFN0YXRlLmRpbWVuc2lvbj1hY3RpdmVEaW1lbnNpb247d29ybGRTdGF0ZS5wb3NpdGlvbnNbYWN0aXZlRGltZW5zaW9uXT1jYW1lcmEucG9zaXRpb24udG9BcnJheSgpO3dvcmxkU3RhdGUuY2hhbmdlcz1bLi4ud29ybGRDaGFuZ2VzLmVudHJpZXMoKV07d29ybGRTdGF0ZS5ob3RiYXI9Wy4uLmhvdGJhcl07d29ybGRTdGF0ZS5zZWxlY3RlZFNsb3Q9c2VsZWN0ZWRTbG90O2F3YWl0IGRiUHV0KCJzdGF0ZXMiLHdvcmxkU3RhdGUpO3NldENvb2tpZSgiQldfcGxheWVyIixKU09OLnN0cmluZ2lmeSh7d29ybGQ6YWN0aXZlV29ybGQuaWQsZGltZW5zaW9uOmFjdGl2ZURpbWVuc2lvbn0pKTskKCIjc2F2ZVN0YXRlIikudGV4dENvbnRlbnQ9IlNhdmVkIjtzZXRUaW1lb3V0KCgpPT4kKCIjc2F2ZVN0YXRlIikudGV4dENvbnRlbnQ9IiIsMTAwMCl9CmFzeW5jIGZ1bmN0aW9uIGNoYW5nZURpbWVuc2lvbihkKXtpZihkPT09YWN0aXZlRGltZW5zaW9uKXJldHVybjthd2FpdCBzYXZlR2FtZSgpO3Nob3dTY3JlZW4oIiNsb2FkaW5nU2NyZWVuIik7YWN0aXZlRGltZW5zaW9uPWQ7d29ybGRTdGF0ZS5kaW1lbnNpb249ZDtkaW1lbnNpb25TZWVkPWFjdGl2ZVdvcmxkLnNlZWQrKGQ9PT0ibmV0aGVyIj81MDAwMDA6ZD09PSJlbmQiPzkwMDAwMDowKTthd2FpdCBjbGVhcldvcmxkKCk7dXBkYXRlRW52KCk7YXdhaXQgZ2VuZXJhdGVTcGF3bigpO2xldCBwPXdvcmxkU3RhdGUucG9zaXRpb25zPy5bZF07Y2FtZXJhLnBvc2l0aW9uLmZyb21BcnJheShwfHxbLjUsTWF0aC5tYXgoMTUsaGVpZ2h0KDAsMCkrNSksLjVdKTtzaG93U2NyZWVuKG51bGwpO3BhdXNlZD1mYWxzZX0KZnVuY3Rpb24gdXBkYXRlRW52KCl7bGV0IGM9YWN0aXZlRGltZW5zaW9uPT09Im5ldGhlciI/MHg1MjFjMTg6YWN0aXZlRGltZW5zaW9uPT09ImVuZCI/MHgwOTA3MTM6MHg4ZmNkZjI7c2NlbmUuYmFja2dyb3VuZD1uZXcgVEhSRUUuQ29sb3IoYyk7c2NlbmUuZm9nPy5jb2xvci5zZXQoYyk7aGVtaS5pbnRlbnNpdHk9YWN0aXZlRGltZW5zaW9uPT09Im92ZXJ3b3JsZCI/MS4zNTouNTU7c3VuLmludGVuc2l0eT1hY3RpdmVEaW1lbnNpb249PT0ib3ZlcndvcmxkIj8xLjQ6LjM1fQphc3luYyBmdW5jdGlvbiByZWZyZXNoV29ybGRzKCl7bGV0IHc9YXdhaXQgZGJBbGwoIndvcmxkcyIpLGw9JCgiI3dvcmxkTGlzdCIpO2wuaW5uZXJIVE1MPXcubGVuZ3RoPyIiOic8ZGl2IGNsYXNzPSJzbWFsbCI+Tm8gd29ybGRzIHlldC48L2Rpdj4nO3cuc29ydCgoYSxiKT0+Yi5jcmVhdGVkLWEuY3JlYXRlZCkuZm9yRWFjaCh4PT57bGV0IGQ9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgiZGl2Iik7ZC5jbGFzc05hbWU9IndvcmxkQ2FyZCI7ZC5pbm5lckhUTUw9YDxiPiR7eC5uYW1lfTwvYj48YnI+PHNwYW4gY2xhc3M9InNtYWxsIj4ke3gubW9kZX0g4oCiICR7eC50eXBlfSDigKIgJHt4LnNlZWR9PC9zcGFuPmA7ZC5vbmNsaWNrPSgpPT5sb2FkV29ybGQoeCk7bC5hcHBlbmRDaGlsZChkKX0pfQokKCIjZ2VuZXJhdGVXb3JsZEJ0biIpLm9uY2xpY2s9YXN5bmMoKT0+e2xldCBzPSQoIiNzZWVkSW5wdXQiKS52YWx1ZS50cmltKCksdz17aWQ6RGF0ZS5ub3coKSsiIixuYW1lOiQoIiN3b3JsZE5hbWUiKS52YWx1ZXx8Ik5ldyBXb3JsZCIsc2VlZDpzP2hhc2hTdHJpbmcocyk6TWF0aC5mbG9vcihNYXRoLnJhbmRvbSgpKjIxNDc0ODM2NDcpLG1vZGU6JCgiI2dhbWVNb2RlIikudmFsdWUsZGlmZmljdWx0eTokKCIjZGlmZmljdWx0eSIpLnZhbHVlLHR5cGU6JCgiI3dvcmxkVHlwZSIpLnZhbHVlLGNvb3JkaW5hdGVzOiQoIiNjb29yZGluYXRlcyIpLmNoZWNrZWQsdHJlZXM6JCgiI3RyZWVzVG9nZ2xlIikuY2hlY2tlZCxjYXZlczokKCIjY2F2ZXNUb2dnbGUiKS5jaGVja2VkLG9yZXM6JCgiI29yZXNUb2dnbGUiKS5jaGVja2VkLG1vYnM6JCgiI21vYlRvZ2dsZSIpLmNoZWNrZWQsZGF5Q3ljbGU6JCgiI2RheVRvZ2dsZSIpLmNoZWNrZWQsY2hlYXRzOiQoIiNjaGVhdHNUb2dnbGUiKS5jaGVja2VkLHJlbmRlckRpc3RhbmNlOiskKCIjcmVuZGVyRGlzdGFuY2UiKS52YWx1ZSxyZXNvbHV0aW9uU2NhbGU6KyQoIiNyZXNvbHV0aW9uU2NhbGUiKS52YWx1ZSxmb3Y6KyQoIiNmb3ZTZXR0aW5nIikudmFsdWUsY2xvdWRzOiQoIiNjbG91ZFRvZ2dsZSIpLmNoZWNrZWQsY3JlYXRlZDpEYXRlLm5vdygpfTthd2FpdCBkYlB1dCgid29ybGRzIix3KTtsb2FkV29ybGQodyl9OwoKbGV0IHBlZXI9bnVsbCxjaGFubmVsPW51bGwsbmV0d29ya1JvbGU9Im9mZmxpbmUiLG5ldHdvcmtDb25uZWN0ZWQ9ZmFsc2UscmVtb3RlPW51bGw7CmZ1bmN0aW9uIHdhaXRJY2UocCl7cmV0dXJuIG5ldyBQcm9taXNlKG9rPT57aWYocC5pY2VHYXRoZXJpbmdTdGF0ZT09PSJjb21wbGV0ZSIpcmV0dXJuIG9rKCk7bGV0IGY9KCk9PntpZihwLmljZUdhdGhlcmluZ1N0YXRlPT09ImNvbXBsZXRlIil7cC5yZW1vdmVFdmVudExpc3RlbmVyKCJpY2VnYXRoZXJpbmdzdGF0ZWNoYW5nZSIsZik7b2soKX19O3AuYWRkRXZlbnRMaXN0ZW5lcigiaWNlZ2F0aGVyaW5nc3RhdGVjaGFuZ2UiLGYpfSl9CmZ1bmN0aW9uIG1rUGVlcigpe3JldHVybiBuZXcgUlRDUGVlckNvbm5lY3Rpb24oe2ljZVNlcnZlcnM6W3t1cmxzOiJzdHVuOnN0dW4ubC5nb29nbGUuY29tOjE5MzAyIn1dfSl9CmNvbnN0IGVuYz1vPT5idG9hKHVuZXNjYXBlKGVuY29kZVVSSUNvbXBvbmVudChKU09OLnN0cmluZ2lmeShvKSkpKSxkZWM9cz0+SlNPTi5wYXJzZShkZWNvZGVVUklDb21wb25lbnQoZXNjYXBlKGF0b2Iocy50cmltKCkpKSkpOwpmdW5jdGlvbiBzZXR1cENoYW5uZWwoYyl7Y2hhbm5lbD1jO2Mub25vcGVuPSgpPT57bmV0d29ya0Nvbm5lY3RlZD10cnVlOyQoIiNuZXR3b3JrU3RhdHVzIikudGV4dENvbnRlbnQ9IkNPTk5FQ1RFRCDigKIgIituZXR3b3JrUm9sZS50b1VwcGVyQ2FzZSgpfTtjLm9uY2xvc2U9KCk9PntuZXR3b3JrQ29ubmVjdGVkPWZhbHNlOyQoIiNuZXR3b3JrU3RhdHVzIikudGV4dENvbnRlbnQ9IkRpc2Nvbm5lY3RlZCJ9O2Mub25tZXNzYWdlPWU9PmhhbmRsZU5ldChKU09OLnBhcnNlKGUuZGF0YSkpfQpmdW5jdGlvbiBzZW5kTmV0d29yayhvKXtpZihjaGFubmVsPy5yZWFkeVN0YXRlPT09Im9wZW4iKWNoYW5uZWwuc2VuZChKU09OLnN0cmluZ2lmeShvKSl9CmFzeW5jIGZ1bmN0aW9uIGhvc3RPZmZlcigpe3BlZXI9bWtQZWVyKCk7bmV0d29ya1JvbGU9Imhvc3QiO3NldHVwQ2hhbm5lbChwZWVyLmNyZWF0ZURhdGFDaGFubmVsKCJibG9ja3dvcmxkIikpO2F3YWl0IHBlZXIuc2V0TG9jYWxEZXNjcmlwdGlvbihhd2FpdCBwZWVyLmNyZWF0ZU9mZmVyKCkpO2F3YWl0IHdhaXRJY2UocGVlcik7JCgiI29mZmVyT3V0cHV0IikudmFsdWU9ZW5jKHBlZXIubG9jYWxEZXNjcmlwdGlvbil9CmFzeW5jIGZ1bmN0aW9uIGd1ZXN0QW5zd2VyKCl7cGVlcj1ta1BlZXIoKTtuZXR3b3JrUm9sZT0iZ3Vlc3QiO3BlZXIub25kYXRhY2hhbm5lbD1lPT5zZXR1cENoYW5uZWwoZS5jaGFubmVsKTthd2FpdCBwZWVyLnNldFJlbW90ZURlc2NyaXB0aW9uKGRlYygkKCIjb2ZmZXJJbnB1dCIpLnZhbHVlKSk7YXdhaXQgcGVlci5zZXRMb2NhbERlc2NyaXB0aW9uKGF3YWl0IHBlZXIuY3JlYXRlQW5zd2VyKCkpO2F3YWl0IHdhaXRJY2UocGVlcik7JCgiI2Fuc3dlck91dHB1dCIpLnZhbHVlPWVuYyhwZWVyLmxvY2FsRGVzY3JpcHRpb24pfQphc3luYyBmdW5jdGlvbiBhY2NlcHRBbnN3ZXIoKXthd2FpdCBwZWVyLnNldFJlbW90ZURlc2NyaXB0aW9uKGRlYygkKCIjYW5zd2VySW5wdXQiKS52YWx1ZSkpfQpmdW5jdGlvbiBoYW5kbGVOZXQobSl7aWYobS50eXBlPT09InBsYXllciIpe2lmKCFyZW1vdGUpe3JlbW90ZT1uZXcgVEhSRUUuTWVzaChuZXcgVEhSRUUuQm94R2VvbWV0cnkoLjYsMS44LC42KSxuZXcgVEhSRUUuTWVzaExhbWJlcnRNYXRlcmlhbCh7Y29sb3I6MHg0YTgzZGJ9KSk7c2NlbmUuYWRkKHJlbW90ZSl9cmVtb3RlLnBvc2l0aW9uLnNldChtLngsbS55LTEsbS56KTtyZW1vdGUucm90YXRpb24ueT1tLnlhd31lbHNlIGlmKG0udHlwZT09PSJtaW5lIiYmbmV0d29ya1JvbGU9PT0iaG9zdCIpe3NldEJsb2NrKG0ueCxtLnksbS56LCJhaXIiKTtzZW5kTmV0d29yayh7dHlwZToiYmxvY2siLHg6bS54LHk6bS55LHo6bS56LGJsb2NrOiJhaXIifSl9ZWxzZSBpZihtLnR5cGU9PT0icGxhY2UiJiZuZXR3b3JrUm9sZT09PSJob3N0IiYmQkxPQ0tTW20uYmxvY2tdKXtzZXRCbG9jayhtLngsbS55LG0ueixtLmJsb2NrKTtzZW5kTmV0d29yayh7dHlwZToiYmxvY2siLHg6bS54LHk6bS55LHo6bS56LGJsb2NrOm0uYmxvY2t9KX1lbHNlIGlmKG0udHlwZT09PSJibG9jayImJm5ldHdvcmtSb2xlPT09Imd1ZXN0IilzZXRCbG9jayhtLngsbS55LG0ueixtLmJsb2NrKX0KbGV0IG5ldENsb2NrPTA7ZnVuY3Rpb24gdXBkYXRlTmV0d29yayhkdCl7aWYoIW5ldHdvcmtDb25uZWN0ZWQpcmV0dXJuO25ldENsb2NrKz1kdDtpZihuZXRDbG9jaz4uMDUpe25ldENsb2NrPTA7c2VuZE5ldHdvcmsoe3R5cGU6InBsYXllciIseDpjYW1lcmEucG9zaXRpb24ueCx5OmNhbWVyYS5wb3NpdGlvbi55LHo6Y2FtZXJhLnBvc2l0aW9uLnoseWF3LGRpbWVuc2lvbjphY3RpdmVEaW1lbnNpb259KX19CgpsZXQgbW9kcz1KU09OLnBhcnNlKGxvY2FsU3RvcmFnZS5nZXRJdGVtKCJCV19NT0RTIil8fCJbXSIpLGVkaXRpbmdNb2Q9bnVsbDtmdW5jdGlvbiBzYWZlSWQocyl7cmV0dXJuIHMudG9Mb3dlckNhc2UoKS5yZXBsYWNlKC9bXmEtejAtOV9dL2csIl8iKS5zbGljZSgwLDQwKX1mdW5jdGlvbiByZWdpc3Rlck1vZChtKXtpZihtLmVuYWJsZWQ9PT1mYWxzZSlyZXR1cm47Zm9yKGxldCBiIG9mIG0uYmxvY2tzfHxbXSl7bGV0IGlkPSJtb2RfIitzYWZlSWQobS5pZCkrIl8iK3NhZmVJZChiLmlkKTtpZihCTE9DS1NbaWRdKWNvbnRpbnVlO0JMT0NLU1tpZF09e2NvbG9yOnBhcnNlSW50KGIuY29sb3Iuc2xpY2UoMSksMTYpLHNvbGlkOmIuc29saWQhPT1mYWxzZSx0cmFuc3BhcmVudDohIWIudHJhbnNwYXJlbnR9O2Jsb2NrTmFtZXMucHVzaChpZCk7YmxvY2tJZHNbaWRdPWlkQmxvY2tzLmxlbmd0aDtpZEJsb2Nrcy5wdXNoKGlkKX1kcmF3SW52ZW50b3J5KCl9bW9kcy5mb3JFYWNoKHJlZ2lzdGVyTW9kKTsKZnVuY3Rpb24gZHJhd01vZHMoKXtsZXQgbD0kKCIjbW9kTGlzdCIpO2wuaW5uZXJIVE1MPSIiO21vZHMuZm9yRWFjaCgobSxpKT0+e2xldCBkPWRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoImRpdiIpO2QuY2xhc3NOYW1lPSJtb2RFbnRyeSI7ZC5pbm5lckhUTUw9YDxiPiR7bS5uYW1lfTwvYj48YnI+PHNwYW4gY2xhc3M9InNtYWxsIj4ke20uYmxvY2tzPy5sZW5ndGh8fDB9IGJsb2Nrczwvc3Bhbj48YnV0dG9uIGNsYXNzPSJidG4gcmVkIj5ERUxFVEU8L2J1dHRvbj5gO2QucXVlcnlTZWxlY3RvcigiYnV0dG9uIikub25jbGljaz0oKT0+e21vZHMuc3BsaWNlKGksMSk7bG9jYWxTdG9yYWdlLnNldEl0ZW0oIkJXX01PRFMiLEpTT04uc3RyaW5naWZ5KG1vZHMpKTtkcmF3TW9kcygpfTtsLmFwcGVuZENoaWxkKGQpfSl9CmZ1bmN0aW9uIGRyYXdNb2RCbG9ja3MoKXskKCIjbW9kQmxvY2tMaXN0IikuaW5uZXJIVE1MPShlZGl0aW5nTW9kPy5ibG9ja3N8fFtdKS5tYXAoYj0+YDxkaXYgY2xhc3M9Im1vZENvbnRlbnQiPiR7Yi5uYW1lfSAoJHtiLmlkfSk8L2Rpdj5gKS5qb2luKCIiKX0KCmZ1bmN0aW9uIG9wZW5QYXVzZSgpe2lmKCFwbGF5aW5nKXJldHVybjtwYXVzZWQ9dHJ1ZTtkb2N1bWVudC5leGl0UG9pbnRlckxvY2s/LigpO3Nob3dTY3JlZW4oIiNwYXVzZVNjcmVlbiIpfWZ1bmN0aW9uIG9wZW5JbnYoKXtwYXVzZWQ9dHJ1ZTtzaG93U2NyZWVuKCIjaW52ZW50b3J5U2NyZWVuIil9CiQoIiNzaW5nbGVwbGF5ZXJCdG4iKS5vbmNsaWNrPWFzeW5jKCk9Pnthd2FpdCByZWZyZXNoV29ybGRzKCk7c2hvd1NjcmVlbigiI3dvcmxkU2NyZWVuIil9OyQoIiNjcmVhdGVXb3JsZEJ0biIpLm9uY2xpY2s9KCk9PnNob3dTY3JlZW4oIiNjcmVhdGVTY3JlZW4iKTskKCIjY2FuY2VsQ3JlYXRlQnRuIikub25jbGljaz0oKT0+c2hvd1NjcmVlbigiI3dvcmxkU2NyZWVuIik7ZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbCgiLmJhY2tUaXRsZSIpLmZvckVhY2goYj0+Yi5vbmNsaWNrPSgpPT5zaG93U2NyZWVuKCIjdGl0bGVTY3JlZW4iKSk7JCgiI3NldHRpbmdzQnRuIikub25jbGljaz0oKT0+c2hvd1NjcmVlbigiI2dsb2JhbFNldHRpbmdzU2NyZWVuIik7JCgiI3NldHRpbmdzQmFja0J0biIpLm9uY2xpY2s9KCk9PnNob3dTY3JlZW4ocGxheWluZz8iI3BhdXNlU2NyZWVuIjoiI3RpdGxlU2NyZWVuIik7JCgiI3BhdXNlQnV0dG9uIikub25jbGljaz1vcGVuUGF1c2U7JCgiI3Jlc3VtZUJ0biIpLm9uY2xpY2s9KCk9PntwYXVzZWQ9ZmFsc2U7c2hvd1NjcmVlbihudWxsKX07JCgiI3BhdXNlSW52ZW50b3J5QnRuIikub25jbGljaz1vcGVuSW52OyQoIiNjbG9zZUludmVudG9yeUJ0biIpLm9uY2xpY2s9KCk9PntwYXVzZWQ9ZmFsc2U7c2hvd1NjcmVlbihudWxsKX07JCgiI2RpbWVuc2lvbkJ0biIpLm9uY2xpY2s9KCk9PnNob3dTY3JlZW4oIiNkaW1lbnNpb25TY3JlZW4iKTskKCIjZGltZW5zaW9uQmFja0J0biIpLm9uY2xpY2s9KCk9PnNob3dTY3JlZW4oIiNwYXVzZVNjcmVlbiIpO2RvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoIi5kaW1CdG4iKS5mb3JFYWNoKGI9PmIub25jbGljaz0oKT0+Y2hhbmdlRGltZW5zaW9uKGIuZGF0YXNldC5kaW0pKTskKCIjc2F2ZUJ0biIpLm9uY2xpY2s9c2F2ZUdhbWU7JCgiI3NhdmVRdWl0QnRuIikub25jbGljaz1hc3luYygpPT57YXdhaXQgc2F2ZUdhbWUoKTtwbGF5aW5nPWZhbHNlOyQoIiNodWQiKS5zdHlsZS5kaXNwbGF5PSJub25lIjthd2FpdCBjbGVhcldvcmxkKCk7c2hvd1NjcmVlbigiI3RpdGxlU2NyZWVuIil9OwokKCIjbXVsdGlwbGF5ZXJCdG4iKS5vbmNsaWNrPSgpPT5zaG93U2NyZWVuKCIjbXVsdGlwbGF5ZXJTY3JlZW4iKTskKCIjbXVsdGlwbGF5ZXJCYWNrQnRuIikub25jbGljaz0oKT0+c2hvd1NjcmVlbigiI3RpdGxlU2NyZWVuIik7JCgiI2hvc3RHYW1lQnRuIikub25jbGljaz0oKT0+eyQoIiNob3N0UGFuZWwiKS5zdHlsZS5kaXNwbGF5PSJibG9jayI7JCgiI2pvaW5QYW5lbCIpLnN0eWxlLmRpc3BsYXk9Im5vbmUifTskKCIjam9pbkdhbWVCdG4iKS5vbmNsaWNrPSgpPT57JCgiI2pvaW5QYW5lbCIpLnN0eWxlLmRpc3BsYXk9ImJsb2NrIjskKCIjaG9zdFBhbmVsIikuc3R5bGUuZGlzcGxheT0ibm9uZSJ9OyQoIiNjcmVhdGVPZmZlckJ0biIpLm9uY2xpY2s9aG9zdE9mZmVyOyQoIiNtYWtlQW5zd2VyQnRuIikub25jbGljaz1ndWVzdEFuc3dlcjskKCIjYWNjZXB0QW5zd2VyQnRuIikub25jbGljaz1hY2NlcHRBbnN3ZXI7CiQoIiNhZGRvbnNCdG4iKS5vbmNsaWNrPSgpPT57ZHJhd01vZHMoKTtzaG93U2NyZWVuKCIjbW9kU2NyZWVuIil9OyQoIiNtb2RCYWNrQnRuIikub25jbGljaz0oKT0+c2hvd1NjcmVlbigiI3RpdGxlU2NyZWVuIik7JCgiI25ld01vZEJ0biIpLm9uY2xpY2s9KCk9PntlZGl0aW5nTW9kPXtmb3JtYXQ6ImJsb2Nrd29ybGQtbW9kLTEiLGlkOiJtb2RfIitEYXRlLm5vdygpLG5hbWU6Ik15IE1vZCIsZW5hYmxlZDp0cnVlLGJsb2NrczpbXX07JCgiI21vZE5hbWUiKS52YWx1ZT1lZGl0aW5nTW9kLm5hbWU7ZHJhd01vZEJsb2NrcygpO3Nob3dTY3JlZW4oIiNtb2RNYWtlclNjcmVlbiIpfTskKCIjY2FuY2VsTW9kQnRuIikub25jbGljaz0oKT0+c2hvd1NjcmVlbigiI21vZFNjcmVlbiIpOyQoIiNhZGRNb2RCbG9ja0J0biIpLm9uY2xpY2s9KCk9PntlZGl0aW5nTW9kLmJsb2Nrcy5wdXNoKHtpZDpzYWZlSWQoJCgiI21vZEJsb2NrSWQiKS52YWx1ZSksbmFtZTokKCIjbW9kQmxvY2tOYW1lIikudmFsdWUsY29sb3I6JCgiI21vZEJsb2NrQ29sb3IiKS52YWx1ZSxzb2xpZDokKCIjbW9kQmxvY2tTb2xpZCIpLmNoZWNrZWQsdHJhbnNwYXJlbnQ6JCgiI21vZEJsb2NrVHJhbnNwYXJlbnQiKS5jaGVja2VkfSk7ZHJhd01vZEJsb2NrcygpfTskKCIjc2F2ZU1vZEJ0biIpLm9uY2xpY2s9KCk9PntlZGl0aW5nTW9kLm5hbWU9JCgiI21vZE5hbWUiKS52YWx1ZXx8Ik1vZCI7bW9kcy5wdXNoKGVkaXRpbmdNb2QpO2xvY2FsU3RvcmFnZS5zZXRJdGVtKCJCV19NT0RTIixKU09OLnN0cmluZ2lmeShtb2RzKSk7cmVnaXN0ZXJNb2QoZWRpdGluZ01vZCk7ZHJhd01vZHMoKTtzaG93U2NyZWVuKCIjbW9kU2NyZWVuIil9OyQoIiNleHBvcnRNb2RCdG4iKS5vbmNsaWNrPSgpPT57bGV0IGJsb2I9bmV3IEJsb2IoW0pTT04uc3RyaW5naWZ5KGVkaXRpbmdNb2QsbnVsbCwyKV0se3R5cGU6ImFwcGxpY2F0aW9uL2pzb24ifSksYT1kb2N1bWVudC5jcmVhdGVFbGVtZW50KCJhIik7YS5ocmVmPVVSTC5jcmVhdGVPYmplY3RVUkwoYmxvYik7YS5kb3dubG9hZD1zYWZlSWQoZWRpdGluZ01vZC5uYW1lKSsiLmJsb2Nrd29ybGQuanNvbiI7YS5jbGljaygpfTskKCIjaW1wb3J0TW9kQnRuIikub25jbGljaz0oKT0+JCgiI21vZEZpbGVJbnB1dCIpLmNsaWNrKCk7JCgiI21vZEZpbGVJbnB1dCIpLm9uY2hhbmdlPWFzeW5jIGU9Pnt0cnl7bGV0IG09SlNPTi5wYXJzZShhd2FpdCBlLnRhcmdldC5maWxlc1swXS50ZXh0KCkpO2lmKG0uZm9ybWF0IT09ImJsb2Nrd29ybGQtbW9kLTEiKXRocm93IEVycm9yKCJXcm9uZyBmb3JtYXQiKTtkZWxldGUgbS5zY3JpcHQ7ZGVsZXRlIG0uamF2YXNjcmlwdDttb2RzLnB1c2gobSk7bG9jYWxTdG9yYWdlLnNldEl0ZW0oIkJXX01PRFMiLEpTT04uc3RyaW5naWZ5KG1vZHMpKTtyZWdpc3Rlck1vZChtKTtkcmF3TW9kcygpfWNhdGNoKHgpe2FsZXJ0KHgubWVzc2FnZSl9fTsKZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbCgiLnRhYiIpLmZvckVhY2godD0+dC5vbmNsaWNrPSgpPT57ZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbCgiLnRhYiwudGFiUGFnZSIpLmZvckVhY2goeD0+eC5jbGFzc0xpc3QucmVtb3ZlKCJvbiIpKTt0LmNsYXNzTGlzdC5hZGQoIm9uIik7JCgiIyIrdC5kYXRhc2V0LnRhYikuY2xhc3NMaXN0LmFkZCgib24iKX0pOwphc3luYyBmdW5jdGlvbiBmdWxsc2NyZWVuKCl7dHJ5e2F3YWl0IGRvY3VtZW50LmRvY3VtZW50RWxlbWVudC5yZXF1ZXN0RnVsbHNjcmVlbigpfWNhdGNoe310cnl7YXdhaXQgc2NyZWVuLm9yaWVudGF0aW9uPy5sb2NrPy4oImxhbmRzY2FwZSIpfWNhdGNoe319JCgiI2xhbmRzY2FwZVRpdGxlQnRuIikub25jbGljaz1mdWxsc2NyZWVuOyQoIiNsYW5kc2NhcGVCdG4iKS5vbmNsaWNrPWZ1bGxzY3JlZW47JCgiI2hvd0J0biIpLm9uY2xpY2s9KCk9PmFsZXJ0KCJXQVNEIG1vdmUg4oCiIFNwYWNlIGp1bXAg4oCiIEN0cmwgc3ByaW50IOKAoiBTaGlmdCBzbmVhayDigKIgRSBpbnZlbnRvcnkg4oCiIEYgZmx5IOKAoiAxLTkvd2hlZWwgaG90YmFyIOKAoiBMZWZ0IGNsaWNrIG1pbmUvYXR0YWNrIOKAoiBSaWdodCBjbGljayBwbGFjZSDigKIgRXNjIHBhdXNlIOKAoiBDb250cm9sbGVyIHN1cHBvcnRlZCIpOwoKYWRkRXZlbnRMaXN0ZW5lcigia2V5ZG93biIsZT0+e2tleXNbZS5jb2RlXT10cnVlO2lmKCFwbGF5aW5nfHxwYXVzZWQpcmV0dXJuO2lmKGUuY29kZT09PSJFc2NhcGUiKW9wZW5QYXVzZSgpO2lmKGUuY29kZT09PSJLZXlFIilvcGVuSW52KCk7aWYoZS5jb2RlPT09IktleUYiJiYoYWN0aXZlV29ybGQubW9kZSE9PSJTdXJ2aXZhbCIpKWZseWluZz0hZmx5aW5nO2lmKC9eRGlnaXRbMS05XSQvLnRlc3QoZS5jb2RlKSl7c2VsZWN0ZWRTbG90PStlLmNvZGUuc2xpY2UoNSktMTtkcmF3SG90YmFyKCl9aWYoZS5jb2RlPT09IkYzIikkKCIjZGVidWciKS5zdHlsZS5kaXNwbGF5PSQoIiNkZWJ1ZyIpLnN0eWxlLmRpc3BsYXk9PT0ibm9uZSI/ImJsb2NrIjoibm9uZSJ9KTthZGRFdmVudExpc3RlbmVyKCJrZXl1cCIsZT0+a2V5c1tlLmNvZGVdPWZhbHNlKTthZGRFdmVudExpc3RlbmVyKCJibHVyIiwoKT0+e2tleXM9e307am95Lng9am95Lnk9MH0pO2FkZEV2ZW50TGlzdGVuZXIoIndoZWVsIixlPT57aWYoIXBsYXlpbmcpcmV0dXJuO3NlbGVjdGVkU2xvdD0oc2VsZWN0ZWRTbG90KyhlLmRlbHRhWT4wPzE6LTEpK2hvdGJhci5sZW5ndGgpJWhvdGJhci5sZW5ndGg7ZHJhd0hvdGJhcigpfSx7cGFzc2l2ZTp0cnVlfSk7CnJlbmRlcmVyLmRvbUVsZW1lbnQub25jbGljaz0oKT0+e2lmKHBsYXlpbmcmJiFwYXVzZWQmJiFtYXRjaE1lZGlhKCIocG9pbnRlcjpjb2Fyc2UpIikubWF0Y2hlcylyZW5kZXJlci5kb21FbGVtZW50LnJlcXVlc3RQb2ludGVyTG9jaygpfTthZGRFdmVudExpc3RlbmVyKCJtb3VzZW1vdmUiLGU9PntpZihkb2N1bWVudC5wb2ludGVyTG9ja0VsZW1lbnQhPT1yZW5kZXJlci5kb21FbGVtZW50KXJldHVybjtsZXQgcz0rJCgiI3NlbnNpdGl2aXR5U2xpZGVyIikudmFsdWUvMTAwO3lhdy09ZS5tb3ZlbWVudFgqLjAwMjUqcztwaXRjaD1NYXRoLm1heCgtMS41NCxNYXRoLm1pbigxLjU0LHBpdGNoLWUubW92ZW1lbnRZKi4wMDI1KnMpKX0pO3JlbmRlcmVyLmRvbUVsZW1lbnQub25tb3VzZWRvd249ZT0+e2lmKCFwbGF5aW5nfHxwYXVzZWQpcmV0dXJuO2lmKGUuYnV0dG9uPT09MCl7aWYoIWF0dGFja0VudGl0eSgpKW1pbmUoKX1pZihlLmJ1dHRvbj09PTIpcGxhY2UoKX07YWRkRXZlbnRMaXN0ZW5lcigiY29udGV4dG1lbnUiLGU9PmUucHJldmVudERlZmF1bHQoKSk7CmxldCBwcmV2aW91c0J1dHRvbnM9W107ZnVuY3Rpb24gdXBkYXRlR2FtZXBhZChkdCl7bGV0IHA9Wy4uLihuYXZpZ2F0b3IuZ2V0R2FtZXBhZHM/LigpfHxbXSldLmZpbmQoQm9vbGVhbik7aWYoIXApcmV0dXJuO2xldCBhPXAuYXhlcyxiPXAuYnV0dG9ucyxkPS4xNixseD1NYXRoLmFicyhhWzBdfHwwKT5kP2FbMF06MCxseT1NYXRoLmFicyhhWzFdfHwwKT5kP2FbMV06MCxyeD1NYXRoLmFicyhhWzJdfHwwKT5kP2FbMl06MCxyeT1NYXRoLmFicyhhWzNdfHwwKT5kP2FbM106MDt5YXctPXJ4KjIuMipkdDtwaXRjaD1NYXRoLm1heCgtMS41NCxNYXRoLm1pbigxLjU0LHBpdGNoLXJ5KjEuOCpkdCkpO2pveS54PWx4O2pveS55PWx5O0lOUFVULmNvbnRyb2xsZXJTcHJpbnQ9ISFiWzEwXT8ucHJlc3NlZDtJTlBVVC5jb250cm9sbGVyU25lYWs9ISFiWzFdPy5wcmVzc2VkO2xldCBwcmVzcz1pPT4hIWJbaV0/LnByZXNzZWQmJiFwcmV2aW91c0J1dHRvbnNbaV07aWYocHJlc3MoMCkpe2lmKGdyb3VuZGVkKXZ5PS4yfWlmKHByZXNzKDIpKW9wZW5JbnYoKTtpZihwcmVzcygzKSYmYWN0aXZlV29ybGQubW9kZSE9PSJTdXJ2aXZhbCIpZmx5aW5nPSFmbHlpbmc7aWYocHJlc3MoNCkpe3NlbGVjdGVkU2xvdD0oc2VsZWN0ZWRTbG90LTEraG90YmFyLmxlbmd0aCklaG90YmFyLmxlbmd0aDtkcmF3SG90YmFyKCl9aWYocHJlc3MoNSkpe3NlbGVjdGVkU2xvdD0oc2VsZWN0ZWRTbG90KzEpJWhvdGJhci5sZW5ndGg7ZHJhd0hvdGJhcigpfWlmKHByZXNzKDYpKXBsYWNlKCk7aWYocHJlc3MoNykpe2lmKCFhdHRhY2tFbnRpdHkoKSltaW5lKCl9aWYocHJlc3MoOSkpe3BhdXNlZD8oJCgiI3Jlc3VtZUJ0biIpLmNsaWNrKCkpOm9wZW5QYXVzZSgpfXByZXZpb3VzQnV0dG9ucz1iLm1hcCh4PT54LnByZXNzZWQpfQpsZXQgaklkPW51bGw7JCgiI2pveXN0aWNrIikub250b3VjaHN0YXJ0PWU9PntqSWQ9ZS5jaGFuZ2VkVG91Y2hlc1swXS5pZGVudGlmaWVyfTskKCIjam95c3RpY2siKS5vbnRvdWNobW92ZT1lPT57bGV0IHQ9Wy4uLmUuY2hhbmdlZFRvdWNoZXNdLmZpbmQoeD0+eC5pZGVudGlmaWVyPT09aklkKTtpZighdClyZXR1cm47bGV0IHI9JCgiI2pveXN0aWNrIikuZ2V0Qm91bmRpbmdDbGllbnRSZWN0KCkseD0odC5jbGllbnRYLXIubGVmdC1yLndpZHRoLzIpLyhyLndpZHRoLzIpLHk9KHQuY2xpZW50WS1yLnRvcC1yLmhlaWdodC8yKS8oci5oZWlnaHQvMiksbD1NYXRoLmh5cG90KHgseSk7aWYobD4xKXt4Lz1sO3kvPWx9am95Lng9eDtqb3kueT15OyQoIiNzdGljayIpLnN0eWxlLnRyYW5zZm9ybT1gdHJhbnNsYXRlKCR7eCoyOH1weCwke3kqMjh9cHgpYH07JCgiI2pveXN0aWNrIikub250b3VjaGVuZD0oKT0+e2pveS54PWpveS55PTA7JCgiI3N0aWNrIikuc3R5bGUudHJhbnNmb3JtPSIifTskKCIjbWluZU1vYmlsZSIpLm9udG91Y2hzdGFydD0oKT0+e2lmKCFhdHRhY2tFbnRpdHkoKSltaW5lKCl9OyQoIiNwbGFjZU1vYmlsZSIpLm9udG91Y2hzdGFydD1wbGFjZTskKCIjaW52ZW50b3J5TW9iaWxlIikub250b3VjaHN0YXJ0PW9wZW5JbnY7JCgiI2ZseU1vYmlsZSIpLm9udG91Y2hzdGFydD0oKT0+e2lmKGFjdGl2ZVdvcmxkLm1vZGUhPT0iU3Vydml2YWwiKWZseWluZz0hZmx5aW5nfTskKCIjanVtcE1vYmlsZSIpLm9udG91Y2hzdGFydD0oKT0+e2lmKGdyb3VuZGVkKXZ5PS4yfTsKCmxldCBsYXN0PXBlcmZvcm1hbmNlLm5vdygpLGZwcz0wLGZyYW1lcz0wLGZ0PTAsYXV0b0xvdz0wLHNhdmVDbG9jaz0wO2Z1bmN0aW9uIGxvb3Aobm93KXtyZXF1ZXN0QW5pbWF0aW9uRnJhbWUobG9vcCk7bGV0IGR0PU1hdGgubWluKC4wNSwobm93LWxhc3QpLzEwMDApO2xhc3Q9bm93O3JlbmRlcmVyLnJlbmRlcihzY2VuZSxjYW1lcmEpO2lmKCFwbGF5aW5nfHxwYXVzZWQpcmV0dXJuO2ZyYW1lcysrO2Z0Kz1kdDtpZihmdD49MSl7ZnBzPU1hdGgucm91bmQoZnJhbWVzL2Z0KTtmcmFtZXM9MDtmdD0wfXVwZGF0ZUdhbWVwYWQoZHQpO3VwZGF0ZU5ldHdvcmsoZHQpO3Byb2Nlc3NRdWV1ZSgpO3F1ZXVlQ2h1bmtzKCk7Y2FtZXJhLnJvdGF0aW9uLnNldChwaXRjaCx5YXcsMCk7bGV0IHNwcmludD1rZXlzLkNvbnRyb2xMZWZ0fHxrZXlzLkNvbnRyb2xSaWdodHx8SU5QVVQuY29udHJvbGxlclNwcmludCxzbmVhaz1rZXlzLlNoaWZ0TGVmdHx8a2V5cy5TaGlmdFJpZ2h0fHxJTlBVVC5jb250cm9sbGVyU25lYWssZmx5PWZseWluZ3x8YWN0aXZlV29ybGQubW9kZT09PSJTcGVjdGF0b3IiLHNwPShmbHk/LjE0Oi4wNzUpKihzcHJpbnQ/MS42NToxKSooc25lYWs/LjQ6MSkqZHQqNjAsZj1uZXcgVEhSRUUuVmVjdG9yMygtTWF0aC5zaW4oeWF3KSwwLC1NYXRoLmNvcyh5YXcpKSxyPW5ldyBUSFJFRS5WZWN0b3IzKE1hdGguY29zKHlhdyksMCwtTWF0aC5zaW4oeWF3KSksbXg9MCxtej0wO2lmKGtleXMuS2V5Vyl7bXgrPWYueDtteis9Zi56fWlmKGtleXMuS2V5Uyl7bXgtPWYueDttei09Zi56fWlmKGtleXMuS2V5QSl7bXgtPXIueDttei09ci56fWlmKGtleXMuS2V5RCl7bXgrPXIueDtteis9ci56fW14Kz1mLngqLWpveS55K3IueCpqb3kueDtteis9Zi56Ki1qb3kueStyLnoqam95Lng7bGV0IGw9TWF0aC5oeXBvdChteCxteik7aWYobCl7bXgvPWw7bXovPWx9aWYoZmx5KXttb3ZlKG14KnNwLChrZXlzLlNwYWNlP3NwOjApLShrZXlzLlNoaWZ0TGVmdD9zcDowKSxteipzcCl9ZWxzZXtpZihrZXlzLlNwYWNlJiZncm91bmRlZCl2eT0uMjt2eT1NYXRoLm1heCgtLjQ1LHZ5LS4wMTEqZHQqNjApO2xldCBvbGQ9Y2FtZXJhLnBvc2l0aW9uLnk7bW92ZShteCpzcCx2eSpkdCo2MCxteipzcCk7aWYodnk8MCYmIWdyb3VuZGVkKVBMQVlFUi5mYWxsKz1NYXRoLm1heCgwLG9sZC1jYW1lcmEucG9zaXRpb24ueSk7aWYoZ3JvdW5kZWQmJlBMQVlFUi5mYWxsPjMuNCl7ZGFtYWdlKE1hdGguZmxvb3IoUExBWUVSLmZhbGwtMykpO1BMQVlFUi5mYWxsPTB9fVBMQVlFUi5kYW1hZ2VDRD1NYXRoLm1heCgwLFBMQVlFUi5kYW1hZ2VDRC1kdCk7dXBkYXRlU3Bhd25zKGR0KTt1cGRhdGVFbnRpdGllcyhkdCk7bGV0IGhpdD1yYXlWb3hlbCgpO3NlbGVjdGlvbkJveC52aXNpYmxlPSEhaGl0O2lmKGhpdClzZWxlY3Rpb25Cb3gucG9zaXRpb24uc2V0KGhpdC54Ky41LGhpdC55Ky41LGhpdC56Ky41KTtpZihjYW1lcmEucG9zaXRpb24ueTwtMjApY2FtZXJhLnBvc2l0aW9uLnNldCguNSxNYXRoLm1heCgxNSxoZWlnaHQoMCwwKSs1KSwuNSk7JCgiI2RlYnVnIikudGV4dENvbnRlbnQ9YCR7YWN0aXZlRGltZW5zaW9uLnRvVXBwZXJDYXNlKCl9IHwgJHthY3RpdmVXb3JsZC5tb2RlfSB8IEZQUyAke2Zwc30gfCBYWVogJHtjYW1lcmEucG9zaXRpb24ueC50b0ZpeGVkKDEpfSAke2NhbWVyYS5wb3NpdGlvbi55LnRvRml4ZWQoMSl9ICR7Y2FtZXJhLnBvc2l0aW9uLnoudG9GaXhlZCgxKX0gfCBDaHVua3MgJHtjaHVua01lc2hlcy5zaXplfSB8IE1vYnMgJHtlbnRpdGllcy5sZW5ndGh9YDtzYXZlQ2xvY2srPWR0O2lmKCQoIiNhdXRvc2F2ZVRvZ2dsZSIpLmNoZWNrZWQmJnNhdmVDbG9jaz4yNSl7c2F2ZUNsb2NrPTA7c2F2ZUdhbWUoKX1pZigkKCIjYXV0b1BlcmZvcm1hbmNlU2V0dGluZyIpLmNoZWNrZWQpe2lmKGZwcz4wJiZmcHM8MjcpYXV0b0xvdys9ZHQ7ZWxzZSBhdXRvTG93PU1hdGgubWF4KDAsYXV0b0xvdy1kdCk7aWYoYXV0b0xvdz41JiZyZW5kZXJlci5nZXRQaXhlbFJhdGlvKCk+LjUpe3JlbmRlcmVyLnNldFBpeGVsUmF0aW8oTWF0aC5tYXgoLjUscmVuZGVyZXIuZ2V0UGl4ZWxSYXRpbygpLS4xKSk7cmVuZGVyZXIuc2V0U2l6ZShpbm5lcldpZHRoLGlubmVySGVpZ2h0KTthdXRvTG93PTB9fX0KLyogPT09PT0gU0lMRU5UIEVSUk9SIERFVEVDVE9SICsgU0VMRi1IRUFMRVIgPT09PT0gKi8KY29uc3QgSEVBTD17bG9nOltdLGxhc3RSZXBhaXI6MCxsYXN0Q2h1bmtDb3VudDowLHN0dWNrVGlja3M6MCxzYXZlQmFja3VwOm51bGx9OwpmdW5jdGlvbiBoZWFsTG9nKGtpbmQsZXJyKXt0cnl7SEVBTC5sb2cucHVzaCh7dGltZTpEYXRlLm5vdygpLGtpbmQsbWVzc2FnZTpTdHJpbmcoZXJyPy5tZXNzYWdlfHxlcnJ8fGtpbmQpLHN0YWNrOlN0cmluZyhlcnI/LnN0YWNrfHwiIikuc2xpY2UoMCwxMjAwKX0pO2lmKEhFQUwubG9nLmxlbmd0aD44MClIRUFMLmxvZy5zaGlmdCgpO2xvY2FsU3RvcmFnZS5zZXRJdGVtKCJCV19ESUFHTk9TVElDUyIsSlNPTi5zdHJpbmdpZnkoSEVBTC5sb2cpKX1jYXRjaHt9fQpmdW5jdGlvbiBmaW5pdGUobil7cmV0dXJuIE51bWJlci5pc0Zpbml0ZShuKX0KZnVuY3Rpb24gc2FmZVNwYXduKCl7bGV0IHk9MTU7dHJ5e3k9TWF0aC5tYXgoMTUsaGVpZ2h0KDAsMCkrNSl9Y2F0Y2h7fWNhbWVyYS5wb3NpdGlvbi5zZXQoLjUseSwuNSk7dnk9MDtQTEFZRVIuZmFsbD0wfQpmdW5jdGlvbiByZXBhaXJQbGF5ZXIoKXtpZighZmluaXRlKGNhbWVyYS5wb3NpdGlvbi54KXx8IWZpbml0ZShjYW1lcmEucG9zaXRpb24ueSl8fCFmaW5pdGUoY2FtZXJhLnBvc2l0aW9uLnopfHxNYXRoLmFicyhjYW1lcmEucG9zaXRpb24ueCk+MWU3fHxNYXRoLmFicyhjYW1lcmEucG9zaXRpb24ueik+MWU3KXtoZWFsTG9nKCJiYWQtcGxheWVyLXBvc2l0aW9uIiwicG9zaXRpb24gcmVwYWlyZWQiKTtzYWZlU3Bhd24oKX1pZighZmluaXRlKHlhdykpeWF3PTA7aWYoIWZpbml0ZShwaXRjaCkpcGl0Y2g9MDtwaXRjaD1NYXRoLm1heCgtMS41NCxNYXRoLm1pbigxLjU0LHBpdGNoKSk7aWYoIWZpbml0ZSh2eSkpdnk9MDtQTEFZRVIuaGVhbHRoPU1hdGgubWF4KDAsTWF0aC5taW4oMjAsZmluaXRlKFBMQVlFUi5oZWFsdGgpP1BMQVlFUi5oZWFsdGg6MjApKTtQTEFZRVIuaHVuZ2VyPU1hdGgubWF4KDAsTWF0aC5taW4oMjAsZmluaXRlKFBMQVlFUi5odW5nZXIpP1BMQVlFUi5odW5nZXI6MjApKTtzZWxlY3RlZFNsb3Q9TWF0aC5tYXgoMCxNYXRoLm1pbihob3RiYXIubGVuZ3RoLTEsTnVtYmVyLmlzSW50ZWdlcihzZWxlY3RlZFNsb3QpP3NlbGVjdGVkU2xvdDowKSl9CmZ1bmN0aW9uIHJlcGFpclNldHRpbmdzKCl7cmVuZGVyRGlzdGFuY2U9TWF0aC5tYXgoMixNYXRoLm1pbig2LE51bWJlcihyZW5kZXJEaXN0YW5jZSl8fDMpKTtsZXQgcHI9cmVuZGVyZXIuZ2V0UGl4ZWxSYXRpbygpO2lmKCFmaW5pdGUocHIpfHxwcjwuNDV8fHByPjEuNSlyZW5kZXJlci5zZXRQaXhlbFJhdGlvKC43KTtpZighZmluaXRlKGNhbWVyYS5mb3YpfHxjYW1lcmEuZm92PDQwfHxjYW1lcmEuZm92PjEyMCl7Y2FtZXJhLmZvdj03NTtjYW1lcmEudXBkYXRlUHJvamVjdGlvbk1hdHJpeCgpfWlmKCFbIm92ZXJ3b3JsZCIsIm5ldGhlciIsImVuZCJdLmluY2x1ZGVzKGFjdGl2ZURpbWVuc2lvbikpYWN0aXZlRGltZW5zaW9uPSJvdmVyd29ybGQifQpmdW5jdGlvbiByZXBhaXJFbnRpdGllcygpe2ZvcihsZXQgaT1lbnRpdGllcy5sZW5ndGgtMTtpPj0wO2ktLSl7bGV0IGU9ZW50aXRpZXNbaV07aWYoIWV8fCFlLm1lc2h8fCFmaW5pdGUoZS5tZXNoLnBvc2l0aW9uLngpfHwhZmluaXRlKGUubWVzaC5wb3NpdGlvbi55KXx8IWZpbml0ZShlLm1lc2gucG9zaXRpb24ueil8fGUuaGVhbHRoPT09dW5kZWZpbmVkKXt0cnl7aWYoZT8ubWVzaClzY2VuZS5yZW1vdmUoZS5tZXNoKX1jYXRjaHt9ZW50aXRpZXMuc3BsaWNlKGksMSk7aGVhbExvZygiYmFkLWVudGl0eSIsImVudGl0eSByZW1vdmVkIil9fX0KZnVuY3Rpb24gcmVwYWlyQ2h1bmtzKCl7Zm9yKGNvbnN0IFtrLG1dIG9mIFsuLi5jaHVua01lc2hlc10pe3RyeXtpZighbXx8IW0uaXNPYmplY3QzRHx8IWZpbml0ZShtLnBvc2l0aW9uLngpfHwhZmluaXRlKG0ucG9zaXRpb24ueikpe2lmKG0pc2NlbmUucmVtb3ZlKG0pO2NodW5rTWVzaGVzLmRlbGV0ZShrKTtoZWFsTG9nKCJiYWQtY2h1bmsiLGspfX1jYXRjaHtjaHVua01lc2hlcy5kZWxldGUoayl9fWlmKHBsYXlpbmcmJiFwYXVzZWQmJmNodW5rTWVzaGVzLnNpemU9PT0wKXtsYXN0UEM9IiI7cXVldWVDaHVua3MoKTtwcm9jZXNzUXVldWUoKX19CmZ1bmN0aW9uIHJlcGFpclVJKCl7aWYocGxheWluZyYmIXBhdXNlZCYmIWRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoIi5zY3JlZW4uYWN0aXZlIikpJCgiI2h1ZCIpLnN0eWxlLmRpc3BsYXk9ImJsb2NrIjtpZighcGxheWluZyYmIVsuLi5kb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCIuc2NyZWVuIildLnNvbWUoeD0+eC5jbGFzc0xpc3QuY29udGFpbnMoImFjdGl2ZSIpKSlzaG93U2NyZWVuKCIjdGl0bGVTY3JlZW4iKTtpZighZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoImhvdGJhciIpPy5jaGlsZHJlbi5sZW5ndGgpZHJhd0hvdGJhcigpfQphc3luYyBmdW5jdGlvbiByZXBhaXJTYXZlKCl7dHJ5e2lmKCF3b3JsZFN0YXRlfHx0eXBlb2Ygd29ybGRTdGF0ZSE9PSJvYmplY3QiKXdvcmxkU3RhdGU9e2lkOmFjdGl2ZVdvcmxkPy5pZHx8InJlY292ZXJlZCIscG9zaXRpb25zOnt9fTt3b3JsZFN0YXRlLnBvc2l0aW9ucz8/PXt9O2lmKCFBcnJheS5pc0FycmF5KHdvcmxkU3RhdGUuY2hhbmdlcykpd29ybGRTdGF0ZS5jaGFuZ2VzPVsuLi53b3JsZENoYW5nZXMuZW50cmllcygpXTtIRUFMLnNhdmVCYWNrdXA9c3RydWN0dXJlZENsb25lKHdvcmxkU3RhdGUpfWNhdGNoKGUpe2hlYWxMb2coInNhdmUtcmVwYWlyIixlKTtpZihIRUFMLnNhdmVCYWNrdXApd29ybGRTdGF0ZT1zdHJ1Y3R1cmVkQ2xvbmUoSEVBTC5zYXZlQmFja3VwKX19CmZ1bmN0aW9uIHNlbGZIZWFsKHJlYXNvbil7dHJ5e3JlcGFpclBsYXllcigpO3JlcGFpclNldHRpbmdzKCk7cmVwYWlyRW50aXRpZXMoKTtyZXBhaXJDaHVua3MoKTtyZXBhaXJVSSgpO3JlcGFpclNhdmUoKTtIRUFMLmxhc3RSZXBhaXI9cGVyZm9ybWFuY2Uubm93KCl9Y2F0Y2goZSl7aGVhbExvZygiZml4ZXItZmFpbHVyZSIsZSl9fQphZGRFdmVudExpc3RlbmVyKCJlcnJvciIsZT0+e2hlYWxMb2coInJ1bnRpbWUiLGUuZXJyb3J8fGUubWVzc2FnZSk7cXVldWVNaWNyb3Rhc2soKCk9PnNlbGZIZWFsKCJydW50aW1lIikpfSk7CmFkZEV2ZW50TGlzdGVuZXIoInVuaGFuZGxlZHJlamVjdGlvbiIsZT0+e2hlYWxMb2coInByb21pc2UiLGUucmVhc29uKTtlLnByZXZlbnREZWZhdWx0KCk7cXVldWVNaWNyb3Rhc2soKCk9PnNlbGZIZWFsKCJwcm9taXNlIikpfSk7CnJlbmRlcmVyLmRvbUVsZW1lbnQuYWRkRXZlbnRMaXN0ZW5lcigid2ViZ2xjb250ZXh0bG9zdCIsZT0+e2UucHJldmVudERlZmF1bHQoKTtoZWFsTG9nKCJ3ZWJnbC1sb3N0IiwiY29udGV4dCBsb3N0Iil9KTsKcmVuZGVyZXIuZG9tRWxlbWVudC5hZGRFdmVudExpc3RlbmVyKCJ3ZWJnbGNvbnRleHRyZXN0b3JlZCIsKCk9PntoZWFsTG9nKCJ3ZWJnbC1yZXN0b3JlZCIsImNvbnRleHQgcmVzdG9yZWQiKTtmb3IoY29uc3QgW2N4Y3pdIG9mIGNodW5rTWVzaGVzKXtsZXQgW2N4LGN6XT1jeGN6LnNwbGl0KCIsIikubWFwKE51bWJlcik7dHJ5e2J1aWxkQ2h1bmsoY3gsY3opfWNhdGNoKGUpe2hlYWxMb2coImNodW5rLXJlYnVpbGQiLGUpfX19KTsKc2V0SW50ZXJ2YWwoKCk9Pnt0cnl7c2VsZkhlYWwoIndhdGNoZG9nIik7aWYocGxheWluZyYmIXBhdXNlZCl7aWYoY2h1bmtNZXNoZXMuc2l6ZT09PUhFQUwubGFzdENodW5rQ291bnQmJnF1ZXVlLmxlbmd0aD4wKUhFQUwuc3R1Y2tUaWNrcysrO2Vsc2UgSEVBTC5zdHVja1RpY2tzPTA7SEVBTC5sYXN0Q2h1bmtDb3VudD1jaHVua01lc2hlcy5zaXplO2lmKEhFQUwuc3R1Y2tUaWNrcz49NCl7aGVhbExvZygiY2h1bmstd2F0Y2hkb2ciLCJxdWV1ZSByZXN0YXJ0ZWQiKTtxdWV1ZT1bXTtsYXN0UEM9IiI7cXVldWVDaHVua3MoKTtIRUFMLnN0dWNrVGlja3M9MH19fWNhdGNoKGUpe2hlYWxMb2coIndhdGNoZG9nIixlKX19LDIwMDApOwovKiA9PT09PSBFTkQgU0VMRi1IRUFMRVIgPT09PT0gKi8KYWRkRXZlbnRMaXN0ZW5lcigicmVzaXplIiwoKT0+e3RyeXtjYW1lcmEuYXNwZWN0PWlubmVyV2lkdGgvaW5uZXJIZWlnaHQ7Y2FtZXJhLnVwZGF0ZVByb2plY3Rpb25NYXRyaXgoKTtyZW5kZXJlci5zZXRTaXplKGlubmVyV2lkdGgsaW5uZXJIZWlnaHQpfWNhdGNoKGUpe2hlYWxMb2coInJlc2l6ZSIsZSk7c2VsZkhlYWwoInJlc2l6ZSIpfX0pO3JlcXVlc3RBbmltYXRpb25GcmFtZShsb29wKTsKPC9zY3JpcHQ+CjwvYm9keT48L2h0bWw+</script>
+<script type="module">
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
+const $=s=>document.querySelector(s), CHUNK=16,H=40;
+function showScreen(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));if(id)$(id).classList.add("active")}
+function hashString(s){let h=2166136261;for(let c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+function setCookie(n,v){document.cookie=encodeURIComponent(n)+"="+encodeURIComponent(v)+"; max-age=31536000; path=/; SameSite=Lax"}
+function getCookie(n){let k=encodeURIComponent(n)+"=";for(let p of document.cookie.split("; "))if(p.startsWith(k))return decodeURIComponent(p.slice(k.length));return null}
+
+let db=null;try{await new Promise((ok,no)=>{let r=indexedDB.open("BlockWorldDB",1);r.onupgradeneeded=e=>{let d=e.target.result;if(!d.objectStoreNames.contains("worlds"))d.createObjectStore("worlds",{keyPath:"id"});if(!d.objectStoreNames.contains("states"))d.createObjectStore("states",{keyPath:"id"})};r.onsuccess=()=>{db=r.result;ok()};r.onerror=()=>no(r.error)})}catch(e){console.warn("IndexedDB unavailable, using localStorage fallback",e)}
+const dbPut=async(s,v)=>{if(!db){let a=JSON.parse(localStorage.getItem("BW_"+s)||"[]"),i=a.findIndex(x=>x.id===v.id);if(i>=0)a[i]=v;else a.push(v);localStorage.setItem("BW_"+s,JSON.stringify(a));return}return new Promise((ok,no)=>{let t=db.transaction(s,"readwrite");t.objectStore(s).put(v);t.oncomplete=ok;t.onerror=()=>no(t.error)})};
+const dbGet=async(s,id)=>{if(!db)return JSON.parse(localStorage.getItem("BW_"+s)||"[]").find(x=>x.id===id);return new Promise((ok,no)=>{let r=db.transaction(s).objectStore(s).get(id);r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)})};
+const dbAll=async s=>{if(!db)return JSON.parse(localStorage.getItem("BW_"+s)||"[]");return new Promise((ok,no)=>{let r=db.transaction(s).objectStore(s).getAll();r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)})};
+
+const BLOCKS={air:{solid:false,transparent:true},grass:{color:0x54a645,solid:true},dirt:{color:0x805a3d,solid:true},stone:{color:0x777777,solid:true},sand:{color:0xd7c484,solid:true},wood:{color:0x76502c,solid:true},leaves:{color:0x3e8943,solid:true,transparent:true},planks:{color:0xb88750,solid:true},bricks:{color:0xa34d3f,solid:true},glass:{color:0xc9edf0,solid:true,transparent:true},water:{color:0x3476d9,solid:false,transparent:true},coal:{color:0x383838,solid:true},iron:{color:0xb2a28f,solid:true},gold:{color:0xd9b83c,solid:true},redstone:{color:0x991b1b,solid:true},diamond:{color:0x3cd5d8,solid:true},obsidian:{color:0x21172f,solid:true},bedrock:{color:0x202020,solid:true},netherrack:{color:0x7c2927,solid:true},glowstone:{color:0xe3b95d,solid:true,emissive:true},endstone:{color:0xd6d59a,solid:true},voidrock:{color:0x393047,solid:true}};
+const blockNames=Object.keys(BLOCKS).filter(x=>x!=="air"),blockIds={air:0},idBlocks=["air"];blockNames.forEach((n,i)=>{blockIds[n]=i+1;idBlocks[i+1]=n});
+const hotbar=["grass","dirt","stone","wood","planks","bricks","glass","obsidian","diamond"];let selectedSlot=0;
+let activeWorld=null,activeDimension="overworld",worldState=null,dimensionSeed=0,renderDistance=3,playing=false,paused=false;
+const chunkData=new Map(),chunkMeshes=new Map(),worldChanges=new Map();
+const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,240);camera.rotation.order="YXZ";
+const renderer=new THREE.WebGLRenderer({antialias:false,powerPreference:"high-performance"});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(.7);document.body.appendChild(renderer.domElement);
+const hemi=new THREE.HemisphereLight(0xc6e9ff,0x514536,1.35),sun=new THREE.DirectionalLight(0xfff0d1,1.4);sun.position.set(40,60,30);scene.add(hemi,sun);
+const selectionBox=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(1.01,1.01,1.01)),new THREE.LineBasicMaterial({color:0xffffff}));selectionBox.visible=false;scene.add(selectionBox);
+const mats={};function matFor(t){if(mats[t])return mats[t];let b=BLOCKS[t],m=new THREE.MeshLambertMaterial({color:b.color,side:THREE.FrontSide,transparent:!!b.transparent,opacity:t==="water"?.62:t==="glass"?.38:t==="leaves"?.9:1,depthWrite:t!=="water"});if(b.emissive){m.emissive=new THREE.Color(b.color);m.emissiveIntensity=.6}return mats[t]=m}
+const key=(cx,cz)=>cx+","+cz,idx=(x,y,z)=>x+z*CHUNK+y*CHUNK*CHUNK,lc=v=>((v%CHUNK)+CHUNK)%CHUNK;
+function rnd(x,z){let n=Math.imul(x,374761393)+Math.imul(z,668265263)+dimensionSeed;n=Math.imul(n^(n>>>13),1274126177);return((n^(n>>>16))>>>0)/4294967295}
+function height(x,z){if(activeDimension==="nether")return Math.floor(17+Math.sin(x*.07)*3+Math.cos(z*.06)*4);if(activeDimension==="end"){let d=Math.hypot(x,z),v=Math.sin(x*.045)*Math.cos(z*.048);if(d>28&&v<-.25)return-1;return Math.floor(12+v*3)}if(activeWorld?.type==="Flat")return 7;let h=14+Math.sin((x+dimensionSeed*.001)*.045)*5+Math.cos((z-dimensionSeed*.001)*.04)*5+Math.sin((x+z)*.12)*2;if(activeWorld?.type==="Amplified")h=13+(h-13)*2.1;if(activeWorld?.type==="Islands")h+=Math.sin(x*.035)*Math.cos(z*.035)*8-3;return Math.max(4,Math.min(H-8,Math.floor(h)))}
+function cave(x,y,z,h){return activeWorld?.caves&&y>2&&y<h-2&&(Math.sin(x*.27+y*.31+z*.19+dimensionSeed*.001)+Math.cos(x*.15-y*.24+z*.23)>1.65)}
+function generateChunk(cx,cz){let k=key(cx,cz);if(chunkData.has(k))return chunkData.get(k);let d=new Uint8Array(CHUNK*CHUNK*H),bx=cx*CHUNK,bz=cz*CHUNK;for(let lx=0;lx<CHUNK;lx++)for(let lz=0;lz<CHUNK;lz++){let x=bx+lx,z=bz+lz,h=height(x,z);if(h<0)continue;if(activeDimension==="nether"){for(let y=0;y<H;y++){let t=y===0?"bedrock":y<=h?"netherrack":"air";if(t!=="air"&&cave(x,y,z,h))t="air";if(t==="netherrack"&&rnd(x*19+y*5,z*29-y*7)>.985)t="glowstone";d[idx(lx,y,lz)]=blockIds[t]}continue}if(activeDimension==="end"){for(let y=0;y<=h;y++)d[idx(lx,y,lz)]=blockIds[y===0?"voidrock":"endstone"];continue}let sea=10;for(let y=0;y<=h;y++){let t=y===0?"bedrock":y===h?(h<=sea+1?"sand":"grass"):y>=h-3?(h<=sea+1?"sand":"dirt"):"stone";if(t==="stone"&&activeWorld.ores){let r=rnd(x*31+y*11,z*23-y*13);if(y<8&&r>.996)t="diamond";else if(y<10&&r>.991)t="gold";else if(y<17&&r>.96)t="iron";else if(r>.93)t="coal"}if(t!=="bedrock"&&cave(x,y,z,h))t="air";d[idx(lx,y,lz)]=blockIds[t]}for(let y=h+1;y<=sea;y++)d[idx(lx,y,lz)]=blockIds.water}
+for(const [ck,t] of worldChanges){let [dim,sx,sy,sz]=ck.split("|");if(dim!==activeDimension)continue;let x=+sx,y=+sy,z=+sz;if(Math.floor(x/CHUNK)===cx&&Math.floor(z/CHUNK)===cz&&y>=0&&y<H)d[idx(lc(x),y,lc(z))]=blockIds[t]||0}
+chunkData.set(k,d);return d}
+function getBlock(x,y,z){if(y<0||y>=H)return"air";let d=chunkData.get(key(Math.floor(x/CHUNK),Math.floor(z/CHUNK)));if(!d)return"air";return idBlocks[d[idx(lc(x),y,lc(z))]]||"air"}
+function setBlock(x,y,z,t){if(y<0||y>=H)return;worldChanges.set(`${activeDimension}|${x}|${y}|${z}`,t);let cx=Math.floor(x/CHUNK),cz=Math.floor(z/CHUNK),d=generateChunk(cx,cz);d[idx(lc(x),y,lc(z))]=blockIds[t]||0;buildChunk(cx,cz);if(lc(x)===0)buildChunk(cx-1,cz);if(lc(x)===15)buildChunk(cx+1,cz);if(lc(z)===0)buildChunk(cx,cz-1);if(lc(z)===15)buildChunk(cx,cz+1)}
+const faces=[[[1,0,0],[[1,0,0],[1,1,0],[1,1,1],[1,0,1]]],[[-1,0,0],[[0,0,1],[0,1,1],[0,1,0],[0,0,0]]],[[0,1,0],[[0,1,1],[1,1,1],[1,1,0],[0,1,0]]],[[0,-1,0],[[0,0,0],[1,0,0],[1,0,1],[0,0,1]]],[[0,0,1],[[1,0,1],[1,1,1],[0,1,1],[0,0,1]]],[[0,0,-1],[[0,0,0],[0,1,0],[1,1,0],[1,0,0]]]];
+function faceVisible(t,n){if(n==="air")return true;if(BLOCKS[t].transparent&&n===t)return false;return !!BLOCKS[n]?.transparent&&n!==t}
+function buildChunk(cx,cz){generateChunk(cx,cz);generateChunk(cx-1,cz);generateChunk(cx+1,cz);generateChunk(cx,cz-1);generateChunk(cx,cz+1);let k=key(cx,cz),old=chunkMeshes.get(k);if(old){scene.remove(old);old.traverse(o=>o.geometry?.dispose())}let groups={},x0=cx*CHUNK,z0=cz*CHUNK;for(let lx=0;lx<CHUNK;lx++)for(let lz=0;lz<CHUNK;lz++)for(let y=0;y<H;y++){let x=x0+lx,z=z0+lz,t=getBlock(x,y,z);if(t==="air")continue;let g=groups[t]??=( {p:[],i:[]} );for(let [dd,c] of faces){let n=getBlock(x+dd[0],y+dd[1],z+dd[2]);if(!faceVisible(t,n))continue;let b=g.p.length/3;for(let q of c)g.p.push(lx+q[0],y+q[1],lz+q[2]);g.i.push(b,b+1,b+2,b,b+2,b+3)}}let group=new THREE.Group();group.position.set(x0,0,z0);for(let [t,g] of Object.entries(groups)){if(!g.p.length)continue;let geo=new THREE.BufferGeometry();geo.setAttribute("position",new THREE.Float32BufferAttribute(g.p,3));geo.setIndex(g.i);geo.computeVertexNormals();geo.computeBoundingSphere();let m=new THREE.Mesh(geo,matFor(t));m.frustumCulled=true;group.add(m)}chunkMeshes.set(k,group);scene.add(group)}
+let queue=[],lastPC="";function queueChunks(){let cx=Math.floor(camera.position.x/CHUNK),cz=Math.floor(camera.position.z/CHUNK),now=key(cx,cz);if(now===lastPC)return;lastPC=now;let w=[];for(let dx=-renderDistance;dx<=renderDistance;dx++)for(let dz=-renderDistance;dz<=renderDistance;dz++)if(dx*dx+dz*dz<=renderDistance*renderDistance+1)w.push([cx+dx,cz+dz,dx*dx+dz*dz]);w.sort((a,b)=>a[2]-b[2]);queue=w.filter(c=>!chunkMeshes.has(key(c[0],c[1])));for(let [k,m] of chunkMeshes){let [x,z]=k.split(",").map(Number);if((x-cx)**2+(z-cz)**2>(renderDistance+2)**2){scene.remove(m);m.traverse(o=>o.geometry?.dispose());chunkMeshes.delete(k)}}}
+function processQueue(){let st=performance.now(),budget=matchMedia("(pointer:coarse)").matches?2.5:5;while(queue.length&&performance.now()-st<budget){let[cx,cz]=queue.shift();buildChunk(cx,cz)}}
+
+const PLAYER={health:20,hunger:20,fall:0,damageCD:0};let yaw=0,pitch=0,vy=0,grounded=false,flying=false,keys={},joy={x:0,y:0},INPUT={controllerSprint:false,controllerSneak:false};
+function solidAt(x,y,z){return !!BLOCKS[getBlock(Math.floor(x),Math.floor(y),Math.floor(z))]?.solid}
+function collide(x,y,z){for(let dx of[-.28,.28])for(let dz of[-.28,.28])for(let yy of[y-1.62,y-.85,y+.05])if(solidAt(x+dx,yy,z+dz))return true;return false}
+function move(dx,dy,dz){let p=camera.position;if(activeWorld.mode==="Spectator"||flying){p.add(new THREE.Vector3(dx,dy,dz));return}if(!collide(p.x+dx,p.y,p.z))p.x+=dx;if(!collide(p.x,p.y,p.z+dz))p.z+=dz;if(!collide(p.x,p.y+dy,p.z)){p.y+=dy;grounded=false}else{if(dy<0)grounded=true;vy=0}}
+function damage(n){if(activeWorld.mode!=="Survival"||PLAYER.damageCD>0)return;PLAYER.health-=n;PLAYER.damageCD=.6;if(PLAYER.health<=0){PLAYER.health=20;PLAYER.hunger=20;camera.position.set(.5,Math.max(15,height(0,0)+5),.5)}hudPlayer()}
+function hudPlayer(){$("#healthRow span").textContent="♥ ".repeat(Math.ceil(PLAYER.health/2))+"♡ ".repeat(10-Math.ceil(PLAYER.health/2));$("#hungerRow span").textContent="▰ ".repeat(Math.ceil(PLAYER.hunger/2))+"▱ ".repeat(10-Math.ceil(PLAYER.hunger/2))}
+function rayVoxel(){let o=camera.position.clone(),d=new THREE.Vector3();camera.getWorldDirection(d);let prev=null;for(let q=0;q<=6;q+=.08){let p=o.clone().addScaledVector(d,q),x=Math.floor(p.x),y=Math.floor(p.y),z=Math.floor(p.z),t=getBlock(x,y,z);if(t!=="air"&&t!=="water")return{x,y,z,type:t,previous:prev};prev={x,y,z}}return null}
+
+const entities=[],ENTITY_LIMIT=20,entityGeo=new THREE.BoxGeometry(.65,1.35,.65),entityMats={pig:new THREE.MeshLambertMaterial({color:0xe9a2a2}),sheep:new THREE.MeshLambertMaterial({color:0xeeeeee}),crawler:new THREE.MeshLambertMaterial({color:0x477d3d}),inferno:new THREE.MeshLambertMaterial({color:0x8f3127}),voider:new THREE.MeshLambertMaterial({color:0x574582})};
+function createEntity(t,x,y,z){if(entities.length>=ENTITY_LIMIT)return;let hostile=["crawler","inferno","voider"].includes(t),mesh=new THREE.Mesh(entityGeo,entityMats[t]||entityMats.pig);mesh.position.set(x+.5,y+.68,z+.5);scene.add(mesh);entities.push({type:t,hostile,mesh,health:hostile?10:6,damage:hostile?2:0,speed:hostile?.028:.012,ai:0,wx:0,wz:0,attack:0})}
+function removeEntity(e){scene.remove(e.mesh);let i=entities.indexOf(e);if(i>=0)entities.splice(i,1)}
+function spawnPos(){for(let n=0;n<10;n++){let a=Math.random()*Math.PI*2,d=14+Math.random()*24,x=Math.floor(camera.position.x+Math.cos(a)*d),z=Math.floor(camera.position.z+Math.sin(a)*d);for(let y=H-2;y>=2;y--)if(BLOCKS[getBlock(x,y-1,z)]?.solid&&getBlock(x,y,z)==="air"&&getBlock(x,y+1,z)==="air")return{x,y,z}}}
+let spawnClock=0;function updateSpawns(dt){if(!activeWorld.mobs||entities.length>=ENTITY_LIMIT)return;spawnClock+=dt;if(spawnClock<3)return;spawnClock=0;let p=spawnPos();if(!p)return;let t=activeDimension==="nether"?"inferno":activeDimension==="end"?"voider":sun.intensity>.6?(Math.random()<.5?"pig":"sheep"):"crawler";createEntity(t,p.x,p.y,p.z)}
+function updateEntities(dt){for(let i=entities.length-1;i>=0;i--){let e=entities[i],dx=camera.position.x-e.mesh.position.x,dz=camera.position.z-e.mesh.position.z,dist=Math.hypot(dx,dz);if(dist>55){removeEntity(e);continue}if(dist>32)continue;e.ai-=dt;e.attack-=dt;let vx=0,vz=0;if(e.hostile&&dist<16){vx=dx/Math.max(dist,.01);vz=dz/Math.max(dist,.01);if(dist<1.4&&e.attack<=0){e.attack=1;damage(e.damage)}}else if(e.ai<=0){e.ai=1.5+Math.random()*3;let a=Math.random()*Math.PI*2;e.wx=Math.cos(a);e.wz=Math.sin(a);vx=e.wx;vz=e.wz}else{vx=e.wx;vz=e.wz}let nx=e.mesh.position.x+vx*e.speed*dt*60,nz=e.mesh.position.z+vz*e.speed*dt*60,gy=Math.floor(e.mesh.position.y-.75);if(BLOCKS[getBlock(Math.floor(nx),gy,Math.floor(nz))]?.solid&&!BLOCKS[getBlock(Math.floor(nx),gy+1,Math.floor(nz))]?.solid){e.mesh.position.x=nx;e.mesh.position.z=nz}}}
+function attackEntity(){let r=new THREE.Raycaster(),d=new THREE.Vector3();camera.getWorldDirection(d);r.set(camera.position,d);r.far=4;let h=r.intersectObjects(entities.map(e=>e.mesh));if(!h.length)return false;let e=entities.find(x=>x.mesh===h[0].object);if(!e)return false;e.health-=activeWorld.mode==="Creative"?100:4;if(e.health<=0)removeEntity(e);return true}
+function mine(){let h=rayVoxel();if(!h)return;if(networkConnected&&networkRole==="guest"){sendNetwork({type:"mine",x:h.x,y:h.y,z:h.z});return}if(h.type==="bedrock"&&activeWorld.mode!=="Creative")return;setBlock(h.x,h.y,h.z,"air");if(networkConnected&&networkRole==="host")sendNetwork({type:"block",x:h.x,y:h.y,z:h.z,block:"air"})}
+function place(){let h=rayVoxel();if(!h?.previous)return;let p=h.previous,b=hotbar[selectedSlot];if(networkConnected&&networkRole==="guest"){sendNetwork({type:"place",x:p.x,y:p.y,z:p.z,block:b});return}setBlock(p.x,p.y,p.z,b);if(networkConnected&&networkRole==="host")sendNetwork({type:"block",x:p.x,y:p.y,z:p.z,block:b})}
+
+function drawHotbar(){let b=$("#hotbar");b.innerHTML="";hotbar.forEach((n,i)=>{let s=document.createElement("div");s.className="slot"+(i===selectedSlot?" selected":"");let c=BLOCKS[n]?.color||0xffffff;s.innerHTML=`<div class="blockIcon" style="background:#${c.toString(16).padStart(6,"0")}"></div>${i+1}`;s.onclick=()=>{selectedSlot=i;drawHotbar()};b.appendChild(s)})}
+function drawInventory(){let g=$("#inventoryGrid");g.innerHTML="";blockNames.forEach(n=>{let e=document.createElement("div"),c=BLOCKS[n].color||0xffffff;e.className="invItem";e.innerHTML=`<div class="blockIcon" style="background:#${c.toString(16).padStart(6,"0")}"></div>${n}`;e.onclick=()=>{hotbar[selectedSlot]=n;drawHotbar()};g.appendChild(e)})}drawHotbar();drawInventory();
+
+async function clearWorld(){for(let m of chunkMeshes.values()){scene.remove(m);m.traverse(o=>o.geometry?.dispose())}chunkMeshes.clear();chunkData.clear();queue=[];lastPC="";entities.splice(0).forEach(e=>scene.remove(e.mesh))}
+async function generateSpawn(){let a=[];for(let x=-renderDistance;x<=renderDistance;x++)for(let z=-renderDistance;z<=renderDistance;z++)if(x*x+z*z<=renderDistance*renderDistance+1)a.push([x,z,x*x+z*z]);a.sort((a,b)=>a[2]-b[2]);for(let i=0;i<a.length;i++){buildChunk(a[i][0],a[i][1]);$("#loadingFill").style.width=((i+1)/a.length*100)+"%";if(i%2===0)await new Promise(r=>setTimeout(r,0))}}
+async function loadWorld(w){try{if(!w||!Number.isFinite(Number(w.seed)))throw new Error("Invalid world data");activeWorld=w;activeDimension="overworld";dimensionSeed=Number(w.seed);renderDistance=Math.max(2,Math.min(6,Number(w.renderDistance)||3));renderer.setPixelRatio(Math.max(.5,Math.min(1,Number(w.resolutionScale)||.7)));camera.fov=Math.max(55,Math.min(110,Number(w.fov)||75));camera.updateProjectionMatrix();scene.fog=new THREE.Fog(0x8fcdf2,CHUNK*1.3,CHUNK*(renderDistance+.8));showScreen("#loadingScreen");await clearWorld();worldState=await dbGet("states",w.id)||{id:w.id,positions:{}};worldChanges.clear();for(let [k,v] of worldState.changes||[])if(Array.isArray(k)||typeof k==="string")worldChanges.set(k,v);activeDimension=["overworld","nether","end"].includes(worldState.dimension)?worldState.dimension:"overworld";dimensionSeed=Number(w.seed)+(activeDimension==="nether"?500000:activeDimension==="end"?900000:0);await generateSpawn();let p=worldState.positions?.[activeDimension];if(Array.isArray(p)&&p.length===3&&p.every(Number.isFinite))camera.position.fromArray(p);else camera.position.set(.5,Math.max(15,height(0,0)+5),.5);playing=true;paused=false;$("#hud").style.display="block";showScreen(null);updateEnv();setCookie("BW_lastWorld",w.id);if(typeof runGameplaySelfTest==="function")runGameplaySelfTest()}catch(e){playing=false;paused=false;$("#hud").style.display="none";healLog("world-load",e);showScreen("#worldScreen");let el=$("#worldLoadError");if(el)el.textContent="World failed safely instead of crashing: "+(e?.message||e)}}
+async function saveGame(){if(!activeWorld)return;$("#saveState").textContent="Saving...";worldState??={id:activeWorld.id,positions:{}};worldState.positions??={};worldState.dimension=activeDimension;worldState.positions[activeDimension]=camera.position.toArray();worldState.changes=[...worldChanges.entries()];worldState.hotbar=[...hotbar];worldState.selectedSlot=selectedSlot;await dbPut("states",worldState);setCookie("BW_player",JSON.stringify({world:activeWorld.id,dimension:activeDimension}));$("#saveState").textContent="Saved";setTimeout(()=>$("#saveState").textContent="",1000)}
+async function changeDimension(d){if(d===activeDimension)return;await saveGame();showScreen("#loadingScreen");activeDimension=d;worldState.dimension=d;dimensionSeed=activeWorld.seed+(d==="nether"?500000:d==="end"?900000:0);await clearWorld();updateEnv();await generateSpawn();let p=worldState.positions?.[d];camera.position.fromArray(p||[.5,Math.max(15,height(0,0)+5),.5]);showScreen(null);paused=false}
+function updateEnv(){let c=activeDimension==="nether"?0x521c18:activeDimension==="end"?0x090713:0x8fcdf2;scene.background=new THREE.Color(c);scene.fog?.color.set(c);hemi.intensity=activeDimension==="overworld"?1.35:.55;sun.intensity=activeDimension==="overworld"?1.4:.35}
+async function refreshWorlds(){let w=await dbAll("worlds"),l=$("#worldList");l.innerHTML=w.length?"":'<div class="small">No worlds yet.</div>';w.sort((a,b)=>b.created-a.created).forEach(x=>{let d=document.createElement("div");d.className="worldCard";d.innerHTML=`<b>${x.name}</b><br><span class="small">${x.mode} • ${x.type} • ${x.seed}</span>`;d.onclick=()=>loadWorld(x);l.appendChild(d)})}
+$("#generateWorldBtn").onclick=async()=>{let s=$("#seedInput").value.trim(),w={id:Date.now()+"",name:$("#worldName").value||"New World",seed:s?hashString(s):Math.floor(Math.random()*2147483647),mode:$("#gameMode").value,difficulty:$("#difficulty").value,type:$("#worldType").value,coordinates:$("#coordinates").checked,trees:$("#treesToggle").checked,caves:$("#cavesToggle").checked,ores:$("#oresToggle").checked,mobs:$("#mobToggle").checked,dayCycle:$("#dayToggle").checked,cheats:$("#cheatsToggle").checked,renderDistance:+$("#renderDistance").value,resolutionScale:+$("#resolutionScale").value,fov:+$("#fovSetting").value,clouds:$("#cloudToggle").checked,created:Date.now()};await dbPut("worlds",w);await loadWorld(w)};
+
+let peer=null,channel=null,networkRole="offline",networkConnected=false,remote=null;
+function waitIce(p){return new Promise(ok=>{if(p.iceGatheringState==="complete")return ok();let f=()=>{if(p.iceGatheringState==="complete"){p.removeEventListener("icegatheringstatechange",f);ok()}};p.addEventListener("icegatheringstatechange",f)})}
+function mkPeer(){return new RTCPeerConnection({iceServers:[{urls:"stun:stun.l.google.com:19302"}]})}
+const enc=o=>btoa(unescape(encodeURIComponent(JSON.stringify(o)))),dec=s=>JSON.parse(decodeURIComponent(escape(atob(s.trim()))));
+function activateHostMods(){
+  if(networkRole!=="host"||!networkConnected)return;
+  for(const m of mods)try{registerMod(m)}catch(e){healLog?.("mod-activation",e)}
+  sendNetwork({type:"mod_manifest",mods:mods.map(m=>({format:m.format,id:m.id,name:m.name,enabled:!!m.enabled,blocks:m.blocks||[]}))});
+}
+function setupChannel(c){channel=c;c.onopen=()=>{networkConnected=true;$("#networkStatus").textContent="CONNECTED • "+networkRole.toUpperCase();if(networkRole==="host")activateHostMods()};c.onclose=()=>{networkConnected=false;$("#networkStatus").textContent="Disconnected"};c.onmessage=e=>handleNet(JSON.parse(e.data))}
+function sendNetwork(o){if(channel?.readyState==="open")channel.send(JSON.stringify(o))}
+async function hostOffer(){peer=mkPeer();networkRole="host";setupChannel(peer.createDataChannel("blockworld"));await peer.setLocalDescription(await peer.createOffer());await waitIce(peer);$("#offerOutput").value=enc(peer.localDescription)}
+async function guestAnswer(){peer=mkPeer();networkRole="guest";peer.ondatachannel=e=>setupChannel(e.channel);await peer.setRemoteDescription(dec($("#offerInput").value));await peer.setLocalDescription(await peer.createAnswer());await waitIce(peer);$("#answerOutput").value=enc(peer.localDescription)}
+async function acceptAnswer(){await peer.setRemoteDescription(dec($("#answerInput").value))}
+function handleNet(m){if(m.type==="player"){if(!remote){remote=new THREE.Mesh(new THREE.BoxGeometry(.6,1.8,.6),new THREE.MeshLambertMaterial({color:0x4a83db}));scene.add(remote)}remote.position.set(m.x,m.y-1,m.z);remote.rotation.y=m.yaw}else if(m.type==="mine"&&networkRole==="host"){setBlock(m.x,m.y,m.z,"air");sendNetwork({type:"block",x:m.x,y:m.y,z:m.z,block:"air"})}else if(m.type==="place"&&networkRole==="host"&&BLOCKS[m.block]){setBlock(m.x,m.y,m.z,m.block);sendNetwork({type:"block",x:m.x,y:m.y,z:m.z,block:m.block})}else if(m.type==="block"&&networkRole==="guest")setBlock(m.x,m.y,m.z,m.block);
+else if(m.type==="mod_manifest"&&networkRole==="guest"){
+  for(const mod of (m.mods||[])){try{if(mod.format==="blockworld-mod-1")registerMod({...mod,enabled:true})}catch(e){healLog?.("guest-mod",e)}}
+}}
+let netClock=0;function updateNetwork(dt){if(!networkConnected)return;netClock+=dt;if(netClock>.05){netClock=0;sendNetwork({type:"player",x:camera.position.x,y:camera.position.y,z:camera.position.z,yaw,dimension:activeDimension})}}
+
+let mods=JSON.parse(localStorage.getItem("BW_MODS")||"[]"),editingMod=null;function safeId(s){return s.toLowerCase().replace(/[^a-z0-9_]/g,"_").slice(0,40)}function registerMod(m){if(networkRole!=="host"||!networkConnected)return;if(m.enabled===false)return;for(let b of m.blocks||[]){let id="mod_"+safeId(m.id)+"_"+safeId(b.id);if(BLOCKS[id])continue;BLOCKS[id]={color:parseInt(b.color.slice(1),16),solid:b.solid!==false,transparent:!!b.transparent};blockNames.push(id);blockIds[id]=idBlocks.length;idBlocks.push(id)}drawInventory()}drawMods();
+function drawMods(){let l=$("#modList");l.innerHTML="";mods.forEach((m,i)=>{let d=document.createElement("div");d.className="modEntry";d.innerHTML=`<b>${m.name}</b><br><span class="small">${m.blocks?.length||0} blocks</span><button class="btn red">DELETE</button>`;d.querySelector("button").onclick=()=>{mods.splice(i,1);localStorage.setItem("BW_MODS",JSON.stringify(mods));drawMods()};l.appendChild(d)})}
+function drawModBlocks(){$("#modBlockList").innerHTML=(editingMod?.blocks||[]).map(b=>`<div class="modContent">${b.name} (${b.id})</div>`).join("")}
+
+function openPause(){if(!playing)return;paused=true;document.exitPointerLock?.();showScreen("#pauseScreen")}function openInv(){paused=true;showScreen("#inventoryScreen")}
+$("#singleplayerBtn").onclick=async()=>{await refreshWorlds();showScreen("#worldScreen")};$("#createWorldBtn").onclick=()=>showScreen("#createScreen");$("#cancelCreateBtn").onclick=()=>showScreen("#worldScreen");document.querySelectorAll(".backTitle").forEach(b=>b.onclick=()=>showScreen("#titleScreen"));$("#settingsBtn").onclick=()=>showScreen("#globalSettingsScreen");$("#settingsBackBtn").onclick=()=>showScreen(playing?"#pauseScreen":"#titleScreen");$("#pauseButton").onclick=openPause;$("#resumeBtn").onclick=()=>{paused=false;showScreen(null)};$("#pauseInventoryBtn").onclick=openInv;$("#closeInventoryBtn").onclick=()=>{paused=false;showScreen(null)};$("#dimensionBtn").onclick=()=>showScreen("#dimensionScreen");$("#dimensionBackBtn").onclick=()=>showScreen("#pauseScreen");document.querySelectorAll(".dimBtn").forEach(b=>b.onclick=()=>changeDimension(b.dataset.dim));$("#saveBtn").onclick=saveGame;$("#saveQuitBtn").onclick=async()=>{await saveGame();playing=false;$("#hud").style.display="none";await clearWorld();showScreen("#titleScreen")};
+$("#multiplayerBtn").onclick=()=>showScreen("#multiplayerScreen");$("#multiplayerBackBtn").onclick=()=>showScreen("#titleScreen");$("#hostGameBtn").onclick=()=>{$("#hostPanel").style.display="block";$("#joinPanel").style.display="none"};$("#joinGameBtn").onclick=()=>{$("#joinPanel").style.display="block";$("#hostPanel").style.display="none"};$("#createOfferBtn").onclick=hostOffer;$("#makeAnswerBtn").onclick=guestAnswer;$("#acceptAnswerBtn").onclick=acceptAnswer;
+$("#addonsBtn").onclick=()=>{drawMods();showScreen("#modScreen")};$("#modBackBtn").onclick=()=>showScreen("#titleScreen");$("#newModBtn").onclick=()=>{editingMod={format:"blockworld-mod-1",id:"mod_"+Date.now(),name:"My Mod",enabled:true,blocks:[]};$("#modName").value=editingMod.name;drawModBlocks();showScreen("#modMakerScreen")};$("#cancelModBtn").onclick=()=>showScreen("#modScreen");$("#addModBlockBtn").onclick=()=>{editingMod.blocks.push({id:safeId($("#modBlockId").value),name:$("#modBlockName").value,color:$("#modBlockColor").value,solid:$("#modBlockSolid").checked,transparent:$("#modBlockTransparent").checked});drawModBlocks()};$("#saveModBtn").onclick=()=>{editingMod.name=$("#modName").value||"Mod";mods.push(editingMod);localStorage.setItem("BW_MODS",JSON.stringify(mods));drawMods();showScreen("#modScreen")};$("#exportModBtn").onclick=()=>{let blob=new Blob([JSON.stringify(editingMod,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=safeId(editingMod.name)+".blockworld.json";a.click()};$("#importModBtn").onclick=()=>$("#modFileInput").click();$("#modFileInput").onchange=async e=>{try{let m=JSON.parse(await e.target.files[0].text());if(m.format!=="blockworld-mod-1")throw Error("Wrong format");delete m.script;delete m.javascript;mods.push(m);localStorage.setItem("BW_MODS",JSON.stringify(mods));registerMod(m);drawMods()}catch(x){alert(x.message)}};
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab,.tabPage").forEach(x=>x.classList.remove("on"));t.classList.add("on");$("#"+t.dataset.tab).classList.add("on")});
+async function fullscreen(){
+  try{
+    if(!document.fullscreenElement && document.documentElement.requestFullscreen){
+      await document.documentElement.requestFullscreen();
+    }
+  }catch(e){try{healLog?.("fullscreen",e)}catch{}}
+  try{
+    if(screen.orientation && screen.orientation.lock){
+      await screen.orientation.lock("landscape");
+    }
+  }catch(e){try{healLog?.("orientation-lock",e)}catch{}}
+  document.body.classList.add("landscape-requested");
+  try{localStorage.setItem("BW_LANDSCAPE_REQUESTED","1")}catch{}
+}
+function updateRotateScreen(){
+  const rotate=$("#rotateScreen");
+  if(!rotate)return;
+  const portrait=window.innerHeight>window.innerWidth;
+  let bypass=false; try{bypass=localStorage.getItem("BW_LANDSCAPE_BYPASS")==="1"}catch{}
+  if(playing && portrait && !bypass){
+    rotate.classList.add("active");
+  }else{
+    rotate.classList.remove("active");
+  }
+}
+$("#landscapeTitleBtn").onclick=fullscreen;
+$("#landscapeBtn").onclick=fullscreen;
+window.addEventListener("resize",updateRotateScreen);
+window.addEventListener("orientationchange",()=>setTimeout(updateRotateScreen,150));
+$("#landscapeContinueBtn")?.addEventListener("click",()=>{
+  $("#rotateScreen")?.classList.remove("active");
+  try{localStorage.setItem("BW_LANDSCAPE_BYPASS","1")}catch{}
+});
+$("#howBtn").onclick=()=>alert("WASD move • Space jump • Ctrl sprint • Shift sneak • E inventory • F fly • 1-9/wheel hotbar • Left click mine/attack • Right click place • Esc pause • Controller supported");
+
+addEventListener("keydown",e=>{keys[e.code]=true;if(!playing||paused)return;if(e.code==="Escape")openPause();if(e.code==="KeyE")openInv();if(e.code==="KeyF"&&(activeWorld.mode!=="Survival"))flying=!flying;if(/^Digit[1-9]$/.test(e.code)){selectedSlot=+e.code.slice(5)-1;drawHotbar()}if(e.code==="F3")$("#debug").style.display=$("#debug").style.display==="none"?"block":"none"});addEventListener("keyup",e=>keys[e.code]=false);addEventListener("blur",()=>{keys={};joy.x=joy.y=0});addEventListener("wheel",e=>{if(!playing)return;selectedSlot=(selectedSlot+(e.deltaY>0?1:-1)+hotbar.length)%hotbar.length;drawHotbar()},{passive:true});
+renderer.domElement.onclick=()=>{if(playing&&!paused&&!matchMedia("(pointer:coarse)").matches)renderer.domElement.requestPointerLock()};addEventListener("mousemove",e=>{if(document.pointerLockElement!==renderer.domElement)return;let s=+$("#sensitivitySlider").value/100;yaw-=e.movementX*.0025*s;pitch=Math.max(-1.54,Math.min(1.54,pitch-e.movementY*.0025*s))});renderer.domElement.onmousedown=e=>{if(!playing||paused)return;if(e.button===0){if(!attackEntity())mine()}if(e.button===2)place()};addEventListener("contextmenu",e=>e.preventDefault());
+let previousButtons=[];function updateGamepad(dt){let p=[...(navigator.getGamepads?.()||[])].find(Boolean);if(!p)return;let a=p.axes,b=p.buttons,d=.16,lx=Math.abs(a[0]||0)>d?a[0]:0,ly=Math.abs(a[1]||0)>d?a[1]:0,rx=Math.abs(a[2]||0)>d?a[2]:0,ry=Math.abs(a[3]||0)>d?a[3]:0;yaw-=rx*2.2*dt;pitch=Math.max(-1.54,Math.min(1.54,pitch-ry*1.8*dt));joy.x=lx;joy.y=ly;INPUT.controllerSprint=!!b[10]?.pressed;INPUT.controllerSneak=!!b[1]?.pressed;let press=i=>!!b[i]?.pressed&&!previousButtons[i];if(press(0)){if(grounded)vy=.2}if(press(2))openInv();if(press(3)&&activeWorld.mode!=="Survival")flying=!flying;if(press(4)){selectedSlot=(selectedSlot-1+hotbar.length)%hotbar.length;drawHotbar()}if(press(5)){selectedSlot=(selectedSlot+1)%hotbar.length;drawHotbar()}if(press(6))place();if(press(7)){if(!attackEntity())mine()}if(press(9)){paused?($("#resumeBtn").click()):openPause()}previousButtons=b.map(x=>x.pressed)}
+let jId=null;$("#joystick").ontouchstart=e=>{e.preventDefault();jId=e.changedTouches[0].identifier};$("#joystick").ontouchmove=e=>{e.preventDefault();let t=[...e.changedTouches].find(x=>x.identifier===jId);if(!t)return;let r=$("#joystick").getBoundingClientRect(),x=(t.clientX-r.left-r.width/2)/(r.width/2),y=(t.clientY-r.top-r.height/2)/(r.height/2),l=Math.hypot(x,y);if(l>1){x/=l;y/=l}joy.x=x;joy.y=y;$("#stick").style.transform=`translate(${x*28}px,${y*28}px)`};$("#joystick").ontouchend=()=>{joy.x=joy.y=0;$("#stick").style.transform=""};
+let lookTouchId=null,lookLastX=0,lookLastY=0;function beginTouchLook(e){if(!playing||paused||lookTouchId!==null)return;let t=e.changedTouches[0];lookTouchId=t.identifier;lookLastX=t.clientX;lookLastY=t.clientY}function moveTouchLook(e){if(lookTouchId===null)return;let t=[...e.changedTouches].find(x=>x.identifier===lookTouchId);if(!t)return;let dx=t.clientX-lookLastX,dy=t.clientY-lookLastY;lookLastX=t.clientX;lookLastY=t.clientY;let s=(+$("#sensitivitySlider")?.value||100)/100;yaw-=dx*.007*s;pitch=Math.max(-1.54,Math.min(1.54,pitch-dy*.007*s));e.preventDefault()}function endTouchLook(e){if([...e.changedTouches].some(t=>t.identifier===lookTouchId))lookTouchId=null}renderer.domElement.addEventListener("touchstart",beginTouchLook,{passive:false});renderer.domElement.addEventListener("touchmove",moveTouchLook,{passive:false});renderer.domElement.addEventListener("touchend",endTouchLook,{passive:true});renderer.domElement.addEventListener("touchcancel",()=>lookTouchId=null,{passive:true});
+$("#mineMobile").ontouchstart=e=>{e.preventDefault();if(!attackEntity())mine()};$("#placeMobile").ontouchstart=e=>{e.preventDefault();place()};$("#inventoryMobile").ontouchstart=e=>{e.preventDefault();openInv()};$("#flyMobile").ontouchstart=e=>{e.preventDefault();if(activeWorld.mode!=="Survival")flying=!flying};$("#jumpMobile").ontouchstart=e=>{e.preventDefault();if(grounded)vy=.2};
+
+try{localStorage.removeItem("BW_LANDSCAPE_BYPASS")}catch{};updateRotateScreen();
+let last=performance.now(),fps=0,frames=0,ft=0,autoLow=0,saveClock=0;function loop(now){requestAnimationFrame(loop);let dt=Math.min(.05,(now-last)/1000);last=now;renderer.render(scene,camera);if(!playing||paused)return;frames++;ft+=dt;if(ft>=1){fps=Math.round(frames/ft);frames=0;ft=0}updateGamepad(dt);updateNetwork(dt);processQueue();queueChunks();camera.rotation.set(pitch,yaw,0);let sprint=keys.ControlLeft||keys.ControlRight||INPUT.controllerSprint,sneak=keys.ShiftLeft||keys.ShiftRight||INPUT.controllerSneak,fly=flying||activeWorld.mode==="Spectator",sp=(fly?.14:.075)*(sprint?1.65:1)*(sneak?.4:1)*dt*60,f=new THREE.Vector3(-Math.sin(yaw),0,-Math.cos(yaw)),r=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw)),mx=0,mz=0;if(keys.KeyW){mx+=f.x;mz+=f.z}if(keys.KeyS){mx-=f.x;mz-=f.z}if(keys.KeyA){mx-=r.x;mz-=r.z}if(keys.KeyD){mx+=r.x;mz+=r.z}mx+=f.x*-joy.y+r.x*joy.x;mz+=f.z*-joy.y+r.z*joy.x;let l=Math.hypot(mx,mz);if(l){mx/=l;mz/=l}if(fly){move(mx*sp,(keys.Space?sp:0)-(keys.ShiftLeft?sp:0),mz*sp)}else{if(keys.Space&&grounded)vy=.2;vy=Math.max(-.45,vy-.011*dt*60);let old=camera.position.y;move(mx*sp,vy*dt*60,mz*sp);if(vy<0&&!grounded)PLAYER.fall+=Math.max(0,old-camera.position.y);if(grounded&&PLAYER.fall>3.4){damage(Math.floor(PLAYER.fall-3));PLAYER.fall=0}}PLAYER.damageCD=Math.max(0,PLAYER.damageCD-dt);updateSpawns(dt);updateEntities(dt);let hit=rayVoxel();selectionBox.visible=!!hit;if(hit)selectionBox.position.set(hit.x+.5,hit.y+.5,hit.z+.5);if(camera.position.y<-20)camera.position.set(.5,Math.max(15,height(0,0)+5),.5);$("#debug").textContent=`${activeDimension.toUpperCase()} | ${activeWorld.mode} | FPS ${fps} | XYZ ${camera.position.x.toFixed(1)} ${camera.position.y.toFixed(1)} ${camera.position.z.toFixed(1)} | Chunks ${chunkMeshes.size} | Mobs ${entities.length}`;saveClock+=dt;if($("#autosaveToggle").checked&&saveClock>25){saveClock=0;saveGame()}if($("#autoPerformanceSetting").checked){if(fps>0&&fps<27)autoLow+=dt;else autoLow=Math.max(0,autoLow-dt);if(autoLow>5&&renderer.getPixelRatio()>.5){renderer.setPixelRatio(Math.max(.5,renderer.getPixelRatio()-.1));renderer.setSize(innerWidth,innerHeight);autoLow=0}}}
+/* ===== SILENT ERROR DETECTOR + SELF-HEALER ===== */
+const HEAL={log:[],lastRepair:0,lastChunkCount:0,stuckTicks:0,saveBackup:null};
+function healLog(kind,err){try{HEAL.log.push({time:Date.now(),kind,message:String(err?.message||err||kind),stack:String(err?.stack||"").slice(0,1200)});if(HEAL.log.length>80)HEAL.log.shift();localStorage.setItem("BW_DIAGNOSTICS",JSON.stringify(HEAL.log))}catch{}}
+function finite(n){return Number.isFinite(n)}
+function safeSpawn(){let y=15;try{y=Math.max(15,height(0,0)+5)}catch{}camera.position.set(.5,y,.5);vy=0;PLAYER.fall=0}
+function repairPlayer(){if(!finite(camera.position.x)||!finite(camera.position.y)||!finite(camera.position.z)||Math.abs(camera.position.x)>1e7||Math.abs(camera.position.z)>1e7){healLog("bad-player-position","position repaired");safeSpawn()}if(!finite(yaw))yaw=0;if(!finite(pitch))pitch=0;pitch=Math.max(-1.54,Math.min(1.54,pitch));if(!finite(vy))vy=0;PLAYER.health=Math.max(0,Math.min(20,finite(PLAYER.health)?PLAYER.health:20));PLAYER.hunger=Math.max(0,Math.min(20,finite(PLAYER.hunger)?PLAYER.hunger:20));selectedSlot=Math.max(0,Math.min(hotbar.length-1,Number.isInteger(selectedSlot)?selectedSlot:0))}
+function repairSettings(){renderDistance=Math.max(2,Math.min(6,Number(renderDistance)||3));let pr=renderer.getPixelRatio();if(!finite(pr)||pr<.45||pr>1.5)renderer.setPixelRatio(.7);if(!finite(camera.fov)||camera.fov<40||camera.fov>120){camera.fov=75;camera.updateProjectionMatrix()}if(!["overworld","nether","end"].includes(activeDimension))activeDimension="overworld"}
+function repairEntities(){for(let i=entities.length-1;i>=0;i--){let e=entities[i];if(!e||!e.mesh||!finite(e.mesh.position.x)||!finite(e.mesh.position.y)||!finite(e.mesh.position.z)||e.health===undefined){try{if(e?.mesh)scene.remove(e.mesh)}catch{}entities.splice(i,1);healLog("bad-entity","entity removed")}}}
+function repairChunks(){for(const [k,m] of [...chunkMeshes]){try{if(!m||!m.isObject3D||!finite(m.position.x)||!finite(m.position.z)){if(m)scene.remove(m);chunkMeshes.delete(k);healLog("bad-chunk",k)}}catch{chunkMeshes.delete(k)}}if(playing&&!paused&&chunkMeshes.size===0){lastPC="";queueChunks();processQueue()}}
+function repairUI(){if(playing&&!paused&&!document.querySelector(".screen.active"))$("#hud").style.display="block";if(!playing&&![...document.querySelectorAll(".screen")].some(x=>x.classList.contains("active")))showScreen("#titleScreen");if(!document.getElementById("hotbar")?.children.length)drawHotbar()}
+async function repairSave(){try{if(!worldState||typeof worldState!=="object")worldState={id:activeWorld?.id||"recovered",positions:{}};worldState.positions??={};if(!Array.isArray(worldState.changes))worldState.changes=[...worldChanges.entries()];HEAL.saveBackup=structuredClone(worldState)}catch(e){healLog("save-repair",e);if(HEAL.saveBackup)worldState=structuredClone(HEAL.saveBackup)}}
+function selfHeal(reason){try{repairPlayer();repairSettings();repairEntities();repairChunks();repairUI();repairSave();HEAL.lastRepair=performance.now()}catch(e){healLog("fixer-failure",e)}}
+addEventListener("error",e=>{healLog("runtime",e.error||e.message);queueMicrotask(()=>selfHeal("runtime"))});
+addEventListener("unhandledrejection",e=>{healLog("promise",e.reason);e.preventDefault();queueMicrotask(()=>selfHeal("promise"))});
+renderer.domElement.addEventListener("webglcontextlost",e=>{e.preventDefault();healLog("webgl-lost","context lost")});
+renderer.domElement.addEventListener("webglcontextrestored",()=>{healLog("webgl-restored","context restored");for(const [cxcz] of chunkMeshes){let [cx,cz]=cxcz.split(",").map(Number);try{buildChunk(cx,cz)}catch(e){healLog("chunk-rebuild",e)}}});
+setInterval(()=>{try{selfHeal("watchdog");if(!PREFLIGHT.running&&playing){const bad=checkIntegrity();if(bad.length){healLog("integrity-watchdog",bad);pfRepair("chunks");setTimeout(()=>{try{const b=document.getElementById("cleanBaseline")?.textContent||"";if(b){const html=decodeURIComponent(escape(atob(b)));const u=URL.createObjectURL(new Blob([html],{type:"text/html"}));location.replace(u);return}location.reload()}catch(e){healLog("baseline-restore-failed",e);location.reload()}},50)}}if(playing&&!paused){if(chunkMeshes.size===HEAL.lastChunkCount&&queue.length>0)HEAL.stuckTicks++;else HEAL.stuckTicks=0;HEAL.lastChunkCount=chunkMeshes.size;if(HEAL.stuckTicks>=4){healLog("chunk-watchdog","queue restarted");queue=[];lastPC="";queueChunks();HEAL.stuckTicks=0}}}catch(e){healLog("watchdog",e)}},2000);
+/* ===== END SELF-HEALER ===== */
+
+/* ===== PRE-LAUNCH TESTER + INTEGRITY GUARD ===== */
+const PREFLIGHT={
+  running:true, attempts:0, maxRepairPasses:2, results:[], failed:0,
+  expectedIntegrity:{"getBlock":691829541,"setBlock":3584213774,"generateChunk":747967221,"buildChunk":400472405,"rayVoxel":1205199364,"move":3719220358,"mine":1673625646,"place":109265382,"saveGame":3212309989,"loadWorld":914292403,"changeDimension":645091921,"handleNet":3105740471,"updateEntities":2527837256,"updateSpawns":3852402129,"registerMod":1253571965}
+};
+function pfResult(name,ok,detail=""){
+  PREFLIGHT.results.push({name,ok:!!ok,detail:String(detail||"")});
+  if(!ok) PREFLIGHT.failed++;
+}
+function pfHash(s){
+  let h=2166136261>>>0;
+  for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}
+  return h>>>0;
+}
+function pfFnHash(fn){try{return pfHash(String(fn))}catch{return 0}}
+function pfRepair(kind){
+  try{
+    if(kind==="ui") repairUI();
+    if(kind==="player") repairPlayer();
+    if(kind==="settings") repairSettings();
+    if(kind==="chunks") repairChunks();
+    if(kind==="save") repairSave();
+    if(kind==="mods"){mods=Array.isArray(mods)?mods:[];localStorage.setItem("BW_MODS",JSON.stringify(mods));drawMods()}
+    return true;
+  }catch(e){healLog("preflight-fix",e);return false}
+}
+function checkIntegrity(){
+  let bad=[];
+  const table={getBlock,setBlock,generateChunk,buildChunk,rayVoxel,move,mine,place,saveGame,loadWorld,changeDimension,handleNet,updateEntities,updateSpawns,registerMod};
+  for(const [n,expected] of Object.entries(PREFLIGHT.expectedIntegrity)){
+    const actual=pfFnHash(table[n]);
+    if(actual!==expected)bad.push(n);
+  }
+  pfResult("code-integrity",bad.length===0,bad.length?("mismatch:"+bad.join(",")):"clean");
+  return bad;
+}
+async function runGameplaySelfTest(){
+  const results=[];const test=(n,ok,detail="")=>results.push({n,ok:!!ok,detail});
+  const oldPos=camera.position.clone(),oldYaw=yaw,oldPitch=pitch,oldPlaying=playing,oldPaused=paused,oldRole=networkRole,oldConn=networkConnected;
+  try{
+    // Real camera-control test: changing look input must change camera orientation.
+    yaw=0;pitch=0;camera.rotation.set(0,0,0);const y0=yaw,p0=pitch;yaw-=.2;pitch=.1;camera.rotation.set(pitch,yaw,0);test("Turning",yaw!==y0&&pitch!==p0);
+    // Real mine/place test against a temporary block in the active world.
+    networkRole="offline";networkConnected=false;camera.position.set(.5,10.5,.5);yaw=0;pitch=0;
+    const tx=0,ty=10,tz=-2,px=0,py=10,pz=-1,oldT=getBlock(tx,ty,tz),oldP=getBlock(px,py,pz);
+    setBlock(tx,ty,tz,"stone");setBlock(px,py,pz,"air");
+    const hit=rayVoxel();test("Mining target",!!hit&&hit.x===tx&&hit.y===ty&&hit.z===tz);
+    mine();test("Mine / break",getBlock(tx,ty,tz)==="air");
+    setBlock(tx,ty,tz,"stone");place();test("Place",getBlock(px,py,pz)==="stone");
+    setBlock(tx,ty,tz,oldT);setBlock(px,py,pz,oldP);
+    test("Mobile controls",!!$("#mineMobile")&&!!$("#placeMobile")&&typeof renderer.domElement.ontouchstart!=="undefined");
+  }catch(e){test("Gameplay-self-test",false,e?.message||String(e));healLog("gameplay-test",e)}
+  finally{camera.position.copy(oldPos);yaw=oldYaw;pitch=oldPitch;camera.rotation.set(pitch,yaw,0);playing=oldPlaying;paused=oldPaused;networkRole=oldRole;networkConnected=oldConn}
+  window.BW_GAMEPLAY_TESTS=results;
+  const failed=results.filter(x=>!x.ok);if(failed.length)healLog("gameplay-test-failed",failed);
+  return failed.length===0;
+}
+
+async function runPreflight(){
+  PREFLIGHT.running=true;PREFLIGHT.attempts++;
+  PREFLIGHT.results=[];PREFLIGHT.failed=0;
+  const tests=[
+    ["DOM",()=>!!document.body&&document.querySelectorAll(".screen").length>=8],
+    ["UI-controls",()=>[...document.querySelectorAll("button")].every(b=>typeof b.onclick==="function"||b.id==="modFileInput")],
+    ["Three.js",()=>!!THREE&&!!THREE.Scene&&!!THREE.WebGLRenderer],
+    ["Renderer",()=>!!renderer&&renderer.domElement&&renderer.domElement.width>0],
+    ["WebGL",()=>!!renderer.getContext()],
+    ["Camera",()=>finite(camera.aspect)&&finite(camera.fov)],
+    ["Block-registry",()=>BLOCKS.air&&BLOCKS.stone&&blockIds.stone!==undefined],
+    ["Terrain-generator",()=>{let c=generateChunk(0,0);return c instanceof Uint8Array&&c.length===CHUNK*CHUNK*H}],
+    ["Chunk-mesher",()=>{let m=buildChunk(0,0);return !!m&&m.isObject3D}],
+    ["Block-roundtrip",()=>{let old=getBlock(0,0,0);setBlock(0,0,0,"stone");let ok=getBlock(0,0,0)==="stone";setBlock(0,0,0,old);return ok}],
+    ["Raycast",()=>{let r=rayVoxel();return r===null||("x" in r&&"y" in r&&"z" in r)}],
+    ["Turning-controls",()=>typeof yaw==="number"&&typeof pitch==="number"&&typeof renderer.domElement.addEventListener==="function"],
+    ["Mine-break-control",()=>typeof mine==="function"&&!!$("#mineMobile")],
+    ["Place-control",()=>typeof place==="function"&&!!$("#placeMobile")],
+    ["Player-state",()=>{repairPlayer();return finite(camera.position.x)&&finite(camera.position.y)&&finite(camera.position.z)}],
+    ["Settings",()=>{repairSettings();return renderDistance>=2&&renderDistance<=6}],
+    ["Inventory",()=>{drawInventory();return $("#inventoryGrid").children.length>0}],
+    ["Hotbar",()=>{drawHotbar();return $("#hotbar").children.length===hotbar.length}],
+    ["Dimensions",()=>["overworld","nether","end"].every(d=>["overworld","nether","end"].includes(d))],
+    ["Entity-system",()=>Array.isArray(entities)&&typeof updateEntities==="function"&&typeof updateSpawns==="function"],
+    ["Save-engine",()=>typeof dbPut==="function"&&typeof dbGet==="function"&&typeof dbAll==="function"],
+    ["Cookies",()=>{setCookie("BW_PREFLIGHT","ok");return getCookie("BW_PREFLIGHT")==="ok"}],
+    ["Controller-API",()=>typeof navigator.getGamepads==="function"],
+    ["Touch-controls",()=>!!$("#joystick")&&typeof $("#joystick").ontouchstart==="function"],
+    ["Fullscreen",()=>typeof document.documentElement.requestFullscreen==="function"],
+    ["WebRTC",()=>typeof RTCPeerConnection==="function"],
+    ["Mod-policy",()=>networkRole!=="host"&&!networkConnected&&Object.keys(BLOCKS).every(k=>!k.startsWith("mod_"))],
+    ["Network-handler",()=>typeof sendNetwork==="function"&&typeof handleNet==="function"],
+    ["Integrity",()=>checkIntegrity().length===0]
+  ];
+  for(let i=0;i<tests.length;i++){
+    const [name,fn]=tests[i];
+    try{const r=await fn();pfResult(name,r,"")}
+    catch(e){pfResult(name,false,e?.message||e);healLog("preflight",e)}
+    const pct=Math.round(((i+1)/tests.length)*100);
+    $("#preflightFill").style.width=pct+"%";
+    $("#preflightStatus").textContent=`Testing ${name} • ${i+1}/${tests.length}`;
+    await new Promise(r=>setTimeout(r,0));
+  }
+  if(PREFLIGHT.failed&&PREFLIGHT.attempts<=PREFLIGHT.maxRepairPasses){
+    for(const r of PREFLIGHT.results.filter(x=>!x.ok)){
+      if(/UI|Touch|Hotbar|Inventory|Turning|Mine|Place/.test(r.name))pfRepair("ui");
+      else if(/Player|Entity/.test(r.name))pfRepair("player");
+      else if(/Settings/.test(r.name))pfRepair("settings");
+      else if(/Chunk|Terrain|Block|Raycast/.test(r.name))pfRepair("chunks");
+      else if(/Save|Cookies/.test(r.name))pfRepair("save");
+      else if(/Mod/.test(r.name))pfRepair("mods");
+    }
+    $("#preflightStatus").textContent="Fixer repaired failed checks. Re-testing...";
+    await new Promise(r=>setTimeout(r,50));
+    return runPreflight();
+  }
+  PREFLIGHT.running=false;
+  const ok=PREFLIGHT.failed===0;
+  $("#preflightTitle").textContent=ok?"SELF-TEST PASSED":"SAFE MODE";
+  $("#preflightStatus").textContent=ok
+    ?"All launch checks passed. Starting BlockWorld."
+    :"Some checks failed after repair. Starting with risky systems disabled.";
+  if(!ok){
+    healLog("preflight-final",PREFLIGHT.results.filter(x=>!x.ok));
+    networkRole="offline";networkConnected=false;
+    mods=[];localStorage.setItem("BW_MODS","[]");
+    renderDistance=Math.min(renderDistance||3,2);
+  }
+  await new Promise(r=>setTimeout(r,350));
+  showScreen("#titleScreen");
+  return ok;
+}
+/* ===== END PRE-LAUNCH TESTER + INTEGRITY GUARD ===== */
+
+addEventListener("resize",()=>{try{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)}catch(e){healLog("resize",e);selfHeal("resize")}});
+runPreflight().then(()=>requestAnimationFrame(loop)).catch(e=>{healLog("preflight-crash",e);showScreen("#titleScreen");requestAnimationFrame(loop)});
+
+/* ===== BLOCKWORLD FINAL COMMUNITY LAYER ===== */
+(()=> {
+  const $q = s => document.querySelector(s);
+  const safe = v => String(v ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const logSafe = (m)=>{ try{ if(typeof healLog==="function") healLog("final",m); }catch{} };
+
+  /* No hidden telemetry: the community endpoint is contacted only after the explorer is used. */
+  const FT_KEY = "BW_FREE_TO_BORROW_ENDPOINT";
+  const defaultFTB = localStorage.getItem(FT_KEY) || "";
+  const getFTB = ()=>localStorage.getItem(FT_KEY) || defaultFTB;
+
+  const explain = [
+    ["🧱 Voxel Engine","Chunks only build visible faces, so the renderer doesn't waste time drawing buried cubes.","Your GPU sees one more unnecessary cube and starts writing its will. 💀"],
+    ["🧠 Memory Governor","Distant chunks, sleeping entities and expensive effects can be reduced when memory or FPS gets rough.","RAM: “Please stop.” BlockWorld: “One more chunk.” 😭"],
+    ["🔧 Error Fixer","The fixer uses the clean recovery baseline embedded in this offline HTML. It can restore broken subsystems and retest them.","Bro has trust issues. One weird function and he checks the entire family tree. 💀"],
+    ["🧪 Preflight Tester","Before launch, the tester checks important game systems and feeds failures into the repair pipeline.","The game hasn't even loaded yet and bro already wants a performance review. 😭"],
+    ["🌐 Multiplayer","World hosting is player-controlled. The host is authoritative over the multiplayer game state.","The host's Wi-Fi is fighting for its life. 💀"],
+    ["🧩 Mods","Mods use a restricted declarative format. Multiplayer mods are selected and controlled by the host.","Someone will install 900 mods and then ask why their phone became a space heater. 🔥"],
+    ["👥 Community","Community features can provide shared mods, worlds, creations, groups and servers without hidden background tracking.","You gave the community building tools. What could possibly go wrong? 💀"],
+    ["🎮 Controls","Keyboard, controller and touch controls can share the same game actions.","Three control systems walk into a game. The bug tracker immediately quits. 😭"],
+    ["🎙️ Voice Chat","Voice chat uses browser permission and peer-to-peer multiplayer audio rather than secretly recording you.","Mic permission: ON. Secret recording: absolutely not. 🗿"],
+    ["🤖 HOW DID THIS EVEN GET MADE?","A random kid + an AI somehow built all this.","No giant studio. No 400-person engineering team. Just questionable decisions and “add one more thing” approximately 900 times. 💀"]
+  ];
+
+  function drawExplain(){
+    const el=$q("#explainBody"); if(!el) return;
+    el.innerHTML=explain.map(x=>`<div class="roast"><h3>${safe(x[0])}</h3><div>${safe(x[1])}</div><div class="small">${safe(x[2])}</div></div>`).join("");
+  }
+  const roasts=[
+    "BlockWorld has more systems than my sleep schedule. 💀",
+    "The error fixer saw one undefined variable and called the whole family meeting. 😭",
+    "The memory governor just looked at 500 chunks and whispered “be reasonable.”",
+    "The mod maker is basically giving the community a box of matches and saying “have fun.” 🔥",
+    "A random kid and an AI really looked at a voxel game and said: “Yeah, let's add voice chat.” 💀",
+    "The HTML file is no longer a file. It's a lifestyle choice.",
+    "Free to Borrow is about to become Free to Download 900 mods. 😭",
+    "The host has become the server admin, IT department and Wi-Fi technician simultaneously.",
+    "Minecraft community: 👁️👄👁️",
+    "The preflight tester has trust issues worse than the fixer."
+  ];
+  function roastEverything(){
+    const el=$q("#explainBody"); if(!el) return;
+    const shuffled=[...roasts].sort(()=>Math.random()-.5);
+    el.insertAdjacentHTML("afterbegin", `<div class="roast"><h3>🔥 ROAST EVERYTHING</h3>${shuffled.slice(0,5).map(x=>`<div>• ${safe(x)}</div>`).join("")}</div>`);
+  }
+
+  /* Declarative community mod handling. No imported JavaScript is executed. */
+  function sanitizeMod(m){
+    if(!m || m.format!=="blockworld-mod-1") throw Error("Unsupported BlockWorld mod format");
+    const clean=JSON.parse(JSON.stringify(m));
+    delete clean.script; delete clean.javascript; delete clean.js; delete clean.code; delete clean.html;
+    clean.name=String(clean.name||"Unnamed Mod").slice(0,80);
+    clean.id=String(clean.id||("community_"+Date.now())).slice(0,80);
+    clean.blocks=Array.isArray(clean.blocks)?clean.blocks.slice(0,256):[];
+    for(const b of clean.blocks){
+      b.id=String(b.id||"block").slice(0,50);
+      b.name=String(b.name||b.id).slice(0,80);
+      if(!/^#[0-9a-f]{6}$/i.test(String(b.color||""))) b.color="#777777";
+      b.solid=b.solid!==false; b.transparent=!!b.transparent;
+    }
+    return clean;
+  }
+
+  function storeCommunityMod(m){
+    const clean=sanitizeMod(m);
+    let mods=[];
+    try{mods=JSON.parse(localStorage.getItem("BW_MODS")||"[]")}catch{}
+    const i=mods.findIndex(x=>x.id===clean.id);
+    if(i>=0) mods[i]=clean; else mods.push(clean);
+    localStorage.setItem("BW_MODS",JSON.stringify(mods));
+    try{ if(typeof drawMods==="function") drawMods(); }catch{}
+    return clean;
+  }
+
+  function renderCommunityMods(items){
+    const list=$q("#modExplorerList"); if(!list) return;
+    if(!items.length){ list.innerHTML='<div class="small">No mods found. Try another search.</div>'; return; }
+    list.innerHTML=items.map((m,i)=>`
+      <div class="communityMod">
+        <h3>${safe(m.name||"Unnamed Mod")}</h3>
+        <div class="meta">by ${safe(m.author||"Community creator")} • v${safe(m.version||"1.0")} • ${safe(m.category||"Other")}</div>
+        <div>${safe(m.description||"Community-created BlockWorld mod.")}</div>
+        <div class="meta">⭐ ${safe(m.rating??"—")} • ${safe(m.downloads??"—")} downloads</div>
+        <div class="actions"><button data-mod-index="${i}" class="communityImport">IMPORT</button></div>
+      </div>`).join("");
+    list.querySelectorAll(".communityImport").forEach(b=>b.onclick=()=>{
+      try{
+        const m=storeCommunityMod(items[+b.dataset.modIndex]);
+        $q("#modExplorerStatus").textContent=`Imported ${m.name}. Multiplayer activation remains host-controlled.`;
+      }catch(e){$q("#modExplorerStatus").textContent="Import rejected: "+e.message}
+    });
+  }
+
+  async function communitySearch(){
+    const status=$q("#modExplorerStatus");
+    const endpoint=getFTB();
+    if(!endpoint){
+      status.innerHTML='<span class="warn">Free to Borrow endpoint is not configured. Use IMPORT JSON for offline community mods, or configure the endpoint in the explorer.</span>';
+      renderCommunityMods([]);
+      return;
+    }
+    const q=encodeURIComponent($q("#modSearch")?.value||"");
+    const cat=encodeURIComponent($q("#modCategory")?.value||"");
+    status.textContent="Contacting Free to Borrow…";
+    try{
+      const url=endpoint.replace(/\/$/,"")+"/mods?search="+q+(cat?"&category="+cat:"");
+      const r=await fetch(url,{headers:{"Accept":"application/json"}});
+      if(!r.ok) throw Error("HTTP "+r.status);
+      const data=await r.json();
+      const items=Array.isArray(data)?data:(data.mods||data.results||[]);
+      renderCommunityMods(items.map(sanitizeMod));
+      status.textContent=`Found ${items.length} community mod(s).`;
+    }catch(e){
+      status.textContent="Community catalog unavailable: "+e.message;
+      renderCommunityMods([]);
+      logSafe("community-search-failed");
+    }
+  }
+
+  function importJson(file){
+    file.text().then(t=>{
+      const m=storeCommunityMod(JSON.parse(t));
+      $q("#modExplorerStatus").textContent=`Imported ${m.name} locally.`;
+      try{ if(typeof drawMods==="function") drawMods(); }catch{}
+    }).catch(e=>$q("#modExplorerStatus").textContent="Import failed: "+e.message);
+  }
+
+  /* Explicit file permission lets the fixer persist a repaired offline HTML file. */
+  let repairHandle=null;
+  async function chooseRepairFile(){
+    const status=$q("#repairStatus");
+    try{
+      if(!window.showOpenFilePicker) throw Error("This browser does not expose the File System Access API.");
+      [repairHandle]=await showOpenFilePicker({multiple:false,types:[{description:"BlockWorld HTML",accept:{"text/html":[".html"]}}]});
+      const file=await repairHandle.getFile();
+      status.textContent=`Selected ${file.name}. Repair permission granted for this file.`;
+      window.BW_REPAIR_FILE_HANDLE=repairHandle;
+      try{localStorage.setItem("BW_REPAIR_FILE_NAME",file.name)}catch{}
+    }catch(e){status.textContent=e.message}
+  }
+  async function persistCurrentHTML(){
+    if(!repairHandle) return false;
+    try{
+      const writable=await repairHandle.createWritable();
+      await writable.write("<!doctype html>\n"+document.documentElement.outerHTML);
+      await writable.close();
+      return true;
+    }catch(e){logSafe("file-persist-failed"); return false}
+  }
+
+  async function runManualFixer(){
+    const status=$q("#repairStatus");
+    const btn=$q("#runFixerBtn");
+    if(btn) btn.disabled=true;
+    try{
+      status.textContent="🔎 Diagnosing BlockWorld…";
+      const before = typeof checkIntegrity==="function" ? checkIntegrity() : [];
+      if(typeof selfHeal==="function") selfHeal("manual-fixer");
+      if(typeof repairPlayer==="function") repairPlayer();
+      if(typeof repairSettings==="function") repairSettings();
+      if(typeof repairEntities==="function") repairEntities();
+      if(typeof repairChunks==="function") repairChunks();
+      if(typeof repairUI==="function") repairUI();
+      if(typeof repairSave==="function") await repairSave();
+
+      // Rebuild essential UI/state if a previous failure emptied it.
+      try{ drawHotbar?.(); }catch{}
+      try{ drawInventory?.(); }catch{}
+      try{ updateRotateScreen?.(); }catch{}
+
+      let after=[];
+      if(typeof checkIntegrity==="function") after=checkIntegrity();
+      const fixed=Math.max(0,before.length-after.length);
+
+      if(typeof runPreflight==="function" && !PREFLIGHT.running){
+        status.textContent=`🛠️ Re-testing… (${fixed} issue${fixed===1?"":"s"} repaired)`;
+        await runPreflight();
+        after = typeof checkIntegrity==="function" ? checkIntegrity() : after;
+      }
+
+      if(after.length===0){
+        status.textContent="✅ Fixer complete. BlockWorld passed its repair checks.";
+      }else{
+        status.textContent=`⚠️ Fixer completed, but ${after.length} integrity check${after.length===1?" remains":"s remain"}.`;
+      }
+
+      // If the user granted file access, persist the repaired running HTML.
+      if(repairHandle){
+        const saved=await persistCurrentHTML();
+        if(saved) status.textContent+=" Saved repaired HTML to the selected file.";
+      }
+      return after.length===0;
+    }catch(e){
+      healLog?.("manual-fixer-failed",e);
+      status.textContent="❌ Fixer failed: "+(e?.message||e);
+      return false;
+    }finally{
+      if(btn) btn.disabled=false;
+    }
+  }
+
+  window.BW_PERSIST_REPAIR=persistCurrentHTML;
+  window.BW_RUN_FIXER=runManualFixer;
+
+  function wireFinalUI(){
+    $q("#modExplorerBtn")?.addEventListener("click",()=>{
+      $q("#modExplorerStatus").textContent="Ready.";
+      $q("#modExplorerList").innerHTML="";
+      if(typeof showScreen==="function") showScreen("#modExplorerScreen");
+    });
+    $q("#modExplorerBackBtn")?.addEventListener("click",()=>showScreen("#titleScreen"));
+    $q("#modExploreSearchBtn")?.addEventListener("click",communitySearch);
+    $q("#modExploreRefreshBtn")?.addEventListener("click",communitySearch);
+    $q("#modExploreImportBtn")?.addEventListener("click",()=> $q("#communityModFile")?.click());
+    $q("#communityModFile")?.addEventListener("change",e=>{if(e.target.files[0]) importJson(e.target.files[0]);});
+    $q("#explainBtn")?.addEventListener("click",()=>{drawExplain();showScreen("#explainScreen")});
+    $q("#explainBackBtn")?.addEventListener("click",()=>showScreen("#titleScreen"));
+    $q("#roastEverythingBtn")?.addEventListener("click",roastEverything);
+    $q("#repairFileBtn")?.addEventListener("click",chooseRepairFile);
+    $q("#runFixerBtn")?.addEventListener("click",runManualFixer);
+
+    /* Add a repair entry to settings if a settings panel exists. */
+    const settingsPanel=$q("#globalSettingsScreen .panel");
+    if(settingsPanel && !$q("#offlineRepairOpenBtn")){
+      const b=document.createElement("button");
+      b.className="btn"; b.id="offlineRepairOpenBtn"; b.textContent="🔧 OFFLINE HTML REPAIR";
+      b.onclick=()=>showScreen("#fileRepairScreen");
+      settingsPanel.appendChild(b);
+    }
+  }
+
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",wireFinalUI);
+  else wireFinalUI();
+
+  /* Event-driven lightweight integrity heartbeat; deep testing remains startup-driven. */
+  window.addEventListener("error",()=>logSafe("runtime-error"));
+  window.addEventListener("unhandledrejection",()=>logSafe("unhandled-rejection"));
+
+  /* Make the canonical recovery policy visible to the existing fixer. */
+  window.BW_CANONICAL_RECOVERY = Object.freeze({
+    source:"embedded-offline-html",
+    allowRemoteCode:false,
+    allowImportedJavascript:false,
+    singleplayerMods:false,
+    multiplayerMods:"host-only",
+    persistWithExplicitFilePermission:true
+  });
+})();
+
+</script>
+
+
+<script id="bwEntityBodyShapes">
+/* BlockWorld modular entity body-shape system */
+(()=>{
+  if(!window.THREE) return;
+  const BWEntityModels={};
+  const mats={};
+  const mat=(c)=>mats[c]||(mats[c]=new THREE.MeshLambertMaterial({color:c}));
+  function box(name,x,y,z,c){
+    const g=new THREE.Group();g.name=name;
+    const m=new THREE.Mesh(new THREE.BoxGeometry(x,y,z),mat(c));
+    m.castShadow=true;m.receiveShadow=true;g.add(m);return g;
+  }
+  function limb(name,w,h,d,c){
+    const g=box(name,w,h,d,c);g.userData.pivot=true;return g;
+  }
+  function addPart(root,part,pos){
+    part.position.set(pos[0],pos[1],pos[2]);root.add(part);return part;
+  }
+  function humanoid(opts={}){
+    const root=new THREE.Group();root.name=opts.name||"Humanoid";
+    const skin=opts.skin||0xd7a56b, shirt=opts.shirt||0x4d78a8, pants=opts.pants||0x303b66;
+    addPart(root,box("body",.65,.85,.36,shirt),[0,1.55,0]);
+    addPart(root,box("head",.55,.55,.55,skin),[0,2.35,0]);
+    const le=addPart(root,limb("leftArm",.22,.78,.22,shirt),[-.48,1.58,0]);
+    const re=addPart(root,limb("rightArm",.22,.78,.22,shirt),[.48,1.58,0]);
+    const ll=addPart(root,limb("leftLeg",.24,.85,.24,pants),[-.19,.72,0]);
+    const rl=addPart(root,limb("rightLeg",.24,.85,.24,pants),[.19,.72,0]);
+    root.userData.parts={body:root.children[0],head:root.children[1],leftArm:le,rightArm:re,leftLeg:ll,rightLeg:rl};
+    root.userData.bodyShape="humanoid";
+    return root;
+  }
+  function animal(opts={}){
+    const root=new THREE.Group();root.name=opts.name||"Animal";
+    const fur=opts.fur||0x9a6a3f;
+    addPart(root,box("body",.9,.65,.55,fur),[0,1.05,0]);
+    addPart(root,box("head",.5,.5,.5,fur),[.55,1.25,0]);
+    addPart(root,box("snout",.25,.22,.3,fur),[.82,1.16,0]);
+    for(const [n,x,z] of [["leftFrontLeg",-.3,.18],["rightFrontLeg",.3,.18],["leftBackLeg",-.3,-.18],["rightBackLeg",.3,-.18]])
+      addPart(root,limb(n,.18,.65,.18,fur),[x,.55,z]);
+    root.userData.bodyShape="animal";return root;
+  }
+  function flying(opts={}){
+    const root=humanoid(opts);
+    const wingL=addPart(root,box("leftWing",.12,.7,.95,opts.wing||0x8888aa),[-.65,1.75,0]);
+    const wingR=addPart(root,box("rightWing",.12,.7,.95,opts.wing||0x8888aa),[.65,1.75,0]);
+    root.userData.parts.leftWing=wingL;root.userData.parts.rightWing=wingR;
+    root.userData.bodyShape="flying";return root;
+  }
+  function create(type,opts){
+    return type==="animal"?animal(opts):type==="flying"?flying(opts):humanoid(opts);
+  }
+  function animate(root,t,action="walk"){
+    const p=root?.userData?.parts;if(!p)return;
+    const swing=Math.sin(t*9)*.45;
+    const attack=action==="attack"?Math.sin(t*16)*.8:0;
+    p.leftArm.rotation.x=(action==="attack"?-attack:swing);
+    p.rightArm.rotation.x=(action==="attack"?attack:-swing);
+    p.leftLeg.rotation.x=-swing;p.rightLeg.rotation.x=swing;
+    if(p.leftWing){p.leftWing.rotation.z=Math.sin(t*12)*.35;p.rightWing.rotation.z=-Math.sin(t*12)*.35;}
+  }
+  window.BlockWorldEntityModels={create,animate,humanoid,animal,flying,registry:BWEntityModels};
+})();
+</script>
+
+<script id="bwAccountSupportJS">
+(()=> {
+  const K = {
+    accounts:"BW_ACCOUNTS_V1",
+    session:"BW_SESSION_V1",
+    reports:"BW_REPORTS_V1"
+  };
+  const $ = id => document.getElementById(id);
+  const read = (k, d) => { try { const v=localStorage.getItem(k); return v?JSON.parse(v):d; } catch(e){ return d; } };
+  const write = (k,v) => { try { localStorage.setItem(k,JSON.stringify(v)); } catch(e){} };
+  const esc = s => String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+  const uid = () => "BW-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,8).toUpperCase();
+  const validEmail = s => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s||"").trim());
+  const norm = s => String(s||"").trim().toLowerCase();
+
+  async function hashPassword(password){
+    if(window.crypto?.subtle){
+      const data = new TextEncoder().encode(password);
+      const buf = await crypto.subtle.digest("SHA-256",data);
+      return [...new Uint8Array(buf)].map(x=>x.toString(16).padStart(2,"0")).join("");
+    }
+    // Fallback for older browsers. This is only a local demo account system.
+    let h=2166136261;
+    for(let i=0;i<password.length;i++){h^=password.charCodeAt(i);h=Math.imul(h,16777619);}
+    return "fallback-"+(h>>>0).toString(16);
+  }
+
+  function accounts(){return read(K.accounts,[])}
+  function reports(){return read(K.reports,[])}
+  function session(){return read(K.session,null)}
+  function saveAccounts(v){write(K.accounts,v)}
+  function saveReports(v){write(K.reports,v)}
+
+  function currentAccount(){
+    const s=session(); if(!s?.id) return null;
+    return accounts().find(a=>a.id===s.id)||null;
+  }
+  function isSupport(a){ return !!a && (a.role==="support" || a.role==="admin"); }
+
+  // Optional local support-team bootstrap. This does NOT contact a real server.
+  // The first account named "support" or "admin" can be used as a support account.
+  // A developer can also set a local support account by using the browser console:
+  // localStorage.setItem("BW_SUPPORT_EMAIL","support@example.com")
+  function supportEmail(){
+    try{return localStorage.getItem("BW_SUPPORT_EMAIL")||""}catch(e){return ""}
+  }
+
+  function show(id){
+    document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+    $(id)?.classList.add("active");
+  }
+
+  function setMsg(t,bad=false){
+    const el=$("bwAuthMsg"); if(!el)return;
+    el.textContent=t; el.style.color=bad?"#ff8888":"#8ff0a5";
+  }
+
+  function renderAccount(){
+    const a=currentAccount(), box=$("accountStatus"), actions=$("bwAccountActions");
+    if(!box)return;
+    if(!a){
+      box.innerHTML="Not signed in.";
+      actions.innerHTML="";
+      return;
+    }
+    const badge=a.status==="banned"?' <span class="bwBadge ban">BANNED</span>':
+                 a.status==="warned"?' <span class="bwBadge warn">WARNED</span>':
+                 ' <span class="bwBadge ok">ACTIVE</span>';
+    box.innerHTML=`Signed in as <b>${esc(a.username)}</b>${badge}<br><small>${esc(a.email)}</small>`;
+    actions.innerHTML=`
+      <button class="btn" id="bwLogoutBtn">LOG OUT</button>
+      ${a.status==="banned"?'<div class="bwNotice"><b>Account banned.</b> You cannot enter multiplayer or submit player reports from this account.</div>':''}
+      ${a.warningReason?`<div class="bwNotice">⚠️ Support warning: ${esc(a.warningReason)}</div>`:''}
+    `;
+    $("bwLogoutBtn")?.addEventListener("click",()=>{localStorage.removeItem(K.session);renderAccount();renderSupport();setMsg("Logged out.");});
+  }
+
+  async function signup(){
+    const username=$("bwSignupUser").value.trim(), email=norm($("bwSignupEmail").value), pw=$("bwSignupPassword").value;
+    if(username.length<2 || username.length>24)return setMsg("Username must be 2–24 characters.",true);
+    if(!validEmail(email))return setMsg("Enter a valid email.",true);
+    if(pw.length<6)return setMsg("Password must be at least 6 characters.",true);
+    const list=accounts();
+    if(list.some(a=>norm(a.username)===norm(username)))return setMsg("That username is already taken.",true);
+    if(list.some(a=>norm(a.email)===email))return setMsg("That email already has an account.",true);
+    const account={id:uid(),username,email,passwordHash:await hashPassword(pw),role:"player",status:"active",warningReason:"",createdAt:Date.now()};
+    // Convenience: a locally-created account whose username is exactly support/admin is treated as support.
+    if(norm(username)==="support" || norm(username)==="admin") account.role="support";
+    list.push(account);saveAccounts(list);write(K.session,{id:account.id});
+    $("bwSignupPassword").value=""; renderAccount();renderSupport();setMsg("Account created and signed in.");
+  }
+
+  async function login(){
+    const email=norm($("bwLoginEmail").value), pw=$("bwLoginPassword").value;
+    const list=accounts(), hash=await hashPassword(pw);
+    const a=list.find(x=>norm(x.email)===email && x.passwordHash===hash);
+    if(!a)return setMsg("Invalid email or password.",true);
+    if(a.status==="banned")return setMsg("This account is banned.",true);
+    write(K.session,{id:a.id});
+    $("bwLoginPassword").value=""; renderAccount();renderSupport();setMsg("Logged in.");
+  }
+
+  function submitReport(){
+    const a=currentAccount();
+    if(!a)return setSupportStatus("You must be logged in to report a player.",true);
+    if(a.status==="banned")return setSupportStatus("Banned accounts cannot submit reports.",true);
+    const target=$("bwReportTarget").value.trim(), reason=$("bwReportReason").value, details=$("bwReportDetails").value.trim();
+    if(!target)return setSupportStatus("Enter the player's username.",true);
+    const targetAcc=accounts().find(x=>norm(x.username)===norm(target));
+    if(!targetAcc)return setSupportStatus("No BlockWorld account with that username was found.",true);
+    if(targetAcc.id===a.id)return setSupportStatus("You cannot report your own account.",true);
+    if(!details)return setSupportStatus("Add some details so support can review the report.",true);
+    const list=reports();
+    list.push({id:uid(),reporterId:a.id,reporter:a.username,targetId:targetAcc.id,target:targetAcc.username,reason,details,status:"open",createdAt:Date.now(),action:""});
+    saveReports(list);
+    $("bwReportTarget").value="";$("bwReportDetails").value="";
+    renderSupport();setSupportStatus("Report submitted to the local support queue.");
+  }
+
+  function setSupportStatus(t,bad=false){
+    const el=$("bwSupportStatus");if(el){el.textContent=t;el.style.color=bad?"#ff8888":"#8ff0a5";}
+  }
+
+  function renderMyReports(){
+    const a=currentAccount(), box=$("bwMyReports");
+    if(!box)return;
+    if(!a){box.innerHTML='<div class="bwNotice">Log in to view your reports.</div>';return;}
+    const mine=reports().filter(r=>r.reporterId===a.id).sort((x,y)=>y.createdAt-x.createdAt);
+    box.innerHTML="<h3>📨 My reports</h3>"+(mine.length?mine.map(r=>`
+      <div class="bwReport"><b>${esc(r.target)}</b> — ${esc(r.reason)}
+      <span class="bwBadge ${r.status==="resolved"?"ok":""}">${esc(r.status.toUpperCase())}</span>
+      <br><small>${esc(r.details)}</small>
+      ${r.action?`<br><small>Support action: ${esc(r.action)}</small>`:""}</div>`).join(""):"<div class='small'>No reports yet.</div>");
+  }
+
+  function renderSupport(){
+    const a=currentAccount(), panel=$("bwSupportPanel"), queue=$("bwSupportQueue");
+    if(!panel||!queue)return;
+    const enabled=!!a && (isSupport(a) || (supportEmail() && norm(a.email)===norm(supportEmail())));
+    panel.style.display=enabled?"block":"none";
+    renderMyReports();
+    if(!enabled)return;
+    const rs=reports().sort((x,y)=>y.createdAt-x.createdAt);
+    queue.innerHTML=rs.length?rs.map(r=>`
+      <div class="bwReport">
+        <b>🚩 ${esc(r.target)}</b> reported by ${esc(r.reporter)}
+        <span class="bwBadge ${r.status==="resolved"?"ok":""}">${esc(r.status.toUpperCase())}</span>
+        <br><small>${esc(r.reason)} — ${esc(r.details)}</small>
+        <div style="margin-top:7px">
+          <button class="btn" data-support-action="warn" data-id="${esc(r.id)}">⚠️ WARN</button>
+          <button class="btn red" data-support-action="ban" data-id="${esc(r.id)}">🔨 BAN</button>
+          <button class="btn" data-support-action="dismiss" data-id="${esc(r.id)}">DISMISS</button>
+        </div>
+      </div>`).join(""):"<div class='small'>No reports in the queue.</div>";
+    queue.querySelectorAll("[data-support-action]").forEach(b=>b.addEventListener("click",()=>supportAction(b.dataset.id,b.dataset.supportAction)));
+  }
+
+  function supportAction(reportId,action){
+    const me=currentAccount(); if(!isSupport(me) && !(supportEmail()&&norm(me?.email)===norm(supportEmail())))return;
+    const rs=reports(), r=rs.find(x=>x.id===reportId); if(!r)return;
+    const list=accounts(), target=list.find(x=>x.id===r.targetId); if(!target)return;
+    if(action==="warn"){
+      target.status=target.status==="banned"?"banned":"warned";
+      target.warningReason=`${r.reason}: ${r.details}`.slice(0,400);
+      r.status="resolved";r.action="Warning issued";
+    }else if(action==="ban"){
+      target.status="banned";target.warningReason=`Banned after report: ${r.reason}`;r.status="resolved";r.action="Account banned";
+      if(currentAccount()?.id===target.id)localStorage.removeItem(K.session);
+    }else{
+      r.status="resolved";r.action="Dismissed";
+    }
+    saveAccounts(list);saveReports(rs);renderAccount();renderSupport();setSupportStatus(`Support action applied: ${r.action}.`);
+  }
+
+  // Public helper for the game's multiplayer layer. A real server would enforce this too.
+  window.BlockWorldAccount={
+    getCurrent:()=>currentAccount(),
+    isBanned:()=>currentAccount()?.status==="banned",
+    canPlayOnline:()=>!!currentAccount() && currentAccount().status!=="banned",
+    report:submitReport,
+    getReports:()=>reports()
+  };
+
+  $("accountSupportBtn")?.addEventListener("click",()=>{renderAccount();show("accountScreen");});
+  $("bwLoginBtn")?.addEventListener("click",login);
+  $("bwSignupBtn")?.addEventListener("click",signup);
+  $("bwSupportBtn")?.addEventListener("click",()=>{renderSupport();show("supportScreen");});
+  $("bwAccountBackBtn")?.addEventListener("click",()=>show("titleScreen"));
+  $("bwSupportBackBtn")?.addEventListener("click",()=>{renderAccount();show("accountScreen");});
+  $("bwSubmitReportBtn")?.addEventListener("click",submitReport);
+
+  // Keep banned accounts out of multiplayer if the existing multiplayer button is present.
+  $("multiplayerBtn")?.addEventListener("click",(ev)=>{
+    const a=currentAccount();
+    if(!a || a.status==="banned"){
+      ev.preventDefault(); ev.stopImmediatePropagation();
+      renderAccount();show("accountScreen");setMsg(!a?"Log in or create an account before multiplayer.":"Your account is banned from multiplayer.",true);
+    }
+  },true);
+
+  renderAccount();
+  renderSupport();
+})();
+</script>
+<script>
+/* ===== BLOCKWORLD UNIFIED ONLINE PATCH — FIXED ===== */
+(()=>{
+"use strict";
+
+const URL="https://zznoqmlezofptfuroxgg.supabase.co";
+const KEY="sb_publishable_CMa9kSBmCDN9IvGqFSTF7A_VwrsJuY1";
+const $=s=>document.querySelector(s);
+
+let accessToken="";
+let refreshToken="";
+let user=null;
+let profile=null;
+let room=null;
+let chatTimer=null;
+
+const headers=(auth=true)=>({
+"apikey":KEY,
+"Authorization":auth&&accessToken?"Bearer "+accessToken:"Bearer "+KEY,
+"Content-Type":"application/json"
+});
+
+async function req(path,opt={}){
+ const r=await fetch(URL+path,{
+  ...opt,
+  headers:{...headers(opt.auth!==false),...(opt.headers||{})}
+ });
+ let data=null;
+ try{data=await r.json()}catch{}
+ if(!r.ok){
+  console.error("BlockWorld server error:",r.status,data);
+  throw Error(
+   data?.msg||
+   data?.message||
+   data?.error_description||
+   data?.error||
+   ("Server error "+r.status)
+  );
+ }
+ return data;
+}
+
+function esc(v){
+ return String(v??"").replace(/[&<>"']/g,c=>({
+  "&":"&amp;",
+  "<":"&lt;",
+  ">":"&gt;",
+  '"':"&quot;",
+  "'":"&#39;"
+ }[c]));
+}
+
+function msg(t,bad=false){
+ const e=$("#bwServerMsg");
+ if(e){
+  e.textContent=t||"";
+  e.style.color=bad?"#ff8888":"#8ff0a5";
+ }
+ console.log("[BlockWorld Server]",t);
+}
+
+function saveSession(s){
+ accessToken=s?.access_token||"";
+ refreshToken=s?.refresh_token||"";
+ try{
+  if(refreshToken)
+   localStorage.setItem("BW_REFRESH_TOKEN",refreshToken);
+  else
+   localStorage.removeItem("BW_REFRESH_TOKEN");
+ }catch{}
+}
+
+async function loadProfile(){
+ if(!user)return null;
+
+ const rows=await req(
+  "/rest/v1/profiles?id=eq."+
+  encodeURIComponent(user.id)+
+  "&select=*"
+ );
+
+ profile=rows?.[0]||null;
+
+ if(!profile)
+  throw Error("Your BlockWorld profile was not created.");
+
+ if(profile.banned){
+  await logout(false);
+  throw Error("This BlockWorld account is banned.");
+ }
+
+ renderAccount();
+ return profile;
+}
+
+async function signup(username,email,password){
+ username=String(username||"").trim();
+ email=String(email||"").trim();
+
+ if(!/^[A-Za-z0-9_]{3,24}$/.test(username))
+  throw Error("Username must be 3-24 letters, numbers, or underscores.");
+
+ if(!email)throw Error("Enter an email.");
+ if(String(password||"").length<6)
+  throw Error("Password must be at least 6 characters.");
+
+ msg("Creating account...");
+
+ const data=await req("/auth/v1/signup",{
+  method:"POST",
+  auth:false,
+  body:JSON.stringify({
+   email,
+   password,
+   data:{username}
+  })
+ });
+
+ if(data.session){
+  user=data.user;
+  saveSession(data.session);
+  await loadProfile();
+  msg("Account created.");
+ }else{
+  msg("Account created. Check your email if confirmation is enabled.");
+ }
+
+ return data;
+}
+
+async function login(email,password){
+ msg("Connecting...");
+
+ const data=await req(
+  "/auth/v1/token?grant_type=password",
+  {
+   method:"POST",
+   auth:false,
+   body:JSON.stringify({email,password})
+  }
+ );
+
+ user=data.user;
+ saveSession(data);
+
+ await loadProfile();
+ await rooms();
+
+ msg("Connected as "+(profile?.username||user.email));
+ return data;
+}
+
+async function restore(){
+ let token="";
+ try{
+  token=localStorage.getItem("BW_REFRESH_TOKEN")||"";
+ }catch{}
+
+ if(!token)return false;
+
+ try{
+  const data=await req(
+   "/auth/v1/token?grant_type=refresh_token",
+   {
+    method:"POST",
+    auth:false,
+    body:JSON.stringify({refresh_token:token})
+   }
+  );
+
+  user=data.user;
+  saveSession(data);
+  await loadProfile();
+  return true;
+ }catch(e){
+  console.warn("Session restore failed:",e);
+  saveSession(null);
+  user=null;
+  profile=null;
+  return false;
+ }
+}
+
+async function logout(remote=true){
+ if(remote&&accessToken){
+  try{
+   await req("/auth/v1/logout",{method:"POST"});
+  }catch{}
+ }
+
+ user=null;
+ profile=null;
+ room=null;
+
+ if(chatTimer){
+  clearInterval(chatTimer);
+  chatTimer=null;
+ }
+
+ saveSession(null);
+ renderAccount();
+}
+
+function renderAccount(){
+ const e=$("#bwServerAccount");
+ if(!e)return;
+
+ if(!user){
+  e.innerHTML="<b>OFFLINE</b>";
+  return;
+ }
+
+ e.innerHTML=
+  "<b>"+esc(profile?.username||user.email)+"</b>"+
+  ' <span class="bwRole">'+
+  esc(profile?.role||"player")+
+  "</span>";
+}
+
+async function rooms(){
+ const rows=await req(
+  "/rest/v1/server_rooms?select=*&order=created_at.desc&limit=50"
+ );
+
+ const e=$("#bwRoomList");
+ if(!e)return rows;
+
+ e.innerHTML="";
+
+ (rows||[]).forEach(r=>{
+  const d=document.createElement("div");
+  d.className="bwOnlineCard";
+
+  d.innerHTML=
+   "<b>"+esc(r.name||"Server")+"</b>"+
+   '<div class="small">'+
+   Number(r.player_count||0)+" player(s)</div>";
+
+  const b=document.createElement("button");
+  b.className="btn green";
+  b.textContent="JOIN";
+  b.onclick=()=>joinRoom(r);
+
+  d.appendChild(b);
+  e.appendChild(d);
+ });
+
+ if(!rows?.length)
+  e.innerHTML='<div class="small">No servers yet.</div>';
+
+ return rows;
+}
+
+async function createRoom(){
+ if(!user)throw Error("Log in first.");
+
+ const name=prompt("Room name:","BlockWorld Server");
+ if(!name)return;
+
+ const result=await req("/rest/v1/server_rooms",{
+  method:"POST",
+  headers:{Prefer:"return=representation"},
+  body:JSON.stringify({
+   name:name.slice(0,50),
+   owner_id:user.id,
+   player_count:1
+  })
+ });
+
+ msg("Server created.");
+
+ await rooms();
+
+ if(result?.[0])
+  await joinRoom(result[0]);
+}
+
+async function joinRoom(r){
+ room=r;
+
+ msg("Joined "+r.name);
+
+ await loadChat();
+
+ if(chatTimer)clearInterval(chatTimer);
+
+ chatTimer=setInterval(()=>{
+  if(room)loadChat().catch(console.warn);
+ },2500);
+}
+
+async function loadChat(){
+ if(!room){
+  renderChat([]);
+  return;
+ }
+
+ const rows=await req(
+  "/rest/v1/server_chat?room_id=eq."+
+  encodeURIComponent(room.id)+
+  "&select=*&order=created_at.asc&limit=100"
+ );
+
+ renderChat(rows||[]);
+}
+
+function renderChat(rows){
+ const e=$("#bwChatLog");
+ if(!e)return;
+
+ e.innerHTML=rows.map(x=>
+  '<div class="bwChatLine"><b>'+
+  esc(x.username||"Player")+
+  ":</b> "+
+  esc(x.message||"")+
+  "</div>"
+ ).join("");
+
+ e.scrollTop=e.scrollHeight;
+}
+
+async function sendChat(){
+ if(!user)throw Error("Log in first.");
+ if(!room)throw Error("Join a server first.");
+
+ const input=$("#bwChatInput");
+ const text=String(input?.value||"").trim();
+
+ if(!text)return;
+
+ await req("/rest/v1/server_chat",{
+  method:"POST",
+  body:JSON.stringify({
+   room_id:room.id,
+   user_id:user.id,
+   username:profile?.username||"Player",
+   message:text.slice(0,500)
+  })
+ });
+
+ input.value="";
+ await loadChat();
+}
+
+window.BlockWorldServer={
+ signup,
+ login,
+ logout,
+ restore,
+ rooms,
+ createRoom,
+ joinRoom,
+ sendChat,
+ getUser:()=>user,
+ getProfile:()=>profile,
+ getRoom:()=>room,
+ request:req
+};
+
+function buildUI(){
+ if($("#bwServerScreen"))return;
+
+ const style=document.createElement("style");
+ style.textContent=`
+ #bwServerScreen{z-index:170}
+ .bwOnlineCard{background:#222;border:2px solid #555;padding:8px;margin:6px 0}
+ .bwRole{background:#555;padding:2px 6px;font-size:11px}
+ #bwChatLog{height:180px;overflow:auto;background:#111;border:2px solid #555;padding:8px}
+ .bwChatLine{padding:3px}
+ `;
+ document.head.appendChild(style);
+
+ const s=document.createElement("div");
+ s.id="bwServerScreen";
+ s.className="screen";
+
+ s.innerHTML=`
+ <div class="panel">
+  <h2>🌐 BLOCKWORLD ONLINE</h2>
+
+  <div id="bwServerAccount"><b>OFFLINE</b></div>
+  <div id="bwServerMsg" class="small">Server ready.</div>
+
+  <label>Username</label>
+  <input id="bwSUUser" maxlength="24" placeholder="Username">
+
+  <label>Email</label>
+  <input id="bwEmail" type="email" placeholder="Email">
+
+  <label>Password</label>
+  <input id="bwPass" type="password" placeholder="Password">
+
+  <div class="row">
+   <button class="btn green" id="bwLogin">LOG IN</button>
+   <button class="btn" id="bwSignup">CREATE ACCOUNT</button>
+  </div>
+
+  <button class="btn" id="bwLogout">LOG OUT</button>
+
+  <hr>
+  <h3>🎮 SERVERS</h3>
+
+  <div class="row">
+   <button class="btn green" id="bwCreateRoom">CREATE SERVER</button>
+   <button class="btn" id="bwRefreshRooms">REFRESH</button>
+  </div>
+
+  <div id="bwRoomList"></div>
+
+  <h3>💬 CHAT</h3>
+  <div id="bwChatLog"></div>
+  <input id="bwChatInput" maxlength="500" placeholder="Message">
+  <button class="btn green" id="bwSendChat">SEND</button>
+
+  <button class="btn" id="bwOnlineBack">BACK</button>
+ </div>`;
+
+ document.body.appendChild(s);
+
+ const title=$("#titleScreen .panel");
+
+ if(title&&!$("#bwOnlineOpen")){
+  const b=document.createElement("button");
+  b.id="bwOnlineOpen";
+  b.className="btn green";
+  b.textContent="🌐 ONLINE / SERVER";
+
+  const first=title.querySelector("button");
+
+  if(first)title.insertBefore(b,first);
+  else title.appendChild(b);
+
+  b.onclick=()=>{
+   document.querySelectorAll(".screen")
+    .forEach(x=>x.classList.remove("active"));
+
+   s.classList.add("active");
+
+   rooms().catch(e=>msg(e.message,true));
+  };
+ }
+
+ $("#bwOnlineBack").onclick=()=>{
+  s.classList.remove("active");
+  $("#titleScreen")?.classList.add("active");
+ };
+
+ $("#bwLogin").onclick=()=>login(
+  $("#bwEmail").value.trim(),
+  $("#bwPass").value
+ ).catch(e=>msg(e.message,true));
+
+ $("#bwSignup").onclick=()=>signup(
+  $("#bwSUUser").value,
+  $("#bwEmail").value.trim(),
+  $("#bwPass").value
+ ).catch(e=>msg(e.message,true));
+
+ $("#bwLogout").onclick=()=>
+  logout().then(()=>msg("Logged out."));
+
+ $("#bwCreateRoom").onclick=()=>
+  createRoom().catch(e=>msg(e.message,true));
+
+ $("#bwRefreshRooms").onclick=()=>
+  rooms().catch(e=>msg(e.message,true));
+
+ $("#bwSendChat").onclick=()=>
+  sendChat().catch(e=>msg(e.message,true));
+
+ $("#bwChatInput").addEventListener("keydown",e=>{
+  if(e.key==="Enter"){
+   e.preventDefault();
+   sendChat().catch(x=>msg(x.message,true));
+  }
+ });
+}
+
+function start(){
+ try{
+  buildUI();
+
+  restore()
+   .then(ok=>{
+    if(ok){
+     msg("Connected as "+(profile?.username||"Player"));
+     rooms().catch(()=>{});
+    }
+   })
+   .catch(e=>msg(e.message,true));
+
+  console.log("BlockWorld Online patch loaded.");
+ }catch(e){
+  console.error("BlockWorld Online failed:",e);
+ }
+}
+
+if(document.readyState==="loading")
+ document.addEventListener("DOMContentLoaded",start);
+else
+ start();
+
+})();
+</script>
+</body></html>
